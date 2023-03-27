@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Automata\\Controllers",
+    "\\Automata\\Driver",
+    "\\Automata\\Functions"
   ],
-  "SelectedNode": "\\C:\\Projects_Edis\\RentACarAutomata",
   "PreviewInSolutionExplorer": false
 }

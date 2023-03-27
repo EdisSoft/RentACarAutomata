@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5P63GWpYYdFeVxN3Wfd2t4wymrxSWedAovOx4hyyGE/wPLra8oO5cedC8NkUb5ZaMuY7QTB1OOMV/Vowk5cBcA==",
+  "dgSpecHash": "qZJ1LkNFUi3bPyVo7hnqnnYb65lmouOuqsKJjhFS88Mmt4qfv8g/pvYuuDL4nxJNXD7A9KZHMXSZQftZ0LWw9A==",
   "success": true,
-  "projectFilePath": "C:\\Projects_Edis\\Automata\\Automata\\Automata.csproj",
+  "projectFilePath": "C:\\Projects_Edis\\RentACarAutomata\\Automata\\Automata.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kordovan.roland\\.nuget\\packages\\anglesharp\\0.16.1\\anglesharp.0.16.1.nupkg.sha512",
     "C:\\Users\\kordovan.roland\\.nuget\\packages\\anglesharp.css\\0.16.3\\anglesharp.css.0.16.3.nupkg.sha512",

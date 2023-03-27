@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Projects_Edis\\Automata\\Automata\\Automata.csproj": {}
+    "C:\\Projects_Edis\\RentACarAutomata\\Automata\\Automata.csproj": {}
   },
   "projects": {
-    "C:\\Projects_Edis\\Automata\\Automata\\Automata.csproj": {
+    "C:\\Projects_Edis\\RentACarAutomata\\Automata\\Automata.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects_Edis\\Automata\\Automata\\Automata.csproj",
+        "projectUniqueName": "C:\\Projects_Edis\\RentACarAutomata\\Automata\\Automata.csproj",
         "projectName": "Automata",
-        "projectPath": "C:\\Projects_Edis\\Automata\\Automata\\Automata.csproj",
+        "projectPath": "C:\\Projects_Edis\\RentACarAutomata\\Automata\\Automata.csproj",
         "packagesPath": "C:\\Users\\kordovan.roland\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects_Edis\\Automata\\Automata\\obj\\",
+        "outputPath": "C:\\Projects_Edis\\RentACarAutomata\\Automata\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -31,8 +31,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Projects_Edis\\Automata\\FunctionsCore\\FunctionsCore.csproj": {
-                "projectPath": "C:\\Projects_Edis\\Automata\\FunctionsCore\\FunctionsCore.csproj"
+              "C:\\Projects_Edis\\RentACarAutomata\\FunctionsCore\\FunctionsCore.csproj": {
+                "projectPath": "C:\\Projects_Edis\\RentACarAutomata\\FunctionsCore\\FunctionsCore.csproj"
               }
             }
           }
@@ -132,14 +132,14 @@
         }
       }
     },
-    "C:\\Projects_Edis\\Automata\\FunctionsCore\\FunctionsCore.csproj": {
+    "C:\\Projects_Edis\\RentACarAutomata\\FunctionsCore\\FunctionsCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects_Edis\\Automata\\FunctionsCore\\FunctionsCore.csproj",
+        "projectUniqueName": "C:\\Projects_Edis\\RentACarAutomata\\FunctionsCore\\FunctionsCore.csproj",
         "projectName": "FunctionsCore",
-        "projectPath": "C:\\Projects_Edis\\Automata\\FunctionsCore\\FunctionsCore.csproj",
+        "projectPath": "C:\\Projects_Edis\\RentACarAutomata\\FunctionsCore\\FunctionsCore.csproj",
         "packagesPath": "C:\\Users\\kordovan.roland\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects_Edis\\Automata\\FunctionsCore\\obj\\",
+        "outputPath": "C:\\Projects_Edis\\RentACarAutomata\\FunctionsCore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
