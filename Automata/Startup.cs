@@ -24,6 +24,7 @@ using FunctionsCore.Commons;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Server.IISIntegration;
 using System.Reflection;
+using Automata.Functions;
 
 namespace Automata
 {
@@ -40,6 +41,8 @@ namespace Automata
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IPrinterFunctions, PrinterFunctions>();
+
             services.AddControllersWithViews(options =>
             {
                 options.ModelBinderProviders.Insert(0, new DoubleBinderProvider());
