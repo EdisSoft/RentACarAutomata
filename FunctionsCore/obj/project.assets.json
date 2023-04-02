@@ -9216,23 +9216,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\kordovan.roland\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Zsolt\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Projects_Edis\\RentACarAutomata\\FunctionsCore\\FunctionsCore.csproj",
+      "projectUniqueName": "C:\\Projects\\Kulcsszekreny\\RentACarAutomata\\FunctionsCore\\FunctionsCore.csproj",
       "projectName": "FunctionsCore",
-      "projectPath": "C:\\Projects_Edis\\RentACarAutomata\\FunctionsCore\\FunctionsCore.csproj",
-      "packagesPath": "C:\\Users\\kordovan.roland\\.nuget\\packages\\",
-      "outputPath": "C:\\Projects_Edis\\RentACarAutomata\\FunctionsCore\\obj\\",
+      "projectPath": "C:\\Projects\\Kulcsszekreny\\RentACarAutomata\\FunctionsCore\\FunctionsCore.csproj",
+      "packagesPath": "C:\\Users\\Zsolt\\.nuget\\packages\\",
+      "outputPath": "C:\\Projects\\Kulcsszekreny\\RentACarAutomata\\FunctionsCore\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\kordovan.roland\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Zsolt\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -9366,7 +9362,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.310\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }
