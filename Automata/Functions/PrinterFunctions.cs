@@ -21,9 +21,9 @@ namespace Automata.Functions
                 sb.Append(AlignToCenter("Rendszám:") + "\n\n");
                 sb.Append(AlignToCenter(plateNumber) + "\n\n");
                 sb.Append(AlignToCenter("Bérlet vége:") + "\n\n");
-                sb.Append(AlignToCenter($"{endOfRental.Year}.{endOfRental.Month}.{endOfRental.Day} {endOfRental.Hour}.{endOfRental.Minute}") + "\n\n");
+                sb.Append(AlignToCenter(endOfRental.ToString("yyyy.MM.dd. HH.mm")) + "\n\n");
                 sb.Append(AlignToCenter("Kiállítva:") + "\n\n");
-                sb.Append(AlignToCenter($"{now.Year}.{now.Month}.{now.Day} {now.Hour}.{now.Minute}") + "\n\n\n\n");
+                sb.Append(AlignToCenter(now.ToString("yyyy.MM.dd. HH.mm")) + "\n\n\n\n");
                 sb.Append(AlignToCenter("Letét vagy fizetés összege") + "\n\n");
                 sb.Append(AlignToCenter($"{money} Ft") + "\n\n");
                 sb.Append(AlignToCenter("Elöengedély száma:") + "\n\n");
@@ -62,9 +62,9 @@ namespace Automata.Functions
                 sb.Append(AlignToCenter("Plate number:") + "\n\n");
                 sb.Append(AlignToCenter(plateNumber) + "\n\n");
                 sb.Append(AlignToCenter("End of rental:") + "\n\n");
-                sb.Append(AlignToCenter($"{endOfRental.Year}.{endOfRental.Month}.{endOfRental.Day} {endOfRental.Hour}.{endOfRental.Minute}") + "\n\n");
+                sb.Append(AlignToCenter(endOfRental.ToString("yyyy.MM.dd. HH.mm")) + "\n\n");
                 sb.Append(AlignToCenter("Date:") + "\n\n");
-                sb.Append(AlignToCenter($"{now.Year}.{now.Month}.{now.Day} {now.Hour}.{now.Minute}") + "\n\n\n\n");
+                sb.Append(AlignToCenter(now.ToString("yyyy.MM.dd. HH.mm")) + "\n\n\n\n");
                 sb.Append(AlignToCenter("Deposit or payment") + "\n\n");
                 sb.Append(AlignToCenter($"{money} Ft") + "\n\n");
                 sb.Append(AlignToCenter("Pre-authorization number:") + "\n\n");
