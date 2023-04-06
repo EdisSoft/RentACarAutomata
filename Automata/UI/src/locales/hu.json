@@ -1,0 +1,88 @@
+{
+  "homeTitle": "Üdvözli a Game Kulcsszekrény",
+  "touchStart": "Érintsd meg a kezdéshez",
+  "menuItems": {
+    "carPickUp": {
+      "title": "Autó átvétel",
+      "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae. "
+    },
+    "carDropOff": {
+      "title": "Autó leadás",
+      "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. "
+    }
+  },
+  "wizards": {
+    "carPickUp": {
+      "bookingNumberOrQr": {
+        "stepName": "Foglalási szám",
+        "title": "Kérjük, adja meg nevét, foglalási számát vagy olvassa le a foglalási QR kódot az olvasón!"
+      },
+      "emailAdress": {
+        "stepName": "E-mail",
+        "title": "Az autó foglalása ellenőrizve lett és rendben van! Kérjük, adja meg e-mail címét, ide küldjük el a bérleti szerződést!"
+      },
+      "sign": {
+        "stepName": "Aláírás",
+        "title": "Az autó foglalása ellenőrizve lett és rendben van! Kérjük, írja alá a bérleti szerződést lent!"
+      },
+      "driverLicense": {
+        "stepName": "Jogosítvány",
+        "title": "Kérjük rakja be a jogosítványát a dokumentum olvasóba és nyomja meg a Beolvasás gombot!"
+      },
+      "payment": {
+        "stepName": "Fizetés",
+        "title": "Kérjük használja a POS terminált, hogy befiezesse a letétet és a bérleti díjat"
+      },
+      "creditCard": {
+        "stepName": "Bankkártya",
+        "title": "Kérjük, helyezze bankkártyáját a dokumentum olvasóba, és nyomja meg a Beolvasás gombot!"
+      },
+      "final": {
+        "stepName": "Kész",
+        "title": "Köszi!"
+      }
+    },
+    "carDropOff": {
+      "plateNumber": {
+        "stepName": "Rendszám",
+        "title": "Kerjük adja meg az autó rendszámát!"
+      },
+      "parkingInformation": {
+        "stepName": "A parkolásról",
+        "title": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae."
+      },
+      "taxiService": {
+        "stepName": "Taxi szolgáltatás",
+        "title": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae."
+      },
+      "insertCarKey": {
+        "stepName": "kulcsleadás",
+        "title": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae."
+      },
+      "final": {
+        "stepName": "Kész",
+        "title": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae."
+      }
+    }
+  },
+  "buttons": {
+    "continue": "Tovább",
+    "back": "Vissza"
+  },
+  "confirms": {
+    "goToHome": {
+      "title": "Vissza a főoldara",
+      "question": "Megszakítod az aktuális folyamatot és visszatérsz a főoldalra?"
+    }
+  },
+  "common": {
+    "yes": "Igen",
+    "no": "Nem",
+    "scan": "Beolvasás",
+    "scanFront": "Előlap beolvasása",
+    "scanBack": "Hátlap beolvasása"
+  },
+  "keyboard": {
+    "backspace": "⌫ törlés"
+  }
+}

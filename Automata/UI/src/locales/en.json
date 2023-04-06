@@ -1,0 +1,88 @@
+{
+  "homeTitle": "Welcome to the Game Key kabinet",
+  "touchStart": "Touch to start",
+  "menuItems": {
+    "carPickUp": {
+      "title": "Car pick up",
+      "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae."
+    },
+    "carDropOff": {
+      "title": "Car drop off",
+      "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit."
+    }
+  },
+  "wizards": {
+    "carPickUp": {
+      "bookingNumberOrQr": {
+        "stepName": "Booking number",
+        "title": "Please enter your booking number or name or read booking QR code on the reader!"
+      },
+      "emailAdress": {
+        "stepName": "E-mail",
+        "title": "Your car booking is checked and OK! Please type your email adress we send the rental contract here!"
+      },
+      "sign": {
+        "stepName": "Sign",
+        "title": "Your car booking is checked and OK! Please sign the rental contract down below!"
+      },
+      "driverLicense": {
+        "stepName": "Driving license",
+        "title": "Please place your driving license onto the document scanner and press Scan button!"
+      },
+      "creditCard": {
+        "stepName": "Credit card",
+        "title": "Please place your credit card onto the document scanner and press Scan button!"
+      },
+      "payment": {
+        "stepName": "Payment",
+        "title": "Please use the POS terminal to pay the block deposit and rental fee!"
+      },
+      "final": {
+        "stepName": "Confirm",
+        "title": "Thank you!"
+      }
+    },
+    "carDropOff": {
+      "plateNumber": {
+        "stepName": "Plate number",
+        "title": "Please enter number plate text of the car you dropping off!"
+      },
+      "parkingInformation": {
+        "stepName": "Parking information",
+        "title": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae."
+      },
+      "taxiService": {
+        "stepName": "Taxi service",
+        "title": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae."
+      },
+      "insertCarKey": {
+        "stepName": "Insert key",
+        "title": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae."
+      },
+      "final": {
+        "stepName": "Confirm",
+        "title": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae."
+      }
+    }
+  },
+  "buttons": {
+    "continue": "Continue",
+    "back": "Back"
+  },
+  "confirms": {
+    "goToHome": {
+      "title": "Go to home",
+      "question": "Do you want to stop the current process and go to the home page?"
+    }
+  },
+  "common": {
+    "yes": "Yes",
+    "no": "No",
+    "scan": "Scan",
+    "scanFront": "Scan front side",
+    "scanBack": "Scan back side"
+  },
+  "keyboard": {
+    "backspace": "⌫ backspace"
+  }
+}
