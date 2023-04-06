@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -8,7 +7,7 @@ namespace Automata.Functions
     public class PrinterFunctions : IPrinterFunctions
     {
         public static string PrinterName { get; } = "SAM4S GIANT-100";
-
+             
         public bool PrintReceiptHun(string agreementNumber, string plateNumber, DateTime endOfRental, int money, string preAuthorizationNumber)
         {
             DateTime now = DateTime.Now;
@@ -16,24 +15,24 @@ namespace Automata.Functions
             {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append("GAME Rentacar Kft." + "\n\n");
-                sb.Append("Szerzödés szám:" + "\n\n");
-                sb.Append(agreementNumber + "\n\n");
-                sb.Append("Rendszám:" + "\n\n");
-                sb.Append(plateNumber + "\n\n");
-                sb.Append("Bérlet vége:" + "\n\n");
-                sb.Append($"{endOfRental.Year}.{endOfRental.Month}.{endOfRental.Day} {endOfRental.Hour}.{endOfRental.Minute}" + "\n\n");
-                sb.Append("Kiállítva:" + "\n\n");
-                sb.Append($"{now.Year}.{now.Month}.{now.Day} {now.Hour}.{now.Minute}" + "\n\n\n\n");
-                sb.Append("Letét vagy fizetés összege" + "\n\n");
-                sb.Append($"{money} Ft" + "\n\n");
-                sb.Append("Elöengedély száma:" + "\n\n");
-                sb.Append(preAuthorizationNumber + "\n\n\n\n");
-                sb.Append("Nem adóügyi bizonylat" + "\n\n");
-                sb.Append("Köszönjük a bérlést!" + "\n\n\n\n");
-                sb.Append("Website: gamerentacar.com" + "\n\n");
-                sb.Append("Email: info@gamerentacar.com" + "\n\n");
-                sb.Append("Phone: +36 30 622 7959");
+                sb.Append(AlignToCenter("GAME Rentacar Kft.") + "\n\n");
+                sb.Append(AlignToCenter("Szerzödés szám:") + "\n\n");
+                sb.Append(AlignToCenter(agreementNumber) + "\n\n");
+                sb.Append(AlignToCenter("Rendszám:") + "\n\n");
+                sb.Append(AlignToCenter(plateNumber) + "\n\n");
+                sb.Append(AlignToCenter("Bérlet vége:") + "\n\n");
+                sb.Append(AlignToCenter(endOfRental.ToString("yyyy.MM.dd. HH.mm")) + "\n\n");
+                sb.Append(AlignToCenter("Kiállítva:") + "\n\n");
+                sb.Append(AlignToCenter(now.ToString("yyyy.MM.dd. HH.mm")) + "\n\n\n\n");
+                sb.Append(AlignToCenter("Letét vagy fizetés összege") + "\n\n");
+                sb.Append(AlignToCenter($"{money} Ft") + "\n\n");
+                sb.Append(AlignToCenter("Elöengedély száma:") + "\n\n");
+                sb.Append(AlignToCenter(preAuthorizationNumber) + "\n\n\n\n");
+                sb.Append(AlignToCenter("Nem adóügyi bizonylat") + "\n\n");
+                sb.Append(AlignToCenter("Köszönjük a bérlést!") + "\n\n\n\n");
+                sb.Append(AlignToCenter("Website: gamerentacar.com") + "\n\n");
+                sb.Append(AlignToCenter("Email: info@gamerentacar.com") + "\n\n");
+                sb.Append(AlignToCenter("Phone: +36 30 622 7959"));
 
                 // Blank String to Print out properly
                 sb.Append("                                                                                                                  \n");
@@ -57,24 +56,24 @@ namespace Automata.Functions
             {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append("GAME Rentacar Ltd." + "\n\n");
-                sb.Append("Agreement number:" + "\n\n");
-                sb.Append(agreementNumber + "\n\n");
-                sb.Append("Plate number:" + "\n\n");
-                sb.Append(plateNumber + "\n\n");
-                sb.Append("End of rental:" + "\n\n");
-                sb.Append($"{endOfRental.Year}.{endOfRental.Month}.{endOfRental.Day} {endOfRental.Hour}.{endOfRental.Minute}" + "\n\n");
-                sb.Append("Date:" + "\n\n");
-                sb.Append($"{now.Year}.{now.Month}.{now.Day} {now.Hour}.{now.Minute}" + "\n\n\n\n");
-                sb.Append("Deposit or payment" + "\n\n");
-                sb.Append($"{money} Ft" + "\n\n");
-                sb.Append("Pre-authorization number:" + "\n\n");
-                sb.Append(preAuthorizationNumber + "\n\n\n\n");
-                sb.Append("Non tax printout" + "\n\n");
-                sb.Append("Thank you for your rental!" + "\n\n\n\n");
-                sb.Append("Website: gamerentacar.com" + "\n\n");
-                sb.Append("Email: info@gamerentacar.com" + "\n\n");
-                sb.Append("Phone: +36 30 622 7959");
+                sb.Append(AlignToCenter("GAME Rentacar Ltd.") + "\n\n");
+                sb.Append(AlignToCenter("Agreement number:") + "\n\n");
+                sb.Append(AlignToCenter(agreementNumber) + "\n\n");
+                sb.Append(AlignToCenter("Plate number:") + "\n\n");
+                sb.Append(AlignToCenter(plateNumber) + "\n\n");
+                sb.Append(AlignToCenter("End of rental:") + "\n\n");
+                sb.Append(AlignToCenter(endOfRental.ToString("yyyy.MM.dd. HH.mm")) + "\n\n");
+                sb.Append(AlignToCenter("Date:") + "\n\n");
+                sb.Append(AlignToCenter(now.ToString("yyyy.MM.dd. HH.mm")) + "\n\n\n\n");
+                sb.Append(AlignToCenter("Deposit or payment") + "\n\n");
+                sb.Append(AlignToCenter($"{money} Ft") + "\n\n");
+                sb.Append(AlignToCenter("Pre-authorization number:") + "\n\n");
+                sb.Append(AlignToCenter(preAuthorizationNumber) + "\n\n\n\n");
+                sb.Append(AlignToCenter("Non tax printout") + "\n\n");
+                sb.Append(AlignToCenter("Thank you for your rental!") + "\n\n\n\n");
+                sb.Append(AlignToCenter("Website: gamerentacar.com") + "\n\n");
+                sb.Append(AlignToCenter("Email: info@gamerentacar.com") + "\n\n");
+                sb.Append(AlignToCenter("Phone: +36 30 622 7959"));
 
                 // Blank String to Print out properly
                 sb.Append("                                                                                                                  \n");
@@ -97,7 +96,7 @@ namespace Automata.Functions
         {
             try
             {
-                StringBuilder sb = new StringBuilder();          
+                StringBuilder sb = new StringBuilder();
 
                 sb.Append("TERMINÁL ID: " + TID + "\n");
                 sb.Append("ELSZÁMOLÓ: " + ACQ + "\n");
@@ -126,6 +125,20 @@ namespace Automata.Functions
             }
 
             return true;
+        }
+
+        private string AlignToCenter(string text)
+        {
+            var width = 45;
+            var count = (width / 2) - (text.Length / 2);
+
+            if (count > 0)
+            {
+                var shift = "".PadLeft(count, ' ');
+                return shift + text;
+            }
+
+            return text;
         }
 
         /// <summary>
@@ -187,7 +200,7 @@ namespace Automata.Functions
 
                 // Open the printer.
                 if (OpenPrinter(szPrinterName.Normalize(), out hPrinter, IntPtr.Zero))
-                {                    
+                {
                     // Start a document.
                     if (StartDocPrinter(hPrinter, 1, di))
                     {

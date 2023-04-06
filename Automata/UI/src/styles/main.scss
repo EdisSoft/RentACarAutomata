@@ -1,0 +1,107 @@
+@import './scrollbar.scss';
+@import './keyboard.scss';
+html {
+  font-size: 20px;
+}
+
+.position-absolute {
+  position: absolute;
+}
+.top-bot-0 {
+  top: 0;
+  bottom: 0;
+}
+.w-100 {
+  width: 100%;
+}
+.wizard {
+  &,
+  .v-stepper__items,
+  .v-stepper__content,
+  .v-stepper__wrapper {
+    height: 100%;
+  }
+  .v-stepper__content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .v-stepper__label {
+    small {
+      margin-top: 2px;
+    }
+  }
+  .wizard-step {
+    height: calc(100vh - 120px);
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+  }
+  .wizard-content {
+    flex-grow: 1;
+    margin-bottom: 20px;
+    overflow-y: auto;
+    padding: 0 25px;
+  }
+  .wizard-input {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .v-text-field__slot {
+      input,
+      .v-label {
+        font-size: 2rem;
+        line-height: 2rem;
+        max-height: unset;
+        height: unset;
+      }
+    }
+    .v-counter {
+      font-size: 1rem;
+      line-height: 1rem;
+    }
+  }
+  .input-preview {
+    display: flex;
+    justify-content: center;
+  }
+}
+.wizard-input {
+  .input-title {
+    font-size: 2.2rem;
+  }
+  .input-text {
+    font-size: 1.8rem;
+  }
+}
+.gap-1rem {
+  gap: 1rem;
+}
+.scrollable-layout {
+  display: flex;
+  flex: 1 1 auto;
+  .scrollable-content {
+    flex-grow: 1;
+  }
+}
+
+.h-screen {
+  height: 100vh;
+}
+.wizard-footer,
+.footer {
+  padding: 0 25px;
+  display: flex;
+  .v-divider.v-divider--vertical {
+    margin: 0 20px;
+  }
+  .info-text {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+  }
+}
+.footer {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
