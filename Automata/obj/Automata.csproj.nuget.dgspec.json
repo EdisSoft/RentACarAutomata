@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "F:\\Projects\\Edis\\RentACarAutomata\\Automata\\Automata.csproj": {}
+    "C:\\Projects_Edis\\RentACarAutomata\\Automata\\Automata.csproj": {}
   },
   "projects": {
-    "F:\\Projects\\Edis\\RentACarAutomata\\Automata\\Automata.csproj": {
+    "C:\\Projects_Edis\\RentACarAutomata\\Automata\\Automata.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\Projects\\Edis\\RentACarAutomata\\Automata\\Automata.csproj",
+        "projectUniqueName": "C:\\Projects_Edis\\RentACarAutomata\\Automata\\Automata.csproj",
         "projectName": "Automata",
-        "projectPath": "F:\\Projects\\Edis\\RentACarAutomata\\Automata\\Automata.csproj",
-        "packagesPath": "C:\\Users\\hunte\\.nuget\\packages\\",
-        "outputPath": "F:\\Projects\\Edis\\RentACarAutomata\\Automata\\obj\\",
+        "projectPath": "C:\\Projects_Edis\\RentACarAutomata\\Automata\\Automata.csproj",
+        "packagesPath": "C:\\Users\\kordovan.roland\\.nuget\\packages\\",
+        "outputPath": "C:\\Projects_Edis\\RentACarAutomata\\Automata\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\hunte\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\kordovan.roland\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +31,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "F:\\Projects\\Edis\\RentACarAutomata\\FunctionsCore\\FunctionsCore.csproj": {
-                "projectPath": "F:\\Projects\\Edis\\RentACarAutomata\\FunctionsCore\\FunctionsCore.csproj"
+              "C:\\Projects_Edis\\RentACarAutomata\\FunctionsCore\\FunctionsCore.csproj": {
+                "projectPath": "C:\\Projects_Edis\\RentACarAutomata\\FunctionsCore\\FunctionsCore.csproj"
               }
             }
           }
@@ -113,8 +116,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -126,21 +128,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.310\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "F:\\Projects\\Edis\\RentACarAutomata\\FunctionsCore\\FunctionsCore.csproj": {
+    "C:\\Projects_Edis\\RentACarAutomata\\FunctionsCore\\FunctionsCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\Projects\\Edis\\RentACarAutomata\\FunctionsCore\\FunctionsCore.csproj",
+        "projectUniqueName": "C:\\Projects_Edis\\RentACarAutomata\\FunctionsCore\\FunctionsCore.csproj",
         "projectName": "FunctionsCore",
-        "projectPath": "F:\\Projects\\Edis\\RentACarAutomata\\FunctionsCore\\FunctionsCore.csproj",
-        "packagesPath": "C:\\Users\\hunte\\.nuget\\packages\\",
-        "outputPath": "F:\\Projects\\Edis\\RentACarAutomata\\FunctionsCore\\obj\\",
+        "projectPath": "C:\\Projects_Edis\\RentACarAutomata\\FunctionsCore\\FunctionsCore.csproj",
+        "packagesPath": "C:\\Users\\kordovan.roland\\.nuget\\packages\\",
+        "outputPath": "C:\\Projects_Edis\\RentACarAutomata\\FunctionsCore\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\hunte\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\kordovan.roland\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -265,8 +270,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -275,7 +279,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.310\\RuntimeIdentifierGraph.json"
         }
       }
     }
