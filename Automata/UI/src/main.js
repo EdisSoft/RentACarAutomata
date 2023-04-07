@@ -23,6 +23,6 @@ app.$mount('#app');
 let buildTime = process.env.VUE_APP_BUILD_TIME;
 console.log(`UI build: ${new Date(buildTime).toLocaleString()}`);
 
-if (!settings.isProd) {
+if (settings.isProd) {
   AppFunctions.InitProduction();
 }
