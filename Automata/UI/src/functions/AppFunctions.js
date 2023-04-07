@@ -6,9 +6,13 @@ class AppFunctions {
   }
   InitProduction() {
     this.DisableContextMenu();
+    this.DisableUserSelect();
   }
   DisableContextMenu() {
     document.addEventListener('contextmenu', (event) => event.preventDefault());
+  }
+  DisableUserSelect() {
+    document.body.classList.add('disable-user-select');
   }
 }
 
