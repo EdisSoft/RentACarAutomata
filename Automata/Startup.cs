@@ -120,7 +120,7 @@ namespace Automata
 
     public void Configure(IApplicationBuilder app, IHostApplicationLifetime lifetime)
         {
-            Assembly.LoadFrom("Driver/EcrWrapperDotNetMlib.dll");
+            //Assembly.LoadFrom("Driver/EcrWrapperDotNetMlib.dll");
             Fonix3HttpContextAccessor.Configure(app.ApplicationServices.GetRequiredService<IHttpContextAccessor>());
 
             app.UseSession();
