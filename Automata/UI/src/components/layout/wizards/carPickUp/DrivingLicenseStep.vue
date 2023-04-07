@@ -1,16 +1,17 @@
 <template>
   <div class="wizard-step">
     <v-sheet class="wizard-content">
-      <wizard-document-input :preview="prevDocument">
+      <wizard-simple-input>
         <template #title>
           {{ $t('wizards.carPickUp.driverLicense.title') }}
         </template>
-      </wizard-document-input>
+      </wizard-simple-input>
     </v-sheet>
     <wizard-footer
       @next="Next()"
       @back="Back()"
       :nextBtnText="nextBtnText"
+      :loading="isScanLicenceFrontLoading || isScanLicenceBackLoading"
       :back-btn="[front, back].some((s) => s)"
     >
     </wizard-footer>
@@ -19,63 +20,77 @@
 
 <script>
 import { CarPickupWizard } from '@/enums/CarPickupWizard';
+import { SuccesResponse } from '@/enums/SuccesResponse';
+import { i18n } from '@/plugins/i18n';
+import { AutoberlesService } from '@/services/AutoberlesService';
+import { useApi } from '@/utils/useApi';
+import { computed, inject, ref } from 'vue';
 
 export default {
   name: 'driving-license-step',
-  inject: ['wizard'],
-  data() {
+  setup() {
+    let wizard = inject('wizard');
+    let front = ref(null);
+    let back = ref(null);
+    let [isScanLicenceFrontLoading, ScanLicenceFront] = useApi(() => {
+      return AutoberlesService.ScanLicenceFront(wizard.form.Reservation.Id);
+    });
+    let [isScanLicenceBackLoading, ScanLicenceBack] = useApi(() => {
+      return AutoberlesService.ScanLicenceBack(wizard.form.Reservation.Id);
+    });
+
+    let Next = async () => {
+      if (!front.value) {
+        let [success, data] = await ScanLicenceFront();
+        if (!success) {
+          return;
+        }
+        if (data.Id == SuccesResponse.Next) {
+          front.value = data;
+        }
+        return;
+      }
+      if (!back.value) {
+        let [success, data] = await ScanLicenceBack();
+        if (!success) {
+          return;
+        }
+        if (data.Id == SuccesResponse.Next) {
+          wizard.Goto(CarPickupWizard.IdCardStep);
+        }
+        return;
+      }
+    };
+    let Back = () => {
+      if (back.value) {
+        back.value = null;
+        return;
+      }
+      if (front.value) {
+        front.value = null;
+        return;
+      }
+    };
+    let nextBtnText = computed(() => {
+      if (!front.value) {
+        return i18n.t('common.scanFront');
+      }
+      if (!back.value) {
+        return i18n.t('common.scanBack');
+      }
+      return null;
+    });
     return {
-      front: null,
-      back: null,
-      prevDocument: null,
+      isScanLicenceBackLoading,
+      isScanLicenceFrontLoading,
+      Next,
+      Back,
       CarPickupWizard,
+      nextBtnText,
+      front,
+      back,
     };
   },
-  mounted() {},
-  created() {},
-  methods: {
-    Next() {
-      if (!this.front) {
-        this.front =
-          'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png';
-        this.prevDocument = this.front;
-        return;
-      }
-      if (!this.back) {
-        this.back =
-          'https://s3-alpha.figma.com/hub/file/948140848/1f4d8ea7-e9d9-48b7-b70c-819482fb10fb-cover.png';
-        this.prevDocument = this.back;
-        return;
-      }
-      this.wizard.Goto(CarPickupWizard.CreditCardStep);
-    },
-    Back() {
-      if (this.back) {
-        this.back = null;
-        this.prevDocument = this.front;
-        return;
-      }
-      if (this.front) {
-        this.front = null;
-        this.prevDocument = null;
-        return;
-      }
-    },
-  },
-  computed: {
-    nextBtnText() {
-      if (!this.front) {
-        return this.$t('common.scanFront');
-      }
-      if (!this.back) {
-        return this.$t('common.scanBack');
-      }
-      return null;
-      return null;
-    },
-  },
-  watch: {},
-  components: {},
 };
 </script>
 <style scoped></style>

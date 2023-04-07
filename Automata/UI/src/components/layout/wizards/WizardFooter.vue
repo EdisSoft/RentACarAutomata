@@ -1,6 +1,12 @@
 <template>
   <v-sheet class="wizard-footer">
-    <v-btn outlined x-large color="primary" @click="GoToHome">
+    <v-btn
+      :disabled="loading"
+      outlined
+      x-large
+      color="primary"
+      @click="GoToHome"
+    >
       <v-icon>mdi-home</v-icon>
     </v-btn>
     <v-divider vertical></v-divider>
@@ -11,6 +17,7 @@
     <slot></slot>
     <v-btn
       v-if="backBtn"
+      :disabled="loading"
       color="secondary"
       class="mr-2"
       x-large
@@ -20,6 +27,7 @@
     </v-btn>
     <v-btn
       color="primary"
+      :loading="loading"
       x-large
       :disabled="nextBtnDisabled"
       @click="$emit('next')"
@@ -62,6 +70,10 @@ export default {
       default: '',
     },
     nextBtnDisabled: {
+      type: Boolean,
+      default: false,
+    },
+    loading: {
       type: Boolean,
       default: false,
     },

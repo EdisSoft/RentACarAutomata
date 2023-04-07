@@ -3,7 +3,7 @@
     <v-sheet class="wizard-content">
       <wizard-simple-input>
         <template #title>
-          {{ $t('wizards.carPickUp.creditCard.title') }}
+          {{ $t('wizards.carPickUp.idCardOrPassport.title') }}
         </template>
       </wizard-simple-input>
     </v-sheet>
@@ -11,7 +11,7 @@
       @next="Next()"
       @back="Back()"
       :nextBtnText="nextBtnText"
-      :loading="isScanCreditCardFrontLoading || isScanCreditCardBackLoading"
+      :loading="isScanIdCardFrontOrPassportLoading || isScanIdCardBackLoading"
       :back-btn="[front, back].some((s) => s)"
     >
     </wizard-footer>
@@ -27,36 +27,42 @@ import { useApi } from '@/utils/useApi';
 import { computed, inject, ref } from 'vue';
 
 export default {
-  name: 'credit-card-step',
+  name: 'id-card-step',
   setup() {
     let wizard = inject('wizard');
     let front = ref(null);
     let back = ref(null);
-    let [isScanCreditCardFrontLoading, ScanCreditCardFront] = useApi(() => {
-      return AutoberlesService.ScanCreditCardFront(wizard.form.Reservation.Id);
-    });
-    let [isScanCreditCardBackLoading, ScanCreditCardBack] = useApi(() => {
-      return AutoberlesService.ScanCreditCardBack(wizard.form.Reservation.Id);
+    let [isScanIdCardFrontOrPassportLoading, ScanIdCardFrontOrPassport] =
+      useApi(() => {
+        return AutoberlesService.ScanIdCardFrontOrPassport(
+          wizard.form.Reservation?.Id
+        );
+      });
+    let [isScanIdCardBackLoading, ScanIdCardBack] = useApi(() => {
+      return AutoberlesService.ScanIdCardBack(wizard.form.Reservation?.Id);
     });
 
     let Next = async () => {
       if (!front.value) {
-        let [success, data] = await ScanCreditCardFront();
+        let [success, data] = await ScanIdCardFrontOrPassport();
         if (!success) {
           return;
         }
         if (data.Id == SuccesResponse.Next) {
           front.value = data;
         }
+        if (data.Id == SuccesResponse.Skip) {
+          wizard.Goto(CarPickupWizard.CreditCardStep);
+        }
         return;
       }
       if (!back.value) {
-        let [success, data] = await ScanCreditCardBack();
+        let [success, data] = await ScanIdCardBack();
         if (!success) {
           return;
         }
         if (data.Id == SuccesResponse.Next) {
-          wizard.Goto(CarPickupWizard.PayDepositStep);
+          wizard.Goto(CarPickupWizard.CreditCardStep);
         }
         return;
       }
@@ -81,8 +87,8 @@ export default {
       return null;
     });
     return {
-      isScanCreditCardFrontLoading,
-      isScanCreditCardBackLoading,
+      isScanIdCardFrontOrPassportLoading,
+      isScanIdCardBackLoading,
       Next,
       Back,
       CarPickupWizard,
@@ -91,6 +97,15 @@ export default {
       back,
     };
   },
+  data() {
+    return {};
+  },
+  mounted() {},
+  created() {},
+  methods: {},
+  computed: {},
+  watch: {},
+  components: {},
 };
 </script>
 <style scoped></style>

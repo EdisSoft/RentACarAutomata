@@ -22,8 +22,34 @@ html {
     height: 100%;
   }
   .v-stepper__content {
-    padding-left: 0;
-    padding-right: 0;
+    padding: 0;
+  }
+  &.dense {
+    .v-stepper__header {
+      height: 88px;
+    }
+    .v-stepper__step {
+      max-width: 160px;
+    }
+    .wizard-step {
+      height: calc(100vh - 91px);
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+    }
+  }
+  .v-stepper__header {
+    margin-bottom: 3px;
+  }
+  &.v-stepper--alt-labels {
+    .v-stepper__header {
+      height: 123px;
+    }
+
+    .v-stepper__label {
+      text-align: center;
+      white-space: break-spaces;
+    }
   }
   .v-stepper__label {
     small {
@@ -31,14 +57,13 @@ html {
     }
   }
   .wizard-step {
-    height: calc(100vh - 120px);
+    height: calc(100vh - 72px);
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
   }
   .wizard-content {
     flex-grow: 1;
-    margin-bottom: 20px;
     overflow-y: auto;
     padding: 0 25px;
   }
@@ -47,6 +72,10 @@ html {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    &.select {
+      justify-content: start;
+      gap: 1rem;
+    }
     .v-text-field__slot {
       input,
       .v-label {
@@ -90,7 +119,7 @@ html {
 }
 .wizard-footer,
 .footer {
-  padding: 0 25px;
+  padding: 15px 25px;
   display: flex;
   .v-divider.v-divider--vertical {
     margin: 0 20px;
@@ -104,4 +133,20 @@ html {
 .footer {
   padding-top: 10px;
   padding-bottom: 10px;
+}
+.select-card {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  border-color: var(--v-primary-base) !important;
+  .v-card__title {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+  }
+  .v-card__text {
+    margin-top: auto;
+  }
+  .v-icon {
+    margin-top: 2px;
+  }
 }

@@ -16,6 +16,7 @@ import isEqual from 'date-fns/isEqual';
 import set from 'date-fns/set';
 import getYear from 'date-fns/getYear';
 import hu from 'date-fns/locale/hu';
+import en from 'date-fns/locale/en-GB';
 import getMonth from 'date-fns/getMonth';
 import startOfMonth from 'date-fns/startOfMonth';
 import endOfMonth from 'date-fns/endOfMonth';
@@ -36,6 +37,8 @@ import differenceInYears from 'date-fns/differenceInYears';
 import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict';
 import differenceInMilliseconds from 'date-fns/differenceInMilliseconds';
 import intervalToDuration from 'date-fns/intervalToDuration';
+import { i18n } from '@/plugins/i18n';
+import { Languages } from '@/data/languages';
 
 let huModified = {
   ...hu,
@@ -59,8 +62,38 @@ let huModified = {
     return '';
   },
 };
+let enModified = {
+  ...en,
+  formatDistance: (unit, count) => {
+    switch (unit) {
+      case 'xYears':
+        return `${count} years ago`;
+      case 'xMonths':
+        return `${count} months ago`;
+      case 'xWeeks':
+        return `${count} weeks ago`;
+      case 'xDays':
+        return `${count} days ago`;
+      case 'xHours':
+        return `${count} hours ago`;
+      case 'xMinutes':
+        return `${count} minutes ago`;
+      case 'xSeconds':
+        return 'now';
+    }
+    return '';
+  },
+};
 
 class DateFunctions {
+  GetLocale() {
+    switch (i18n.locale) {
+      case Languages.HU.key:
+        return huModified;
+      default:
+        return enModified;
+    }
+  }
   DayDiff(date1, date2) {
     if (arguments.length != 2) return;
     return differenceInDays(date1, date2);
@@ -313,12 +346,8 @@ class DateFunctions {
     return this.Format(date, 'yyyy-MM-dd\'T\'HH:mm:ss');
   }
   ToHumanReadableDistance(date) {
-    if (differenceInMinutes(new Date(), date) == 0) {
-      return 'most';
-    }
-
     let result = formatDistanceToNowStrict(date, {
-      locale: huModified,
+      locale: this.GetLocale(),
       addSuffix: true,
       roundingMethod: 'floor',
     });

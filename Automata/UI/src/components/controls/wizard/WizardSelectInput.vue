@@ -1,25 +1,35 @@
 <template>
-  <div class="wizard-input">
+  <div class="wizard-input select">
     <div class="input-title">
       <slot name="title"></slot>
     </div>
-    <div class="input-text d-flex justify-center gap-1rem">
-      <v-btn
+    <div class="input-text d-flex flex-wrap gap-1rem">
+      <v-card
         v-for="option in optionsWithSelected"
+        class="select-card"
+        :class="{ selected: option.selected, primary: option.selected }"
+        flat
+        :dark="option.selected"
         :key="option.id"
-        color="primary"
-        :outlined="!option.selected"
-        x-large
+        max-width="344"
+        min-width="344"
+        outlined
         @click="Select(option)"
       >
-        <v-icon large class="mr-5">
-          {{
-            option.selected ? 'mdi-check-circle-outline' : 'mdi-circle-outline'
-          }}
-        </v-icon>
-
-        {{ option.text }}
-      </v-btn>
+        <v-card-title>
+          <v-icon large class="mr-4">
+            {{
+              option.selected
+                ? 'mdi-check-circle-outline'
+                : 'mdi-circle-outline'
+            }}
+          </v-icon>
+          {{ option.title }}
+        </v-card-title>
+        <v-card-text v-if="option.text">
+          {{ option.text }}
+        </v-card-text>
+      </v-card>
     </div>
     <div></div>
   </div>

@@ -17,6 +17,10 @@
         "stepName": "Foglalási szám",
         "title": "Kérjük, adja meg nevét, foglalási számát vagy olvassa le a foglalási QR kódot az olvasón!"
       },
+      "chooseReservation": {
+        "stepName": "Foglalás kíválasztása",
+        "title": "Válaszd ki a foglalást!"
+      },
       "emailAdress": {
         "stepName": "E-mail",
         "title": "Az autó foglalása ellenőrizve lett és rendben van! Kérjük, adja meg e-mail címét, ide küldjük el a bérleti szerződést!"
@@ -29,9 +33,17 @@
         "stepName": "Jogosítvány",
         "title": "Kérjük rakja be a jogosítványát a dokumentum olvasóba és nyomja meg a Beolvasás gombot!"
       },
-      "payment": {
-        "stepName": "Fizetés",
-        "title": "Kérjük használja a POS terminált, hogy befiezesse a letétet és a bérleti díjat"
+      "idCardStep": {
+        "stepName": "Személyi",
+        "title": "Kérjük rakja be a személyi igazolványát vagy útlevelét a dokumentum olvasóba és nyomja meg a Beolvasás gombot!"
+      },
+      "payDeposit": {
+        "stepName": "Letéti díj",
+        "title": "Kérjük használja a POS terminált, hogy befiezesse a letétet díjat"
+      },
+      "payRentalFee": {
+        "stepName": "Bérleti díj",
+        "title": "Kérjük használja a POS terminált, hogy befiezesse a bérleti díjat"
       },
       "creditCard": {
         "stepName": "Bankkártya",
@@ -67,7 +79,8 @@
   },
   "buttons": {
     "continue": "Tovább",
-    "back": "Vissza"
+    "back": "Vissza",
+    "finish": "Kész"
   },
   "confirms": {
     "goToHome": {
@@ -76,6 +89,7 @@
     }
   },
   "common": {
+    "ok": "Ok",
     "yes": "Igen",
     "no": "Nem",
     "scan": "Beolvasás",

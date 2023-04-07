@@ -22,16 +22,23 @@
       <v-card-text class="body-1 text-body-2 py-3" v-html="message" />
       <v-card-actions>
         <v-spacer />
-        <v-btn x-large :color="buttonFalseColor" text @click="choose(false)">
-          {{ $t('common.no') }}
+        <v-btn
+          v-if="buttonFalse"
+          x-large
+          :color="buttonFalseColor"
+          text
+          @click="choose(false)"
+        >
+          {{ buttonFalseText || $t('common.no') }}
         </v-btn>
         <v-btn
+          v-if="buttonTrue"
           x-large
           :color="buttonTrueColor"
           :loading="loading"
           @click="choose(true)"
         >
-          {{ $t('common.yes') }}
+          {{ buttonTrueText || $t('common.yes') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -85,9 +92,25 @@ export default {
       type: String,
       default: 'primary',
     },
+    buttonTrue: {
+      type: Boolean,
+      default: true,
+    },
+    buttonTrueText: {
+      type: String,
+      default: '',
+    },
     buttonFalseColor: {
       type: String,
       default: 'secondary',
+    },
+    buttonFalse: {
+      type: Boolean,
+      default: true,
+    },
+    buttonFalseText: {
+      type: String,
+      default: '',
     },
     color: {
       type: String,

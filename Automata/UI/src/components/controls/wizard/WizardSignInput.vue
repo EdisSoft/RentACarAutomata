@@ -8,6 +8,7 @@
     <div class="d-flex justify-center align-center">
       <div class="canvas-container">
         <drawing-canvas
+          ref="input"
           :key="key"
           :value="value"
           @input="$emit('input', $event)"
@@ -31,6 +32,9 @@ export default {
   methods: {
     OnIntersect() {
       this.key++;
+    },
+    GetBase64Image() {
+      return this.$refs.input.GetBase64();
     },
   },
 

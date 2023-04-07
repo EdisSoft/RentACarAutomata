@@ -7,7 +7,12 @@
         </template>
       </wizard-simple-input>
     </v-sheet>
-    <wizard-footer @next="Next()" :homeConfirm="false"> </wizard-footer>
+    <wizard-footer
+      @next="Next()"
+      :homeConfirm="false"
+      :nextBtnText="$t('buttons.finish')"
+    >
+    </wizard-footer>
   </div>
 </template>
 

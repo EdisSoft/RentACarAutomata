@@ -1,5 +1,5 @@
 <template>
-  <v-stepper v-model="step" class="wizard" eager>
+  <v-stepper v-model="step" class="wizard">
     <v-stepper-header>
       <v-stepper-step
         :complete="step > CarDropOffWizard.PlateNumber"
@@ -37,21 +37,21 @@
       </v-stepper-step>
     </v-stepper-header>
     <v-stepper-items>
-      <v-stepper-content :step="CarDropOffWizard.PlateNumber">
+      <wizard-step-content :step="CarDropOffWizard.PlateNumber">
         <plate-number-step></plate-number-step>
-      </v-stepper-content>
-      <v-stepper-content :step="CarDropOffWizard.ParkingInformation">
+      </wizard-step-content>
+      <wizard-step-content :step="CarDropOffWizard.ParkingInformation">
         <parking-information-step></parking-information-step>
-      </v-stepper-content>
-      <v-stepper-content :step="CarDropOffWizard.TaxiService">
+      </wizard-step-content>
+      <wizard-step-content :step="CarDropOffWizard.TaxiService">
         <taxi-service-step :key="step"></taxi-service-step>
-      </v-stepper-content>
-      <v-stepper-content :step="CarDropOffWizard.InsertCarKey">
+      </wizard-step-content>
+      <wizard-step-content :step="CarDropOffWizard.InsertCarKey">
         <insert-car-key-step></insert-car-key-step>
-      </v-stepper-content>
-      <v-stepper-content :step="CarDropOffWizard.Final">
+      </wizard-step-content>
+      <wizard-step-content :step="CarDropOffWizard.Final">
         <final-drop-off-step></final-drop-off-step>
-      </v-stepper-content>
+      </wizard-step-content>
     </v-stepper-items>
   </v-stepper>
 </template>
@@ -71,14 +71,22 @@ export default {
       remaingTime: computed(() => {
         return this.remaingTime;
       }),
+      wizardForm: computed(() => {
+        return this.form;
+      }),
+      wizardStep: computed(() => {
+        return this.step;
+      }),
     };
   },
   setup(props, ctx) {
-    const { Goto, step } = useWizard(CarDropOffWizard.PlateNumber);
+    const { Goto, step, form, SetFormValue } = useWizard(
+      CarDropOffWizard.PlateNumber
+    );
     const { remaingTime } = useCountdown(5 * 60 * 1000, () => {
       router.push({ name: 'home' });
     });
-    return { Goto, step, remaingTime, CarDropOffWizard };
+    return { Goto, step, remaingTime, CarDropOffWizard, form, SetFormValue };
   },
 };
 </script>

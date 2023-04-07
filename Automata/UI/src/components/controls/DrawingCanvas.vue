@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { saveCanvas } from '@/utils/common';
+import { getCanvasAsFile, saveCanvas } from '@/utils/common';
 export default {
   name: 'drawing-canvas',
   data() {
@@ -96,6 +96,12 @@ export default {
     },
     Save() {
       saveCanvas(this.canvas);
+    },
+    GetFile(filename) {
+      return getCanvasAsFile(this.canvas, filename);
+    },
+    GetBase64() {
+      return this.canvas.toDataURL();
     },
   },
   computed: {},

@@ -17,6 +17,10 @@
         "stepName": "Booking number",
         "title": "Please enter your booking number or name or read booking QR code on the reader!"
       },
+      "chooseReservation": {
+        "stepName": "Choose reservation",
+        "title": "Choose your reservation!"
+      },
       "emailAdress": {
         "stepName": "E-mail",
         "title": "Your car booking is checked and OK! Please type your email adress we send the rental contract here!"
@@ -29,13 +33,21 @@
         "stepName": "Driving license",
         "title": "Please place your driving license onto the document scanner and press Scan button!"
       },
+      "idCardOrPassport": {
+        "stepName": "ID card",
+        "title": "Please place your ID card or passport onto the document scanner and press Scan button!"
+      },
       "creditCard": {
         "stepName": "Credit card",
         "title": "Please place your credit card onto the document scanner and press Scan button!"
       },
-      "payment": {
-        "stepName": "Payment",
-        "title": "Please use the POS terminal to pay the block deposit and rental fee!"
+      "payDeposit": {
+        "stepName": "Block deposit",
+        "title": "Please use the POS terminal to pay the block deposit fee!"
+      },
+      "payRentalFee": {
+        "stepName": "Rental fee",
+        "title": "Please use the POS terminal to pay the rental fee!"
       },
       "final": {
         "stepName": "Confirm",
@@ -67,7 +79,8 @@
   },
   "buttons": {
     "continue": "Continue",
-    "back": "Back"
+    "back": "Back",
+    "finish": "Finish"
   },
   "confirms": {
     "goToHome": {
@@ -76,6 +89,7 @@
     }
   },
   "common": {
+    "ok": "Ok",
     "yes": "Yes",
     "no": "No",
     "scan": "Scan",

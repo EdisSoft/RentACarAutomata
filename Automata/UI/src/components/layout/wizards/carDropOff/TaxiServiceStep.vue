@@ -4,8 +4,8 @@
       <wizard-select-input
         v-model="selectedItem"
         :options="[
-          { id: 1, text: $t('common.yes') },
-          { id: 2, text: $t('common.no') },
+          { id: 1, title: $t('common.yes') },
+          { id: 2, title: $t('common.no') },
         ]"
       >
         <template #title>

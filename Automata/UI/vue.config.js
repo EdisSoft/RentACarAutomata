@@ -1,4 +1,7 @@
 const { defineConfig } = require('@vue/cli-service');
+
+process.env.VUE_APP_BUILD_TIME = new Date().toISOString();
+
 module.exports = defineConfig({
   transpileDependencies: ['vuetify'],
   chainWebpack: (config) => {

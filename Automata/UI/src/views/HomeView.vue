@@ -49,7 +49,6 @@
               :src="menuItem.img"
               max-height="500px"
               contain
-              :transition="false"
             >
             </v-img>
             <v-card-title class="text-h5 text-md-h3 pb-5">
