@@ -1,6 +1,8 @@
 import HU from 'country-flag-icons/string/1x1/HU';
 import EN from 'country-flag-icons/string/1x1/GB';
 import ES from 'country-flag-icons/string/1x1/ES';
+import en from '@/locales/en.json';
+import hu from '@/locales/hu.json';
 
 let defaultKeyboard = {
   default: [
@@ -30,6 +32,7 @@ export const Languages = Object.freeze({
   HU: {
     key: 'hu',
     svg: HU,
+    dict: hu,
     keyboard: {
       default: [
         '0 1 2 3 4 5 6 7 8 9 0 ö ü ó {backspace}',
@@ -57,6 +60,7 @@ export const Languages = Object.freeze({
   EN: {
     key: 'en',
     svg: EN,
+    dict: en,
     keyboard: {
       ...defaultKeyboard,
     },
