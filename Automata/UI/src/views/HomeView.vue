@@ -37,6 +37,7 @@
       </v-row>
       <v-row>
         <v-col
+          class="menu-item"
           cols="6"
           md="6"
           v-for="menuItem in menuItems"
@@ -45,10 +46,9 @@
         >
           <v-card class="fill-height" :to="menuItem.to">
             <v-img
-              class="white--text align-end"
               :src="menuItem.img"
-              max-height="500px"
               contain
+              :max-height="menuItemImageHeight"
             >
             </v-img>
             <v-card-title class="text-h5 text-md-h3 pb-5">
@@ -129,6 +129,9 @@ export default {
     },
     selectedLanguage() {
       return AppFunctions.GetLanguage(this.$i18n.locale);
+    },
+    menuItemImageHeight() {
+      return this.$vuetify.breakpoint.mdAndDown ? '300px' : '500px';
     },
   },
 };

@@ -5,70 +5,73 @@
         :complete="step > CarPickupWizard.BookingNumberOrQr"
         :step="CarPickupWizard.BookingNumberOrQr"
       >
-        {{ $t('wizards.carPickUp.bookingNumberOrQr.stepName') }}
+        <span v-html="$t('wizards.carPickUp.bookingNumberOrQr.stepName')">
+        </span>
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
         :complete="step > CarPickupWizard.ChooseReservation"
         :step="CarPickupWizard.ChooseReservation"
       >
-        {{ $t('wizards.carPickUp.chooseReservation.stepName') }}
+        <span v-html="$t('wizards.carPickUp.chooseReservation.stepName')">
+        </span>
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
         :complete="step > CarPickupWizard.EmailAdressStep"
         :step="CarPickupWizard.EmailAdressStep"
       >
-        {{ $t('wizards.carPickUp.emailAdress.stepName') }}
+        <span v-html="$t('wizards.carPickUp.emailAdress.stepName')"> </span>
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
         :complete="step > CarPickupWizard.SignStep"
         :step="CarPickupWizard.SignStep"
       >
-        {{ $t('wizards.carPickUp.sign.stepName') }}
+        <span v-html="$t('wizards.carPickUp.sign.stepName')"> </span>
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
         :complete="step > CarPickupWizard.DrivingLicenseStep"
         :step="CarPickupWizard.DrivingLicenseStep"
       >
-        {{ $t('wizards.carPickUp.driverLicense.stepName') }}
+        <span v-html="$t('wizards.carPickUp.driverLicense.stepName')"> </span>
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
         :complete="step > CarPickupWizard.IdCardStep"
         :step="CarPickupWizard.IdCardStep"
       >
-        {{ $t('wizards.carPickUp.idCardOrPassport.stepName') }}
+        <span v-html="$t('wizards.carPickUp.idCardOrPassport.stepName')">
+        </span>
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
         :complete="step > CarPickupWizard.CreditCardStep"
         :step="CarPickupWizard.CreditCardStep"
       >
-        {{ $t('wizards.carPickUp.creditCard.stepName') }}
+        <span v-html="$t('wizards.carPickUp.creditCard.stepName')"> </span>
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
         :complete="step > CarPickupWizard.PayDepositStep"
         :step="CarPickupWizard.PayDepositStep"
       >
-        {{ $t('wizards.carPickUp.payDeposit.stepName') }}
+        <span v-html="$t('wizards.carPickUp.payDeposit.stepName')"> </span>
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
         :complete="step > CarPickupWizard.PayRentalFeeStep"
         :step="CarPickupWizard.PayRentalFeeStep"
       >
-        {{ $t('wizards.carPickUp.payRentalFee.stepName') }}
+        <span v-html="$t('wizards.carPickUp.payRentalFee.stepName')"> </span>
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
-        :complete="step > CarPickupWizard.FinalStep"
+        :complete="step >= CarPickupWizard.FinalStep"
         :step="CarPickupWizard.FinalStep"
       >
-        {{ $t('wizards.carPickUp.final.stepName') }}
+        <span v-html="$t('wizards.carPickUp.final.stepName')"> </span>
       </v-stepper-step>
     </v-stepper-header>
     <v-stepper-items>

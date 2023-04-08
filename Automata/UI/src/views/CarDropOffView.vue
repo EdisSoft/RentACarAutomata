@@ -30,7 +30,7 @@
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
-        :complete="step > CarDropOffWizard.Final"
+        :complete="step >= CarDropOffWizard.Final"
         :step="CarDropOffWizard.Final"
       >
         {{ $t('wizards.carDropOff.final.stepName') }}

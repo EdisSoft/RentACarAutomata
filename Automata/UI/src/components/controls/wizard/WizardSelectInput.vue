@@ -11,8 +11,8 @@
         flat
         :dark="option.selected"
         :key="option.id"
-        max-width="344"
-        min-width="344"
+        max-width="300"
+        min-width="300"
         outlined
         @click="Select(option)"
       >

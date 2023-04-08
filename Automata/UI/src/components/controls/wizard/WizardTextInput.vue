@@ -3,7 +3,7 @@
     <div class="input-title">
       <slot name="title"></slot>
     </div>
-    <div class="input-text">
+    <div class="input-text text-field">
       <v-text-field
         :value="value"
         @input="$emit('input', $event)"

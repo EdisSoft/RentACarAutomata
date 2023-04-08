@@ -18,7 +18,7 @@
         "title": "Kérjük, adja meg nevét, foglalási számát vagy olvassa le a foglalási QR kódot az olvasón!"
       },
       "chooseReservation": {
-        "stepName": "Foglalás kíválasztása",
+        "stepName": "Foglalás",
         "title": "Válaszd ki a foglalást!"
       },
       "emailAdress": {
@@ -30,7 +30,7 @@
         "title": "Az autó foglalása ellenőrizve lett és rendben van! Kérjük, írja alá a bérleti szerződést lent!"
       },
       "driverLicense": {
-        "stepName": "Jogosítvány",
+        "stepName": "Jogosít&shy;vány",
         "title": "Kérjük rakja be a jogosítványát a dokumentum olvasóba és nyomja meg a Beolvasás gombot!"
       },
       "idCardStep": {
@@ -46,7 +46,7 @@
         "title": "Kérjük használja a POS terminált, hogy befiezesse a bérleti díjat"
       },
       "creditCard": {
-        "stepName": "Bankkártya",
+        "stepName": "Bankkár&shy;tya",
         "title": "Kérjük, helyezze bankkártyáját a dokumentum olvasóba, és nyomja meg a Beolvasás gombot!"
       },
       "final": {
