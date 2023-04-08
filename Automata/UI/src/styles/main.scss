@@ -37,12 +37,6 @@ html {
         font-weight: bold;
       }
     }
-    .wizard-step {
-      height: calc(100vh - 91px);
-      display: flex;
-      flex-direction: column;
-      flex: 1 1 auto;
-    }
   }
   .v-stepper__header {
     margin-bottom: 3px;
