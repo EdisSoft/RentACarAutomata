@@ -65,11 +65,14 @@
       },
       "taxiService": {
         "stepName": "Taxi szolgáltatás",
-        "title": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae."
+        "title": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae.",
+        "succesText": "Success ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae.",
+        "errorText": "Fail ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae."
       },
       "insertCarKey": {
         "stepName": "kulcsleadás",
-        "title": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae."
+        "title": "Kérem helyezze a kulcsot a kinyitott rekeszbe: {num}. Ha a kulcsot betette, és kulcs alatti lap zölden világít, akkor gondosan csukja be a rekeszajtót, és nyomjon a tovább gombra.",
+        "errorText": "A rekesz nyitása nem sikerült, hívja a call center telefonszámát."
       },
       "final": {
         "stepName": "Kész",

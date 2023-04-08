@@ -5,35 +5,36 @@
         :complete="step > CarDropOffWizard.PlateNumber"
         :step="CarDropOffWizard.PlateNumber"
       >
-        {{ $t('wizards.carDropOff.plateNumber.stepName') }}
+        <span v-html="$t('wizards.carDropOff.plateNumber.stepName')"> </span>
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
         :complete="step > CarDropOffWizard.ParkingInformation"
         :step="CarDropOffWizard.ParkingInformation"
       >
-        {{ $t('wizards.carDropOff.parkingInformation.stepName') }}
+        <span v-html="$t('wizards.carDropOff.parkingInformation.stepName')">
+        </span>
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
         :complete="step > CarDropOffWizard.TaxiService"
         :step="CarDropOffWizard.TaxiService"
       >
-        {{ $t('wizards.carDropOff.taxiService.stepName') }}
+        <span v-html="$t('wizards.carDropOff.taxiService.stepName')"> </span>
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
         :complete="step > CarDropOffWizard.InsertCarKey"
         :step="CarDropOffWizard.InsertCarKey"
       >
-        {{ $t('wizards.carDropOff.insertCarKey.stepName') }}
+        <span v-html="$t('wizards.carDropOff.insertCarKey.stepName')"> </span>
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
         :complete="step >= CarDropOffWizard.Final"
         :step="CarDropOffWizard.Final"
       >
-        {{ $t('wizards.carDropOff.final.stepName') }}
+        <span v-html="$t('wizards.carDropOff.final.stepName')"> </span>
       </v-stepper-step>
     </v-stepper-header>
     <v-stepper-items>
