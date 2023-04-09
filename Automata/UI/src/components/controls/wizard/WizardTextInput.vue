@@ -10,6 +10,7 @@
         single-line
         counter
         :maxlength="maxlength"
+        :rules="rules"
       ></v-text-field>
     </div>
     <keyboard
@@ -36,6 +37,12 @@ export default {
     maxlength: {
       type: Number,
       default: 50,
+    },
+    rules: {
+      type: Array,
+      default() {
+        return [];
+      },
     },
   },
 };

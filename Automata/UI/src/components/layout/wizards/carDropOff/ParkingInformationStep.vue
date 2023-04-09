@@ -7,7 +7,7 @@
         </template>
       </wizard-simple-input>
     </v-sheet>
-    <wizard-footer @next="wizard.Goto(CarDropOffWizard.TaxiService)">
+    <wizard-footer @next="wizard.Goto(CarDropOffWizard.PlateNumber)">
     </wizard-footer>
   </div>
 </template>

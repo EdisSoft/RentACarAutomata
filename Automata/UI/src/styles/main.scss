@@ -67,7 +67,7 @@ html {
     position: relative;
     flex-grow: 1;
     overflow-y: auto;
-    padding: 15px 25px 20px;
+    padding: 15px 25px 0;
   }
   .wizard-input {
     height: 100%;
@@ -87,7 +87,8 @@ html {
         height: unset;
       }
     }
-    .v-counter {
+    .v-counter,
+    .v-messages__message {
       font-size: 1rem;
       line-height: 1rem;
     }

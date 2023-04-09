@@ -2,18 +2,18 @@
   <v-stepper v-model="step" class="wizard">
     <v-stepper-header>
       <v-stepper-step
-        :complete="step > CarDropOffWizard.PlateNumber"
-        :step="CarDropOffWizard.PlateNumber"
-      >
-        <span v-html="$t('wizards.carDropOff.plateNumber.stepName')"> </span>
-      </v-stepper-step>
-      <v-divider></v-divider>
-      <v-stepper-step
         :complete="step > CarDropOffWizard.ParkingInformation"
         :step="CarDropOffWizard.ParkingInformation"
       >
         <span v-html="$t('wizards.carDropOff.parkingInformation.stepName')">
         </span>
+      </v-stepper-step>
+      <v-divider></v-divider>
+      <v-stepper-step
+        :complete="step > CarDropOffWizard.PlateNumber"
+        :step="CarDropOffWizard.PlateNumber"
+      >
+        <span v-html="$t('wizards.carDropOff.plateNumber.stepName')"> </span>
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step
@@ -38,11 +38,11 @@
       </v-stepper-step>
     </v-stepper-header>
     <v-stepper-items>
-      <wizard-step-content :step="CarDropOffWizard.PlateNumber">
-        <plate-number-step></plate-number-step>
-      </wizard-step-content>
       <wizard-step-content :step="CarDropOffWizard.ParkingInformation">
         <parking-information-step></parking-information-step>
+      </wizard-step-content>
+      <wizard-step-content :step="CarDropOffWizard.PlateNumber">
+        <plate-number-step></plate-number-step>
       </wizard-step-content>
       <wizard-step-content :step="CarDropOffWizard.TaxiService">
         <taxi-service-step :key="step"></taxi-service-step>
@@ -82,7 +82,7 @@ export default {
   },
   setup(props, ctx) {
     const { Goto, step, form, SetFormValue } = useWizard(
-      CarDropOffWizard.PlateNumber
+      CarDropOffWizard.ParkingInformation
     );
     const { remaingTime } = useCountdown(5 * 60 * 1000, () => {
       router.push({ name: 'home' });

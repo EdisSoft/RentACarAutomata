@@ -1,17 +1,15 @@
 <template>
   <div class="wizard-step">
     <v-sheet class="wizard-content">
-      <wizard-text-input v-model="text">
-        <template #title>
-          {{ $t('wizards.carPickUp.bookingNumberOrQr.title') }}
-        </template>
-      </wizard-text-input>
+      <v-form class="fill-height" ref="form">
+        <wizard-text-input v-model="text" :rules="validations.text">
+          <template #title>
+            {{ $t('wizards.carPickUp.bookingNumberOrQr.title') }}
+          </template>
+        </wizard-text-input>
+      </v-form>
     </v-sheet>
-    <wizard-footer
-      @next="Next()"
-      :nextBtnDisabled="nextBtnDisabled"
-      :loading="isFoglalasokLoading"
-    >
+    <wizard-footer @next="Next()" :loading="isFoglalasokLoading">
     </wizard-footer>
   </div>
 </template>
@@ -24,6 +22,7 @@ import { useInterval } from '@vueuse/shared';
 import { WizardFunctions } from '@/functions/WizardFunctions';
 import { inject } from 'vue';
 import { settings } from '@/settings';
+import { vMinLength, vRequired } from '@/utils/vuetifyFormRules';
 
 export default {
   name: 'booking-number-or-qr-step',
@@ -56,10 +55,13 @@ export default {
     }
     return { isFoglalasokLoading, Getfoglalasok, wizard };
   },
-
   created() {},
   methods: {
     async Next() {
+      let isValid = this.$refs.form.validate();
+      if (!isValid) {
+        return;
+      }
       let [success, data] = await this.Getfoglalasok();
       if (!success) {
         return;
@@ -77,9 +79,10 @@ export default {
     },
   },
   computed: {
-    nextBtnDisabled() {
-      let text = this.text.trim();
-      return text.length < 3;
+    validations() {
+      return {
+        text: [vRequired(), vMinLength(3)],
+      };
     },
   },
   watch: {},

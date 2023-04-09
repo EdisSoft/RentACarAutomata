@@ -101,5 +101,10 @@
   },
   "keyboard": {
     "backspace": "⌫ backspace"
+  },
+  "validations": {
+    "required": "Required",
+    "minLength": "Type at least {length} character",
+    "email": "Wrong e-mail format"
   }
 }

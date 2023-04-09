@@ -1,41 +1,45 @@
 <template>
   <div class="wizard-step">
     <v-sheet class="wizard-content">
-      <wizard-text-input v-model="input" :maxlength="15">
-        <template #title>
-          {{ $t('wizards.carDropOff.plateNumber.title') }}
-        </template>
-      </wizard-text-input>
+      <v-form class="fill-height" ref="form">
+        <wizard-text-input
+          v-model="input"
+          :maxlength="15"
+          :rules="validations.input"
+        >
+          <template #title>
+            {{ $t('wizards.carDropOff.plateNumber.title') }}
+          </template>
+        </wizard-text-input>
+      </v-form>
     </v-sheet>
-    <wizard-footer
-      :nextBtnDisabled="nextBtnDisabled"
-      @next="Next()"
-      :loading="isGetFoglalasLoading"
-    >
+    <wizard-footer @next="Next()" :loading="isGetFoglalasLoading">
     </wizard-footer>
   </div>
 </template>
 
 <script>
 import { CarDropOffWizard } from '@/enums/CarDropOffWizard';
-import { SuccesResponse } from '@/enums/SuccesResponse';
 import { AutoleadasService } from '@/services/AutoleadasService';
 import { useApi } from '@/utils/useApi';
-import { computed, inject, ref } from 'vue';
+import { vMinLength, vRequired } from '@/utils/vuetifyFormRules';
+import { inject, ref } from 'vue';
 
 export default {
   name: 'plate-number-step',
   setup() {
     let wizard = inject('wizard');
     let input = ref('');
+    let form = ref(null);
     let [isGetFoglalasLoading, GetFoglalas] = useApi(() => {
       return AutoleadasService.GetFoglalas(input.value);
     });
-    let nextBtnDisabled = computed(() => {
-      let text = input.value.trim();
-      return text.length < 3;
-    });
+
     let Next = async () => {
+      let isValid = form.value.validate();
+      if (!isValid) {
+        return;
+      }
       let [success, reservation] = await GetFoglalas();
       if (!success) {
         return;
@@ -43,10 +47,14 @@ export default {
       wizard.SetFormValue('Reservation', reservation);
       wizard.Goto(CarDropOffWizard.TaxiService);
     };
+    let validations = {
+      input: [vRequired(), vMinLength(3)],
+    };
     return {
       isGetFoglalasLoading,
       input,
-      nextBtnDisabled,
+      form,
+      validations,
       Next,
     };
   },

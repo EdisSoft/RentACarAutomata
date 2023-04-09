@@ -33,7 +33,7 @@
         "stepName": "Jogosít&shy;vány",
         "title": "Kérjük rakja be a jogosítványát a dokumentum olvasóba és nyomja meg a Beolvasás gombot!"
       },
-      "idCardStep": {
+      "idCardOrPassport": {
         "stepName": "Személyi",
         "title": "Kérjük rakja be a személyi igazolványát vagy útlevelét a dokumentum olvasóba és nyomja meg a Beolvasás gombot!"
       },
@@ -101,5 +101,10 @@
   },
   "keyboard": {
     "backspace": "⌫ törlés"
+  },
+  "validations": {
+    "required": "Kötelező mező",
+    "minLength": "Adjon meg legalább {length} karaktert",
+    "email": "Az e-mail cím formátuma nem megfelelő"
   }
 }
