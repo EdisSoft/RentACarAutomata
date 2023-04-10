@@ -3,7 +3,7 @@
     <div class="input-title">
       <slot name="title"></slot>
     </div>
-    <div class="input-text d-flex flex-wrap gap-1rem">
+    <div class="input-text d-flex flex-wrap gap-1rem pb-5">
       <v-card
         v-for="option in optionsWithSelected"
         class="select-card"

@@ -152,9 +152,13 @@ class AutoberlesService {
       Text: 'Ok',
     };
     let params = { id };
-    let result = await httpContext.post(`Autoberles/LetetZarolas`, null, {
-      params,
-    });
+    let result = await httpContext.post(
+      `Autoberles/LetetZarolasEllenorzes`,
+      null,
+      {
+        params,
+      }
+    );
     return result.data;
   }
   async BerletiDijFizetes(id) {
@@ -165,9 +169,13 @@ class AutoberlesService {
       Text: 'Ok',
     };
     let params = { id };
-    let result = await httpContext.post(`Autoberles/BerletiDijFizetes`, null, {
-      params,
-    });
+    let result = await httpContext.post(
+      `Autoberles/BerletiDijFizetesEllenorzes`,
+      null,
+      {
+        params,
+      }
+    );
     return result.data;
   }
 }

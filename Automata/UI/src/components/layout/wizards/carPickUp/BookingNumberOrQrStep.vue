@@ -48,6 +48,9 @@ export default {
       if (!success) {
         return;
       }
+      if (!reservation) {
+        return;
+      }
       WizardFunctions.HandleNavigationForReservation(wizard, reservation);
     };
     if (settings.isProd) {
