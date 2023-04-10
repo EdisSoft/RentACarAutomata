@@ -21,7 +21,6 @@ class AutoberlesService {
   }
   async IsQrCode() {
     await timeout(500);
-
     return {
       Id: 1,
       Nev: 'John Doe ' + 1,

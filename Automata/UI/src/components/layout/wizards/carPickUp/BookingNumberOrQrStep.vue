@@ -37,9 +37,12 @@ export default {
     let [isFoglalasokLoading, Getfoglalasok] = useApi(() => {
       return AutoberlesService.GetFoglalasok();
     });
-    let [isQrLoading, IsQrCode] = useApi(() => {
-      return AutoberlesService.IsQrCode();
-    });
+    let [isQrLoading, IsQrCode] = useApi(
+      () => {
+        return AutoberlesService.IsQrCode();
+      },
+      { silentError: true }
+    );
     let CheckQr = async () => {
       if (isQrLoading.value || isFoglalasokLoading.value) {
         return;

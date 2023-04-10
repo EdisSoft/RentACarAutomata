@@ -1,7 +1,7 @@
 import { NotificationFunctions } from '@/functions/NotificationFunctions';
 import { ref } from 'vue';
 
-export const useApi = (getter) => {
+export const useApi = (getter, { silentError = false } = {}) => {
   let isLoading = ref(false);
   let GetData = async () => {
     let result = [false, null];
@@ -10,7 +10,11 @@ export const useApi = (getter) => {
       let data = await getter();
       result = [true, data];
     } catch (error) {
-      NotificationFunctions.AjaxError(error);
+      if (silentError) {
+        console.error(error);
+      } else {
+        NotificationFunctions.AjaxError(error);
+      }
     }
     isLoading.value = false;
     return result;

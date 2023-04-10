@@ -5,6 +5,9 @@ export function vRequired(msg) {
     if (v === 0) {
       return true;
     }
+    if (Array.isArray(v) && v.length == 0) {
+      return i18n.t('validations.required');
+    }
     return v === true || !!v || msg || i18n.t('validations.required');
   };
 }

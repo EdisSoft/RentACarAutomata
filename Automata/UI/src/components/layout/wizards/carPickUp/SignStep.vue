@@ -46,9 +46,7 @@ export default {
         wizard.Goto(CarPickupWizard.DrivingLicenseStep);
       }
     };
-    let GetBase64Image = async () => {
-      console.log(input.value);
-    };
+
     return {
       isSaveAlairasLoading,
       points,
@@ -56,7 +54,6 @@ export default {
       Next,
       CarPickupWizard,
       input,
-      GetBase64Image,
     };
   },
 };

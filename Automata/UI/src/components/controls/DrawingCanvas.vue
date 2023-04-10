@@ -1,6 +1,7 @@
 <template>
   <div ref="wrapper" class="canvas-wrapper">
     <canvas
+      :key="0"
       class="canvas"
       ref="canvas"
       :height="`${height}px`"
@@ -11,6 +12,18 @@
       @touchstart="OnTouchstart"
       @touchmove="OnTouchmove"
     ></canvas>
+    <v-fade-transition>
+      <v-btn
+        color="secondary"
+        class="delete-icon"
+        v-show="value > 5"
+        x-large
+        icon
+        @click="Reset"
+      >
+        <v-icon>mdi-pen-remove</v-icon>
+      </v-btn>
+    </v-fade-transition>
   </div>
 </template>
 
@@ -20,6 +33,7 @@ export default {
   name: 'drawing-canvas',
   data() {
     return {
+      key: 0,
       height: 400,
       width: 400,
       mouseDown: false,
@@ -45,9 +59,8 @@ export default {
       this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     },
     RelPos(pt) {
-      let offsetY =
-        this.$vuetify.application.top + this.canvas.offsetTop + this.offsetTop;
-      return [pt.pageX - this.canvas.offsetLeft, pt.pageY - offsetY];
+      let rekt = pt.target.getBoundingClientRect();
+      return [pt.pageX - rekt.left, pt.pageY - rekt.top];
     },
     DrawStart(pt) {
       this.ctx.beginPath();
@@ -103,6 +116,10 @@ export default {
     GetBase64() {
       return this.canvas.toDataURL();
     },
+    Reset() {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.$emit('input', 0);
+    },
   },
   computed: {},
   watch: {},
@@ -115,6 +132,10 @@ export default {
       type: Number,
       default: 0,
     },
+    showClear: {
+      type: Boolean,
+      default: false,
+    },
   },
 };
 </script>
@@ -122,8 +143,15 @@ export default {
 .canvas-wrapper {
   height: 100%;
   width: 100%;
+  position: relative;
 }
 .canvas {
   border: 1px solid black;
+}
+.delete-icon {
+  top: 0;
+  right: 0;
+  transform: translateX(calc(100% + 10px));
+  position: absolute;
 }
 </style>

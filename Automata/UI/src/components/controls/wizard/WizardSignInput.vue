@@ -12,7 +12,7 @@
           :key="key"
           :value="value"
           @input="$emit('input', $event)"
-          :offsetTop="91"
+          :offsetTop="77"
         ></drawing-canvas>
       </div>
     </div>
