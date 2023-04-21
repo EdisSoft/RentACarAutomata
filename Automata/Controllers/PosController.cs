@@ -14,6 +14,7 @@ namespace Automata.Controllers
         [HttpPost]
         public JsonResult Payment(int amount)
         {
+            MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
             MoneraTerminal.NormalPayment(amount, "Nem tudni mi ez"); //TODO: Mi a második paraméter, honnan fogjuk tudni?
 
