@@ -33,7 +33,11 @@ export default {
     };
   },
   setup() {
+    debugger;
     let wizard = inject('wizard');
+    // let a = useApi(() => {
+    //   return AutoberlesService.GetFoglalasok();
+    // });
     let [isFoglalasokLoading, Getfoglalasok] = useApi(() => {
       return AutoberlesService.GetFoglalasok();
     });

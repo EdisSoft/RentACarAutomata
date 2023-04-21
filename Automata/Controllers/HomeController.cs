@@ -29,7 +29,8 @@ namespace Automata.Controllers
         }
 
         public JsonResult GetData() {
-            var list = new BaseDbContext().Cimkek.Take(2).Select(x => new { x.Id, x.Nev }).ToList();
+            var list = new List<int>();
+            list.Add(0);
             return Json(list);
         }
 

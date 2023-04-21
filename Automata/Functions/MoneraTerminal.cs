@@ -1,17 +1,18 @@
 ﻿using FunctionsCore;
+using FunctionsCore.Contexts;
 //using System;
 
 namespace Automata.Functions
 {
-    public class MoneraTerminal
-    {
-		string ComPort = "192.168.2.12";
+    public class MoneraTerminalFunctions
+	{
+		//string ComPort = "192.168.2.12";
+		string comPort = AppSettingsBase.GetAppSetting("MoneraComPort");
 		EcrWrapperDotNetMlib.EftTerminalZVT Terminal;
 		string LatestReceipt;
 
-		public MoneraTerminal(string aComPort)
+		public void Init()
 		{
-			ComPort = aComPort;
 			Terminal = new EcrWrapperDotNetMlib.EftTerminalZVT();
 			LatestReceipt = "";
 
@@ -25,8 +26,7 @@ namespace Automata.Functions
 		}
 
 
-
-		~MoneraTerminal()
+		~MoneraTerminalFunctions()
 		{
 			Disconnect();
 		}
@@ -38,12 +38,8 @@ namespace Automata.Functions
 
 		void printEvent(string txt)
 		{
-			LatestReceipt = txt;
 			Log.Debug(txt);
-			System.IO.StreamWriter outFile = new System.IO.StreamWriter("receipt.txt", true);
-			outFile.WriteLine(txt);
-			outFile.WriteLine("------------------------");
-			outFile.Close();
+			Log.Debug("------------------------");
 
 		}
 
@@ -111,7 +107,7 @@ namespace Automata.Functions
 
 		int Connect()
 		{
-			int ret = Terminal.connect(ComPort);
+			int ret = Terminal.connect(comPort);
 			//Console.WriteLine("connect (" + ComPort + ") =" + ret);
 			return ret;
 		}
