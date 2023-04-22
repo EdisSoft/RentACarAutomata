@@ -6,7 +6,6 @@ namespace Automata.Functions
 {
     public class MoneraTerminalFunctions
 	{
-		//string ComPort = "192.168.2.12";
 		string comPort = AppSettingsBase.GetAppSetting("MoneraComPort");
 		EcrWrapperDotNetMlib.EftTerminalZVT Terminal;
 		string LatestReceipt;
@@ -24,7 +23,6 @@ namespace Automata.Functions
 			Terminal.setLocalDisplayEvent(displayEvent);
 			Terminal.setLocalPrinterEvent(printEvent);
 		}
-
 
 		~MoneraTerminalFunctions()
 		{
