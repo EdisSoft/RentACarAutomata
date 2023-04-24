@@ -1,9 +1,6 @@
 ﻿using Automata.Functions;
 using FunctionsCore.Models;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace Automata.Controllers
 {
@@ -17,6 +14,20 @@ namespace Automata.Controllers
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
             MoneraTerminal.NormalPayment(amount, "Nem tudni mi ez"); //TODO: Mi a második paraméter, honnan fogjuk tudni?
+
+
+            return Json(new ResultModel() { Id = 0, Text = "" });
+        }
+
+        public JsonResult LetetZarolas(int id)
+        {
+            int amount = 0;
+
+            //TODO: Le kell kérni a CRM-től a foglalási és finanszírozási adatokat, ezeket az első hívás tartalmazza, vagy ha eltettük akkor visszakeressük
+
+            MoneraTerminal = new MoneraTerminalFunctions();
+            MoneraTerminal.Init();
+            MoneraTerminal.DepositPayment(amount, "Nem tudni mi ez"); //TODO: Mi a második paraméter, honnan fogjuk tudni?
 
 
             return Json(new ResultModel() { Id = 0, Text = "" });

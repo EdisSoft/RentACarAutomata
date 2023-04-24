@@ -1,25 +1,23 @@
-﻿using FunctionsCore;
-
-namespace Automata.Functions
+﻿namespace FunctionsCore.Models
 {
-    public class MoneraReceipt
+    public class MoneraReceiptModel
     {
-        public string TerminalID = "";
-        public string AuthCode = "";
-        public string RetNum = "";
-        public string RetText = "";
-        public string Amount = "";
-        public string DateTime = "";
-        public string CardNum = "";
-        public string RefNo = "";
-        public string ACQ = "";
-        public string CardType = "";
-        public string Location = "";
-        public string AID = "";
-        public string TC = "";
-        public string TranID = "";
-        public string Merchant = "";
-        public string Owner = "";
+        public string TerminalID { get; set; }
+        public string AuthCode { get; set; }
+        public string RetNum { get; set; }
+        public string RetText { get; set; }
+        public string Amount { get; set; }
+        public string DateTime { get; set; }
+        public string CardNum { get; set; }
+        public string RefNo { get; set; }
+        public string ACQ { get; set; }
+        public string CardType { get; set; }
+        public string Location { get; set; }
+        public string AID { get; set; }
+        public string TC { get; set; }
+        public string TranID { get; set; }
+        public string Merchant { get; set; }
+        public string Owner { get; set; }
 
         public override string ToString()
         {
