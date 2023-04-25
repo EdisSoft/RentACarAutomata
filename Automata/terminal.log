@@ -2,3 +2,39 @@
 2023.04.01 03:21:43 [70cc,5568] | OpenSSL 1.1.1l  24 Aug 2021 
 2023.04.01 03:21:43 [70cc,5568] | MONERA ZVT Terminal Library LAN 02.00 
 2023.04.01 03:21:43 [70cc,5568] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.04.22 00:04:17 [87bc,7e20] | MONERA ZVT Terminal Library LAN 02.00 
+2023.04.22 00:04:17 [87bc,7e20] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.04.22 00:04:17 [87bc,7e20] | protocol ctor 
+2023.04.22 00:04:17 [87bc,7e20] | disconnect 
+2023.04.22 00:04:17 [87bc,7e20] | is stopped 
+2023.04.22 00:04:17 [87bc,7e20] | SSL connect: 192.168.2.12:4050 
+2023.04.22 00:11:27 [1248,8cc8] | MONERA ZVT Terminal Library LAN 02.00 
+2023.04.22 00:11:27 [1248,8cc8] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.04.22 00:11:27 [1248,8cc8] | protocol ctor 
+2023.04.22 00:11:27 [1248,8cc8] | disconnect 
+2023.04.22 00:11:27 [1248,8cc8] | is stopped 
+2023.04.22 00:11:27 [1248,8cc8] | SSL connect: 192.168.2.12:4050 
+2023.04.22 00:16:47 [9618,5744] | MONERA ZVT Terminal Library LAN 02.00 
+2023.04.22 00:16:47 [9618,5744] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.04.22 00:16:47 [9618,5744] | protocol ctor 
+2023.04.22 00:16:47 [9618,5744] | disconnect 
+2023.04.22 00:16:47 [9618,5744] | is stopped 
+2023.04.22 00:16:47 [9618,5744] | SSL connect: 192.168.2.12:4050 
+2023.04.22 00:16:48 [9618,5744] | start thread 
+2023.04.22 00:16:48 [9618,5744] | payment 1100 
+2023.04.22 00:16:48 [9618,5744] | displayevent 0 
+2023.04.22 00:16:48 [9618,5744] | displayevent 1 
+2023.04.22 00:17:13 [9618,5744] | displayevent 0 
+2023.04.22 00:17:18 [9618,5744] | printer event 
+2023.04.22 00:23:28 [7a9c,9a3c] | MONERA ZVT Terminal Library LAN 02.00 
+2023.04.22 00:23:28 [7a9c,9a3c] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.04.22 00:23:28 [7a9c,9a3c] | protocol ctor 
+2023.04.22 00:24:14 [7a9c,9a3c] | disconnect 
+2023.04.22 00:24:14 [7a9c,9a3c] | is stopped 
+2023.04.22 00:24:16 [7a9c,9a3c] | SSL connect: 192.168.2.12:4050 
+2023.04.22 00:24:16 [7a9c,9a3c] | start thread 
+2023.04.22 00:24:20 [7a9c,9a3c] | payment 1100 
+2023.04.22 00:24:21 [7a9c,9a3c] | displayevent 0 
+2023.04.22 00:24:21 [7a9c,9a3c] | displayevent 1 
+2023.04.22 00:24:35 [7a9c,9a3c] | displayevent 0 
+2023.04.22 00:24:40 [7a9c,9a3c] | printer event 

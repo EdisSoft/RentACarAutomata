@@ -1,6 +1,5 @@
 ﻿using FunctionsCore;
 using FunctionsCore.Contexts;
-//using System;
 
 namespace Automata.Functions
 {
@@ -33,14 +32,13 @@ namespace Automata.Functions
 
 		void displayEvent(string txt)
 		{
-			Log.Debug("Disp event " + System.DateTime.Now.ToString("HH:mm:ss.f") + "** " + txt);
+			Log.Debug("Disp event " + System.DateTime.Now.ToString("HH:mm:ss.f") + " ** " + txt);
 		}
 
 		void printEvent(string txt)
 		{
-			Log.Debug(txt);
-			Log.Debug("------------------------");
-
+			LatestReceipt = txt;
+			Log.Debug("Print event " + System.DateTime.Now.ToString("HH:mm:ss.f") + " ** " + txt);
 		}
 
 		public int ReadLibInfo(ref string libInfo)
@@ -48,60 +46,98 @@ namespace Automata.Functions
 			return Terminal.readLibInfo(ref libInfo);
 		}
 
-		public int NormalPayment(int iAmount, string ctid)
+		public int NormalPayment(int iAmount, string tran_id)
 		{
 			int rc;
+
+			Log.Debug("NormalPayment " + iAmount + " " + tran_id);
 			rc = Disconnect();
 			rc = Connect();
 			if (rc != (int)EcrWrapperDotNetMlib.ErrorCodes.VMC_ok)
 			{
-				Log.Debug("\nConnect " + rc + " " + GetErrorName(rc));
+				Log.Debug("Connect error " + rc + " " + GetErrorName(rc));
 				return rc;
 			}
 
-			rc = Payment(iAmount, ctid);
+			rc = Payment(iAmount, tran_id);
+
+			Log.Debug("NormalPayment finished " + rc + " " + GetErrorName(rc));
+			Disconnect();
 			return rc;
 		}
 
-		public int DepositPayment(int iAmount, string ctid)
+		public int DepositPayment(int iAmount, string tran_id)
 		{
 			int rc;
+
+			Log.Debug("DepositPayment " + iAmount + " " + tran_id);
 			rc = Disconnect();
 			rc = Connect();
 			if (rc != (int)EcrWrapperDotNetMlib.ErrorCodes.VMC_ok)
 			{
-				Log.Debug("\nConnect " + rc + " " + GetErrorName(rc));
+				Log.Debug("Connect error " + rc + " " + GetErrorName(rc));
 				return rc;
 			}
 
-			rc = Deposit(iAmount, ctid);
+			rc = Deposit(iAmount, tran_id);
+
+			Log.Debug("DepositPayment finished " + rc + " " + GetErrorName(rc));
+			Disconnect();
+			return rc;
+		}
+
+		public int CancelPayment()
+		{
+			int rc;
+
+			Log.Debug("CancelPayment ");
+			rc = Disconnect();
+			rc = Connect();
+			if (rc != (int)EcrWrapperDotNetMlib.ErrorCodes.VMC_ok)
+			{
+				Log.Debug("Connect error " + rc + " " + GetErrorName(rc));
+				return rc;
+			}
+
+			rc = Cancellation();
+
+			Log.Debug("CancelPayment finished " + rc + " " + GetErrorName(rc));
+			Disconnect();
 			return rc;
 		}
 
 		public int DailyClose()
 		{
 			int rc;
+
 			rc = Disconnect();
 			rc = Connect();
 			if (rc != (int)EcrWrapperDotNetMlib.ErrorCodes.VMC_ok)
 			{
-				Log.Debug("\nConnect " + rc + " " + GetErrorName(rc));
+				Log.Debug("Connect error " + rc + " " + GetErrorName(rc));
 				return rc;
 			}
-			return Settlement();
+			rc = Settlement();
+
+			Disconnect();
+			return rc;
 		}
 
 		public int TMSCall()
 		{
 			int rc;
+
 			rc = Disconnect();
 			rc = Connect();
 			if (rc != (int)EcrWrapperDotNetMlib.ErrorCodes.VMC_ok)
 			{
-				Log.Debug("\nConnect " + rc + " " + GetErrorName(rc));
+				Log.Debug("Connect error " + rc + " " + GetErrorName(rc));
 				return rc;
 			}
-			return CallTMS();
+			rc = CallTMS();
+
+			Disconnect();
+			return rc;
 
 		}
 
@@ -159,13 +195,10 @@ namespace Automata.Functions
 
 		int Payment(int iAmount, string tran_id)
 		{
-			// clean receipt
-			LatestReceipt = "";
-			string cent_amount = (100 * iAmount).ToString();
-			return Terminal.payment(cent_amount, tran_id, EcrWrapperDotNetMlib.PaymentType.PAY_DEFAULT);
+			return Payment((100 * iAmount).ToString(), tran_id);
 		}
 
-		public int Deposit(string cent_amount, string tran_id)
+		int Deposit(string cent_amount, string tran_id)
 		{
 			// clean receipt
 			LatestReceipt = "";
@@ -174,10 +207,7 @@ namespace Automata.Functions
 
 		int Deposit(int iAmount, string tran_id)
 		{
-			// clean receipt
-			LatestReceipt = "";
-			string cent_amount = (100 * iAmount).ToString();
-			return Terminal.payment(cent_amount, tran_id, EcrWrapperDotNetMlib.PaymentType.PAY_PREAUTH);
+			return Deposit((100 * iAmount).ToString(), tran_id);
 		}
 
 		int Reservation(string cent_amount, string tran_id, ref bool isLesserAmount, ref string sApprovedAmount)
@@ -195,17 +225,9 @@ namespace Automata.Functions
 			return Terminal.completion(cent_amount, tran_id, pump_num);
 		}
 
-		public int Cancellation()
+		int Cancellation()
 		{
 			// cancel latest successful payment
-			int rc;
-			rc = Disconnect();
-			rc = Connect();
-			if (rc != (int)EcrWrapperDotNetMlib.ErrorCodes.VMC_ok)
-			{
-				Log.Debug("\nConnect " + rc + " " + GetErrorName(rc));
-				return rc;
-			}
 			return Terminal.cancellation();
 		}
 
@@ -216,10 +238,11 @@ namespace Automata.Functions
 			rc = Connect();
 			if (rc != (int)EcrWrapperDotNetMlib.ErrorCodes.VMC_ok)
 			{
-				Log.Debug("\nConnect " + rc + " " + GetErrorName(rc));
+				Log.Debug("Connect " + rc + " " + GetErrorName(rc));
 				return;
 			}
 			Terminal.setLanguage(iLang);
+			Disconnect();
 		}
 
 		public string GetReceipt()
