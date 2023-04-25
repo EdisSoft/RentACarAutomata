@@ -79,6 +79,11 @@ namespace FunctionsCore.Contexts
             return result;
         }
 
+        public static QueueTimings GetQueueTimings()
+        {
+            return GetObjectResultSetting<QueueTimings>();
+        }
+
         public static string GetErtesitesiCenterSetting(string key)
         {
             return GetStringResultSetting("ErtesitesiCenter", key);
