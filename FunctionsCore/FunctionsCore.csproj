@@ -54,7 +54,6 @@
     <Folder Include="Commons\Functions\Base\" />
     <Folder Include="Connected Services\" />
     <Folder Include="Contexts\AppContext\AppSpecific\" />
-    <Folder Include="Enums\" />
   </ItemGroup>
 
   <ItemGroup>

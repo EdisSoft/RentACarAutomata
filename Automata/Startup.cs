@@ -25,6 +25,7 @@ using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Server.IISIntegration;
 using System.Reflection;
 using Automata.Functions;
+using FunctionsCore.Services;
 
 namespace Automata
 {
@@ -112,13 +113,14 @@ namespace Automata
             });
             services.AddControllers().AddNewtonsoftJson(opts =>
                     opts.SerializerSettings.ContractResolver = new DefaultContractResolver());
-            
+
             //services.AddScoped<TokenAuthenticationFunctions>();
-           
+
+            AddTimedHostedServices(services);
         }
 
 
-    public void Configure(IApplicationBuilder app, IHostApplicationLifetime lifetime)
+        public void Configure(IApplicationBuilder app, IHostApplicationLifetime lifetime)
         {
             //Assembly.LoadFrom("Driver/EcrWrapperDotNetMlib.dll");
             Fonix3HttpContextAccessor.Configure(app.ApplicationServices.GetRequiredService<IHttpContextAccessor>());
@@ -151,6 +153,13 @@ namespace Automata
 
             lifetime.ApplicationStarted.Register(() => ApplicationStart());
             lifetime.ApplicationStopping.Register(ApplicationEnd);
+        }
+
+        private static void AddTimedHostedServices(IServiceCollection services)
+        {
+            //services.AddHostedService<QueuedHostedService>();
+            //services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            services.AddHostedService<QueueTimedHostedService>();
         }
 
         public static DateTime? StartTime;
