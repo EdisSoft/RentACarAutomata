@@ -43,5 +43,9 @@ namespace FunctionsCore.Commons.Functions
             QrCodeReaderModel.Code = data;
         }
 
+        public void Close()
+        {
+            serialPort.Close();
+        }
     }
 }
