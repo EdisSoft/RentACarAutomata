@@ -15,14 +15,12 @@ namespace FunctionsCore.Commons.Functions
         public void Init()
         {
             QrCodeReaderModel.Code = "";
-            comPort = AppSettingsBase.GetAppSetting("QRCodeReaderComPort");
-            if ( !Int32.TryParse(AppSettingsBase.GetAppSetting("QRCodeReaderComSpeed"), out comSpeed) )
+            comPort = AppSettingsBase.GetAppSetting("QrCodeReaderComPort");
+            if ( !Int32.TryParse(AppSettingsBase.GetAppSetting("QrCodeReaderComSpeed"), out comSpeed) )
             {
                 comSpeed = 9600;
-                Log.Debug("Invalid ComSpeed value in AppSettings " + AppSettingsBase.GetAppSetting("QRCodeReaderComSpeed"));
+                Log.Debug("Invalid ComSpeed value in AppSettings " + AppSettingsBase.GetAppSetting("QrCodeReaderComSpeed"));
             }
-
-            Open();
         }
 
         public void Open()
