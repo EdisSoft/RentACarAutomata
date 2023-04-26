@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Automata.Controllers
 {
-    public class QRCodeController : BaseController
+    public class QrCodeController : BaseController
     {
         MoneraTerminalFunctions MoneraTerminal { get; set; }
 
         [HttpPost]
-        public JsonResult ReadQR(int amount)
+        public JsonResult ReadQr(int amount)
         {
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
@@ -19,5 +19,13 @@ namespace Automata.Controllers
             return Json(new ResultModel() { Id = 0, Text = "" });
         }
 
+        [HttpPost]
+        public JsonResult Start()
+        {
+
+
+
+            return Json(new ResultModel() { Id = 0, Text = "" });
+        }
     }
 }

@@ -1,11 +1,10 @@
-﻿using FunctionsCore;
-using FunctionsCore.Contexts;
+﻿using FunctionsCore.Contexts;
 using FunctionsCore.Models;
 using System;
 using System.IO.Ports;
 using System.Threading;
 
-namespace Automata.Functions
+namespace FunctionsCore.Commons.Functions
 {
     public class QrCodeReaderFunctions
 	{

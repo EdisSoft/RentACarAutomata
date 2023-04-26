@@ -160,6 +160,7 @@ namespace Automata
             //services.AddHostedService<QueuedHostedService>();
             //services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueueTimedHostedService>();
+            services.AddHostedService<ComHostedService>();
         }
 
         public static DateTime? StartTime;
