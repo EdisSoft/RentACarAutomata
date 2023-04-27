@@ -16,13 +16,13 @@ namespace FunctionsCore.Services
         {
             func = new QrCodeReaderFunctions();
             func.Init();
-            //func.Open();
+            func.Open();
             return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken stoppingToken)
         {
-            //func.Close();
+            func.Close();
             return Task.CompletedTask;
         }
 
