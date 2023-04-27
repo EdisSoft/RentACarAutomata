@@ -1,29 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using FunctionsCore;
-using FunctionsCore.Commons.Base;
-using FunctionsCore.Commons.Functions;
 using FunctionsCore.Contexts;
 using Automata.Controllers.Base;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Authentication.Negotiate;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using FunctionsCore.Commons.Entities;
 using Microsoft.AspNetCore.Http.Features;
-using FunctionsCore.Commons;
 using Newtonsoft.Json.Serialization;
-using Microsoft.AspNetCore.Server.IISIntegration;
-using System.Reflection;
 using Automata.Functions;
 using FunctionsCore.Services;
 
@@ -42,7 +31,9 @@ namespace Automata
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IPrinterFunctions, PrinterFunctions>();
+            services.AddTransient<IPrinterFunctions, PrinterFunctions>();
+            services.AddTransient<IHTTPRequestService, HTTPRequestService>();
+            services.AddTransient<ICRMFunctions, CRMFunctions>();
 
             services.AddControllersWithViews(options =>
             {
@@ -97,6 +88,10 @@ namespace Automata
             //});
             services.AddHttpContextAccessor();
 
+            services.AddHttpClient<IHTTPRequestService, HTTPRequestService>()
+                    .SetHandlerLifetime(TimeSpan.FromMinutes(5));
+
+           
             services.Configure<IISServerOptions>(options =>
             {
                 options.MaxRequestBodySize = 1073741824; // 1GB
