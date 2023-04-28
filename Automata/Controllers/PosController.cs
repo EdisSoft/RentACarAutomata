@@ -14,7 +14,7 @@ namespace Automata.Controllers
         public JsonResult Payment(int id)
         {
             FoglalasModel model;
-            if (!DelyveryFunctions.FoglalasokMemory.TryGetValue(id, out model))
+            if (!DeliveryFunctions.FoglalasokMemory.TryGetValue(id, out model))
                 throw new Exception("No such reservation");
 
             MoneraTerminal = new MoneraTerminalFunctions();
@@ -27,7 +27,7 @@ namespace Automata.Controllers
         public JsonResult LetetZarolas(int id)
         {
             FoglalasModel model;
-            if (!DelyveryFunctions.FoglalasokMemory.TryGetValue(id, out model))
+            if (!DeliveryFunctions.FoglalasokMemory.TryGetValue(id, out model))
                 throw new Exception("No such reservation");
 
             MoneraTerminal = new MoneraTerminalFunctions();
