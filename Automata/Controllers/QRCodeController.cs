@@ -6,17 +6,11 @@ namespace Automata.Controllers
 {
     public class QrCodeController : BaseController
     {
-        MoneraTerminalFunctions MoneraTerminal { get; set; }
 
-        [HttpPost]
-        public JsonResult ReadQr(int amount)
+        //[HttpPost]
+        public JsonResult ReadQr()
         {
-            MoneraTerminal = new MoneraTerminalFunctions();
-            MoneraTerminal.Init();
-            MoneraTerminal.NormalPayment(amount, "Nem tudni mi ez"); //TODO: Mi a második paraméter, honnan fogjuk tudni?
-
-
-            return Json(new ResultModel() { Id = 0, Text = "" });
+            return Json(new ResultModel() { Id = 0, Text = QrCodeReaderModel.Code });
         }
 
         [HttpPost]

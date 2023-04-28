@@ -11,7 +11,7 @@ using System;
 
 namespace FunctionsCore.Commons.Functions
 {
-    public class DelyveryFunctions
+    public class DeliveryFunctions
     {
         private static ConcurrentBag<DeliveryModel> DelyveryQueue = new ConcurrentBag<DeliveryModel>();
         public static ConcurrentDictionary<int, FoglalasModel> FoglalasokMemory = new ConcurrentDictionary<int, FoglalasModel>();

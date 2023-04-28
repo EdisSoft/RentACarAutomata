@@ -8,21 +8,19 @@ namespace FunctionsCore.Commons.Functions
 {
     public class QrCodeReaderFunctions
 	{
-        SerialPort serialPort;
-        string comPort;
-        int comSpeed;
+        SerialPort  serialPort;
+        string      comPort;
+        int         comSpeed;
 
         public void Init()
         {
             QrCodeReaderModel.Code = "";
-            comPort = AppSettingsBase.GetAppSetting("QRCodeReaderComPort");
-            if ( !Int32.TryParse(AppSettingsBase.GetAppSetting("QRCodeReaderComSpeed"), out comSpeed) )
+            comPort = AppSettingsBase.GetAppSetting("QrCodeReaderComPort");
+            if ( !Int32.TryParse(AppSettingsBase.GetAppSetting("QrCodeReaderComSpeed"), out comSpeed) )
             {
                 comSpeed = 9600;
-                Log.Debug("Invalid ComSpeed value in AppSettings " + AppSettingsBase.GetAppSetting("QRCodeReaderComSpeed"));
+                Log.Debug("Invalid ComSpeed value in AppSettings " + AppSettingsBase.GetAppSetting("QrCodeReaderComSpeed"));
             }
-
-            Open();
         }
 
         public void Open()
@@ -32,8 +30,15 @@ namespace FunctionsCore.Commons.Functions
             serialPort.DataReceived += new SerialDataReceivedEventHandler(sp_DataReceived);
             serialPort.ReadTimeout = 250;
             serialPort.WriteTimeout = 250;
-            serialPort.Open();
-            // TODO error handling
+            try
+            {
+                // TODO error handling
+                serialPort.Open();
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error opening QRCode com port: " + ex.Message);
+            }
         }
 
         void sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -45,7 +50,14 @@ namespace FunctionsCore.Commons.Functions
 
         public void Close()
         {
-            serialPort.Close();
+            try
+            { 
+                serialPort.Close();
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Error closing QRCode com port: " + ex.Message);
+            }
         }
     }
 }

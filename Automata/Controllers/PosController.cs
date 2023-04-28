@@ -1,6 +1,8 @@
 ﻿using Automata.Functions;
+using FunctionsCore.Commons.Functions;
 using FunctionsCore.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Automata.Controllers
 {
@@ -9,26 +11,28 @@ namespace Automata.Controllers
         MoneraTerminalFunctions MoneraTerminal { get; set; }
 
         [HttpPost]
-        public JsonResult Payment(int amount)
+        public JsonResult Payment(int id)
         {
+            FoglalasModel model;
+            if (!DeliveryFunctions.FoglalasokMemory.TryGetValue(id, out model))
+                throw new Exception("No such reservation");
+
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
-            MoneraTerminal.NormalPayment(amount, "Nem tudni mi ez"); //TODO: Mi a második paraméter, honnan fogjuk tudni?
-
+            MoneraTerminal.NormalPayment(model.Fizetendo, "Nem tudni mi ez"); //TODO: Mi a második paraméter, honnan fogjuk tudni?
 
             return Json(new ResultModel() { Id = 0, Text = "" });
         }
 
         public JsonResult LetetZarolas(int id)
         {
-            int amount = 0;
-
-            //TODO: Le kell kérni a CRM-től a foglalási és finanszírozási adatokat, ezeket az első hívás tartalmazza, vagy ha eltettük akkor visszakeressük
+            FoglalasModel model;
+            if (!DeliveryFunctions.FoglalasokMemory.TryGetValue(id, out model))
+                throw new Exception("No such reservation");
 
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
-            MoneraTerminal.DepositPayment(amount, "Nem tudni mi ez"); //TODO: Mi a második paraméter, honnan fogjuk tudni?
-
+            MoneraTerminal.DepositPayment(model.Zarolando, "Nem tudni mi ez"); //TODO: Mi a második paraméter, honnan fogjuk tudni?
 
             return Json(new ResultModel() { Id = 0, Text = "" });
         }
