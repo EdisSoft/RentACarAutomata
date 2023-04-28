@@ -14,6 +14,12 @@ namespace FunctionsCore.Services
     {
         private readonly int refreshTimeMinutes = AppSettingsBase.GetQueueTimings()?.MainQueueMinutes ?? 1;
         private Timer timer;
+        private IDeliveryFunctions deliveryFunctions;
+
+        public QueueTimedHostedService(IDeliveryFunctions deliveryFunctions)
+        {
+            this.deliveryFunctions = deliveryFunctions;        
+        }
 
         public Task StartAsync(CancellationToken stoppingToken)
         {
@@ -23,9 +29,8 @@ namespace FunctionsCore.Services
 
         private void DoWork(object state)
         {
-            var func = new DeliveryFunctions();
             //func.UjCsomag(new DeliveryModel() { OrderId = 5654, Type = DeliveryTypes.Email });
-            func.Kuldes();
+            deliveryFunctions.Kuldes();
         }
 
         public Task StopAsync(CancellationToken stoppingToken)

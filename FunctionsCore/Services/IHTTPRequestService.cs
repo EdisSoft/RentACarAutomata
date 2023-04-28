@@ -9,6 +9,9 @@ namespace FunctionsCore.Services
 {
     public interface IHTTPRequestService
     {
-        Task<List<FoglalasokModel>> GetFoglalasok(string nev);
+        Task<List<FoglalasModel>> GetFoglalasokByNev(string nev);
+        Task<FoglalasModel> GetFoglalasByCode(string code);
+        void SaveEmail(int id, string email);
+        void SaveSignature(int id, string signature);
     }
 }

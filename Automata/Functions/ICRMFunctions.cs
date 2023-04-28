@@ -6,6 +6,7 @@ namespace Automata.Functions
 {
     public interface ICRMFunctions
     {
-        Task<List<FoglalasokModel>> GetFoglalasok(string nev);
+        Task<List<FoglalasModel>> GetFoglalasokByNev(string nev);
+        Task<FoglalasModel> GetFoglalasByQrCode();
     }
 }

@@ -1,32 +1,39 @@
-﻿using FunctionsCore.Commons.Entities;
-using FunctionsCore.Contexts;
+﻿using FunctionsCore.Contexts;
 using FunctionsCore.Services;
 using FunctionsCore.Models;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using FunctionsCore.Enums;
 using System;
 
 namespace FunctionsCore.Commons.Functions
 {
-    public class DeliveryFunctions
+    public class DeliveryFunctions : IDeliveryFunctions
     {
-        private static ConcurrentBag<DeliveryModel> DelyveryQueue = new ConcurrentBag<DeliveryModel>();
-        public static ConcurrentDictionary<int, FoglalasModel> FoglalasokMemory = new ConcurrentDictionary<int, FoglalasModel>();
+        private static ConcurrentBag<DeliveryModel> DeliveryQueue = new ConcurrentBag<DeliveryModel>();
         private static readonly object LockObject = new object();
+        private IHTTPRequestService requestService;
+
+        public static ConcurrentDictionary<int, FoglalasModel> FoglalasokMemory = new ConcurrentDictionary<int, FoglalasModel>();
+
+        public DeliveryFunctions(IHTTPRequestService requestService)
+        {
+            this.requestService = requestService;
+        }
 
         public static int KezbesitesreVar()
         {
-            return DelyveryQueue.Count;
+            return DeliveryQueue.Count;
         }
+
         public void UjCsomag(DeliveryModel csomag)
         {
             if (csomag == null)
+            {
                 return;
+            }
 
-            DelyveryQueue.Add(csomag);
+            DeliveryQueue.Add(csomag);
         }
 
         public void KuldesAsync()
@@ -47,17 +54,17 @@ namespace FunctionsCore.Commons.Functions
         {
             lock (LockObject)
             {
-                while (DelyveryQueue.TryTake(out var csomag))
+                while (DeliveryQueue.TryTake(out var csomag))
                 {
                     if (!csomag.SendedFl)
                     {
                         switch (csomag.Type)
                         {
                             case DeliveryTypes.Email:
-                                //CRM rendszernek csomag.ValueStr elküldése
+                                requestService.SaveEmail(csomag.OrderId, csomag.ValueStr);
                                 break;
                             case DeliveryTypes.Signature:
-                                //CRM rendszernek elküldeni: csomag.ValueBytes
+                                requestService.SaveSignature(csomag.OrderId, csomag.ValueStr);
                                 break;
                             case DeliveryTypes.ScanLicenceFront:
                                 ////FTP-re feltölteni: csomag.ValueBytes
@@ -87,13 +94,13 @@ namespace FunctionsCore.Commons.Functions
             }
             return null;
         }
+
         public static FoglalasModel FoglalasTorles(FoglalasModel foglalas)
         {
             Log.Debug("Foglalás törlés: " + foglalas.Id);
             try
             {
-                FoglalasModel resultModel;
-                var foglalasRemoved = FoglalasokMemory.TryRemove(foglalas.Id, out resultModel);
+                var foglalasRemoved = FoglalasokMemory.TryRemove(foglalas.Id, out var resultModel);
                 if (foglalasRemoved)
                 {
                     Log.Debug("Foglalás törlése sikeres volt. FoglalasId: " + foglalas.Id);
@@ -108,6 +115,5 @@ namespace FunctionsCore.Commons.Functions
                 throw;
             }
         }
-
     }
 }

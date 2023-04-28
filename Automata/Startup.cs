@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Newtonsoft.Json.Serialization;
 using Automata.Functions;
 using FunctionsCore.Services;
+using FunctionsCore.Commons.Functions;
 
 namespace Automata
 {
@@ -32,6 +33,7 @@ namespace Automata
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IPrinterFunctions, PrinterFunctions>();
+            services.AddTransient<IDeliveryFunctions, DeliveryFunctions>();
             services.AddTransient<IHTTPRequestService, HTTPRequestService>();
             services.AddTransient<ICRMFunctions, CRMFunctions>();
 

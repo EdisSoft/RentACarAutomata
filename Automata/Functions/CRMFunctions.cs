@@ -1,7 +1,5 @@
 ﻿using FunctionsCore.Models;
 using FunctionsCore.Services;
-using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,9 +14,21 @@ namespace Automata.Functions
             this.requestService = requestService;
         }
 
-        public async Task<List<FoglalasokModel>> GetFoglalasok(string nev)
+        public async Task<List<FoglalasModel>> GetFoglalasokByNev(string nev)
         {
-            return await requestService.GetFoglalasok(nev);           
+            return await requestService.GetFoglalasokByNev(nev);
         }
+
+        public async Task<FoglalasModel> GetFoglalasByQrCode()
+        {
+            var code = QrCodeReaderModel.Code;
+
+            if (code == "0" || code == "")
+            {
+                return null;
+            }
+
+            return await requestService.GetFoglalasByCode(code);
+        }       
     }
 }

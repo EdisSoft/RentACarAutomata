@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -12,8 +13,7 @@ namespace FunctionsCore.Services
     public class HTTPRequestService : IHTTPRequestService
     {
         private readonly HttpClient httpClient;
-        private readonly IConfiguration configuration;
-        private CRMRequestOptions options;
+        private readonly CRMRequestOptions options;
 
         public HTTPRequestService(HttpClient httpClient, IConfiguration configuration)
         {
@@ -21,7 +21,7 @@ namespace FunctionsCore.Services
 
             this.httpClient = httpClient;
 
-            SetAuthorization();            
+            SetAuthorization();
         }
 
         private void SetAuthorization()
@@ -32,10 +32,49 @@ namespace FunctionsCore.Services
             this.httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", base64String);
         }
 
-        public async Task<List<FoglalasokModel>> GetFoglalasok(string nev)
+        public async Task<List<FoglalasModel>> GetFoglalasokByNev(string nev)
         {
             var responseString = await httpClient.GetStringAsync(options.RequestBase + "?action=pickup&mainparam=" + nev);
-            return JsonConvert.DeserializeObject<List<FoglalasokModel>>(responseString);
+            var CRMFoglalasok = JsonConvert.DeserializeObject<List<CRMFoglalasModel>>(responseString);
+
+            return CRMFoglalasok.Select(s => new FoglalasModel()
+            {
+                Id = s.orderID,
+                Nev = s.kontaktNev,
+                KezdDatum = s.pickupdate,
+                VegeDatum = s.dropoffdate,
+                Email = s.kontaktEmail
+            }).ToList();
+        }
+
+        public async Task<FoglalasModel> GetFoglalasByCode(string code)
+        {
+            var responseString = await httpClient.GetStringAsync(options.RequestBase + "?action=pickup&qr=" + code);
+            return JsonConvert.DeserializeObject<FoglalasModel>(responseString);
+        }
+
+        public async void SaveEmail(int id, string email)
+        {
+            try
+            {
+                await httpClient.GetStringAsync(options.RequestBase + $"?action=addEmail&id={id}&email={email}");
+            }
+            catch (Exception e)
+            {
+                //TODO
+            }
+        }
+
+        public async void SaveSignature(int id, string signature)
+        {
+            try
+            {
+                await httpClient.GetStringAsync(options.RequestBase + $"?action=addsigno&id={id}&base64={signature}");
+            }
+            catch (Exception e)
+            {
+                //TODO
+            }
         }
     }
 }
