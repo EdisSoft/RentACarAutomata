@@ -15,12 +15,11 @@ namespace Automata.Controllers
         {
             FoglalasModel model;
             if (!DelyveryFunctions.FoglalasokMemory.TryGetValue(id, out model))
-                throw new Exception("Nincs ilyen foglalás");
+                throw new Exception("No such reservation");
 
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
             MoneraTerminal.NormalPayment(model.Fizetendo, "Nem tudni mi ez"); //TODO: Mi a második paraméter, honnan fogjuk tudni?
-
 
             return Json(new ResultModel() { Id = 0, Text = "" });
         }
@@ -29,12 +28,11 @@ namespace Automata.Controllers
         {
             FoglalasModel model;
             if (!DelyveryFunctions.FoglalasokMemory.TryGetValue(id, out model))
-                throw new Exception("Nincs ilyen foglalás");
+                throw new Exception("No such reservation");
 
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
             MoneraTerminal.DepositPayment(model.Zarolando, "Nem tudni mi ez"); //TODO: Mi a második paraméter, honnan fogjuk tudni?
-
 
             return Json(new ResultModel() { Id = 0, Text = "" });
         }
