@@ -33,7 +33,6 @@ export default {
     };
   },
   setup() {
-    debugger;
     let wizard = inject('wizard');
     // let a = useApi(() => {
     //   return AutoberlesService.GetFoglalasok();

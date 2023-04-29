@@ -8,7 +8,6 @@ class AutoberlesService {
     return result.data;
   }
   async GetFoglalasok() {
-    debugger;
     await timeout(500);
     let mock = [];
     for (let i = 1; i < 11; i++) {
