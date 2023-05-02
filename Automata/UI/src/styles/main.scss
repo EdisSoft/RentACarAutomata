@@ -153,6 +153,9 @@ html {
   flex-direction: column;
   align-content: center;
   border-color: var(--v-primary-base) !important;
+  &.v-card--disabled {
+    border-color: var(--v-secondary-lighten5) !important;
+  }
   .v-card__title {
     flex-wrap: nowrap;
     align-items: flex-start;
@@ -166,4 +169,22 @@ html {
 }
 .disable-user-select {
   user-select: none;
+}
+.fullscreen-layout {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  height: 100vh;
+  & > .header {
+    flex-shrink: 1;
+  }
+  & > .body {
+    flex-grow: 1;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+  & > .footer {
+    margin-top: 0;
+    flex-shrink: 1;
+  }
 }

@@ -16,6 +16,7 @@
 import { CarPickupWizard } from '@/enums/CarPickupWizard';
 import { SuccesResponse } from '@/enums/SuccesResponse';
 import { AutoberlesService } from '@/services/AutoberlesService';
+import { PosService } from '@/services/PosService';
 import { useApi } from '@/utils/useApi';
 import { computed, inject, ref } from 'vue';
 
@@ -36,6 +37,7 @@ export default {
         wizard.Goto(CarPickupWizard.PayRentalFeeStep);
       }
     };
+    PosService.LetetZarolas();
     return {
       isLetetZarolasLoading,
       Next,

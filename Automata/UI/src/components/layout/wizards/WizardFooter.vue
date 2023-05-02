@@ -26,6 +26,7 @@
       {{ $t('buttons.back') }}
     </v-btn>
     <v-btn
+      v-if="nextBtn"
       color="primary"
       :loading="loading"
       x-large
@@ -76,6 +77,10 @@ export default {
     loading: {
       type: Boolean,
       default: false,
+    },
+    nextBtn: {
+      type: Boolean,
+      default: true,
     },
     backBtn: {
       type: Boolean,

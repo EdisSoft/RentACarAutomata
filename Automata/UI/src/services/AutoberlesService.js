@@ -8,7 +8,6 @@ class AutoberlesService {
     return result.data;
   }
   async GetFoglalasok() {
-    debugger;
     await timeout(500);
     let mock = [];
     for (let i = 1; i < 11; i++) {
@@ -20,11 +19,9 @@ class AutoberlesService {
         EmailFl: i % 2 == 0 ? true : false,
       });
     }
-    // return mock;
+    return mock;
 
-    // let result = await httpContext.post(`Home/GetData`);
-    const url = settings.baseUrl + 'Home/GetData';
-    const result = await httpContext.post({ url });
+    let result = await httpContext.post(`Home/GetData`);
 
     // let result = await httpContext.post(`Autoberles/GetFoglalasok`);
     return result.data;

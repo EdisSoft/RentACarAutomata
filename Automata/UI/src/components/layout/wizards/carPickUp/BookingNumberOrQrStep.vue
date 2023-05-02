@@ -23,6 +23,7 @@ import { WizardFunctions } from '@/functions/WizardFunctions';
 import { inject } from 'vue';
 import { settings } from '@/settings';
 import { vMinLength, vRequired } from '@/utils/vuetifyFormRules';
+import { QrCodeService } from '@/services/QrCodeService';
 
 export default {
   name: 'booking-number-or-qr-step',
@@ -33,7 +34,6 @@ export default {
     };
   },
   setup() {
-    debugger;
     let wizard = inject('wizard');
     // let a = useApi(() => {
     //   return AutoberlesService.GetFoglalasok();
@@ -63,6 +63,7 @@ export default {
     if (settings.isProd) {
       useInterval(3000, { immediate: true, callback: CheckQr });
     }
+    QrCodeService.Start();
     return { isFoglalasokLoading, Getfoglalasok, wizard };
   },
   created() {},
