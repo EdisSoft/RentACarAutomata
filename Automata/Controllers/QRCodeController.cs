@@ -7,7 +7,7 @@ namespace Automata.Controllers
     public class QrCodeController : BaseController
     {
 
-        //[HttpPost]
+        [HttpPost]
         public JsonResult ReadQr()
         {
             return Json(new ResultModel() { Id = 0, Text = QrCodeReaderModel.Code });
@@ -16,9 +16,6 @@ namespace Automata.Controllers
         [HttpPost]
         public JsonResult Start()
         {
-
-
-
             return Json(new ResultModel() { Id = 0, Text = "" });
         }
     }

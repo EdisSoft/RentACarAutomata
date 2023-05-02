@@ -11,7 +11,7 @@ namespace Automata.Controllers
         MoneraTerminalFunctions MoneraTerminal { get; set; }
 
         [HttpPost]
-        public JsonResult Payment(int id)
+        public JsonResult Fizetes(int id)
         {
             FoglalasModel model;
             if (!DeliveryFunctions.FoglalasokMemory.TryGetValue(id, out model))
@@ -24,6 +24,7 @@ namespace Automata.Controllers
             return Json(new ResultModel() { Id = 0, Text = "" });
         }
 
+        [HttpPost]
         public JsonResult LetetZarolas(int id)
         {
             FoglalasModel model;
