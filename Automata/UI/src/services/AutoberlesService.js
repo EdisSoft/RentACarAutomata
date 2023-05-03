@@ -8,7 +8,9 @@ class AutoberlesService {
     return result.data;
   }
   async GetFoglalasok(nev) {
-    await timeout(500);
+    let params = { nev };
+
+    // await timeout(500);
     // let mock = [];
     // for (let i = 1; i < 11; i++) {
     //   mock.push({
@@ -20,10 +22,10 @@ class AutoberlesService {
     //   });
     // }
     // return mock;
-    let params = { nev };
+
     let result = await httpContext.post(`Home/GetData`, null, { params });
 
-    // let result = await httpContext.post(`Autoberles/GetFoglalasok`);
+    // let result = await httpContext.post(`Autoberles/GetFoglalasok`, null, { params });
     return result.data;
   }
   async IsQrCode() {
