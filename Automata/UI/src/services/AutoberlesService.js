@@ -9,17 +9,17 @@ class AutoberlesService {
   }
   async GetFoglalasok() {
     await timeout(500);
-    let mock = [];
-    for (let i = 1; i < 11; i++) {
-      mock.push({
-        Id: i,
-        Nev: 'John Doe ' + i,
-        KezdDatum: new Date().toISOString(),
-        VegeDatum: new Date().toISOString(),
-        EmailFl: i % 2 == 0 ? true : false,
-      });
-    }
-    return mock;
+    // let mock = [];
+    // for (let i = 1; i < 11; i++) {
+    //   mock.push({
+    //     Id: i,
+    //     Nev: 'John Doe ' + i,
+    //     KezdDatum: new Date().toISOString(),
+    //     VegeDatum: new Date().toISOString(),
+    //     EmailFl: i % 2 == 0 ? true : false,
+    //   });
+    // }
+    // return mock;
 
     let result = await httpContext.post(`Home/GetData`);
 
@@ -28,14 +28,14 @@ class AutoberlesService {
   }
   async IsQrCode() {
     await timeout(500);
-    return {
-      Id: 1,
-      Nev: 'John Doe ' + 1,
-      KezdDatum: new Date().toISOString(),
-      VegeDatum: new Date().toISOString(),
-      EmailFl: false,
-    };
-    let result = await httpContext.post(`Autoberles/IsQrCode`);
+    // return {
+    //   Id: 1,
+    //   Nev: 'John Doe ' + 1,
+    //   KezdDatum: new Date().toISOString(),
+    //   VegeDatum: new Date().toISOString(),
+    //   EmailFl: false,
+    // };
+    let result = await httpContext.post(`QrCode/ReadQr`);
     return result.data;
   }
   async SaveEmail(id, email) {
