@@ -5,52 +5,71 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace Automata.Controllers
+namespace Automata.Controllers;
+
+public class FoglalasController : BaseController
 {
-    public class FoglalasController : BaseController
+    private ICRMFunctions CRMFunctions { get; set; }
+
+    private IDeliveryFunctions deliveryFunctions { get; set; }
+
+    public FoglalasController(ICRMFunctions CRMFunctions, IDeliveryFunctions deliveryFunctions)
     {
-        private ICRMFunctions CRMFunctions { get; set; }
+        this.CRMFunctions = CRMFunctions;
+        this.deliveryFunctions = deliveryFunctions;
+    }
 
-        private IDeliveryFunctions deliveryFunctions { get; set; }
-
-        public FoglalasController(ICRMFunctions CRMFunctions, IDeliveryFunctions deliveryFunctions)
+    public async Task<JsonResult> GetFoglalasok(string nev)
+    {
+        var result = await CRMFunctions.GetFoglalasokByNev(nev);
+        if (result != null && result.Count > 0)
         {
-            this.CRMFunctions = CRMFunctions;
-            this.deliveryFunctions = deliveryFunctions;
+            DeliveryFunctions.UjFoglalas(result[0]);
         }
 
-        public async Task<JsonResult> GetFoglalasok(string nev)
+        return Json(result);
+    }
+
+    public async Task<JsonResult> IsQRCode()
+    {
+        var result = await CRMFunctions.GetFoglalasByQrCode();
+        if(result != null)
         {
-            var result = await CRMFunctions.GetFoglalasokByNev(nev);
-            return Json(result);
+            DeliveryFunctions.UjFoglalas(result);
         }
 
-        public async Task<JsonResult> IsQRCode()
-        {
-            var result = await CRMFunctions.GetFoglalasByQrCode();
-            return Json(result);
-        }
-        
-        public void SaveEmail(int id, string email)
-        {
-            deliveryFunctions.UjCsomag(new DeliveryModel()
-            {
-                OrderId = id,
-                ValueStr = email,
-                Type = FunctionsCore.Enums.DeliveryTypes.Email,
-                SendedFl = false
-            });
-        }
+        return Json(result);
+    }
 
-        public void SaveAlairas(int id, string pic)
+    public JsonResult SaveEmail(int id, string email)
+    {
+        deliveryFunctions.UjCsomag(new DeliveryModel()
         {
-            deliveryFunctions.UjCsomag(new DeliveryModel()
-            {
-                OrderId = id,
-                ValueStr = pic,
-                Type = FunctionsCore.Enums.DeliveryTypes.Signature,
-                SendedFl = false
-            });
-        }
+            OrderId = id,
+            ValueStr = email,
+            Type = FunctionsCore.Enums.DeliveryTypes.Email,
+            SendedFl = false
+        });
+
+        return Json(new ResultModel() { Id = 0, Text = "" });
+    }
+
+    public JsonResult SaveAlairas(int id, string pic)
+    {
+        deliveryFunctions.UjCsomag(new DeliveryModel()
+        {
+            OrderId = id,
+            ValueStr = pic,
+            Type = FunctionsCore.Enums.DeliveryTypes.Signature,
+            SendedFl = false
+        });
+
+        return Json(new ResultModel() { Id = 0, Text = "" });
+    }
+
+    public JsonResult SikeresFoglalas(int id, string nyelv)
+    {
+        DeliveryFunctions.SikeresFoglalas(id, nyelv);
+        return Json(new ResultModel() { Id = 0, Text = "" });
     }
 }

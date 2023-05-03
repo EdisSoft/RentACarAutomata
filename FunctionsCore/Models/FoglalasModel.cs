@@ -22,7 +22,6 @@ namespace FunctionsCore.Models
         public int Zarolando { get; set; }
         public int Fizetendo { get; set; }
         public Nyelvek Nyelv { get; set; }
-        public bool MindenElkuldveFl { get; set; }
-
+        public bool IdeiglenesFl { get; set; } = false;
     }
 }
