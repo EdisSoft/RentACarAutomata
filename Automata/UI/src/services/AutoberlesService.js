@@ -7,7 +7,7 @@ class AutoberlesService {
     let result = await httpContext.post(`Home/GetData`);
     return result.data;
   }
-  async GetFoglalasok() {
+  async GetFoglalasok(nev) {
     await timeout(500);
     // let mock = [];
     // for (let i = 1; i < 11; i++) {
@@ -20,8 +20,8 @@ class AutoberlesService {
     //   });
     // }
     // return mock;
-
-    let result = await httpContext.post(`Home/GetData`);
+    let params = { nev };
+    let result = await httpContext.post(`Home/GetData`, null, { params });
 
     // let result = await httpContext.post(`Autoberles/GetFoglalasok`);
     return result.data;
