@@ -16,9 +16,6 @@ namespace Automata.Controllers
         [HttpPost]
         public JsonResult Start()
         {
-
-
-
             return Json(new ResultModel() { Id = 0, Text = "" });
         }
     }
