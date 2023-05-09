@@ -1,21 +1,22 @@
 {
   "homeTitle": "Welcome to the Game Key kabinet",
+  "keyCabinetsTitle": "Key cabinets",
   "touchStart": "Touch to start",
   "menuItems": {
     "carPickUp": {
       "title": "Car pick up",
-      "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae."
+      "description": "Please follow the instructions on the screen!"
     },
     "carDropOff": {
       "title": "Car drop off",
-      "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit."
+      "description": "Please follow the instructions on the screen!"
     }
   },
   "wizards": {
     "carPickUp": {
       "bookingNumberOrQr": {
         "stepName": "Booking number",
-        "title": "Please enter your booking number or name or read booking QR code on the reader!"
+        "title": "Please enter your name (first 5 character) or booking number or read booking QR code on the QR code reader!"
       },
       "chooseReservation": {
         "stepName": "Choose reservation",
@@ -23,11 +24,11 @@
       },
       "emailAdress": {
         "stepName": "E-mail",
-        "title": "Your car booking is checked and OK! Please type your email adress we send the rental contract here!"
+        "title": "Your car booking is checked and OK! Please type your email adress, we will send the rental agreement here!"
       },
       "sign": {
         "stepName": "Sign",
-        "title": "Your car booking is checked and OK! Please sign the rental contract down below!"
+        "title": "Please sign the rental contract on the screen using your finger!"
       },
       "driverLicense": {
         "stepName": "Driving license",
@@ -43,7 +44,7 @@
       },
       "payDeposit": {
         "stepName": "Block deposit",
-        "title": "Please use the POS terminal to pay the block deposit fee!"
+        "title": "Please use the POS terminal to block the deposit amount!"
       },
       "payRentalFee": {
         "stepName": "Rental fee",
@@ -57,26 +58,26 @@
     "carDropOff": {
       "plateNumber": {
         "stepName": "Plate number",
-        "title": "Please enter number plate text of the car you dropping off!"
+        "title": "Please enter the plate number of rented car!"
       },
       "parkingInformation": {
         "stepName": "Parking information",
-        "title": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae."
+        "title": "Please park your car in front of the site, taking care not to disturb the movement of other cars. Unpack your lugagge and lock the car. Leave the car license in the car!"
       },
       "taxiService": {
         "stepName": "Taxi service",
-        "title": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae.",
+        "title": "Would you like a free taxi transfer to the airport? Please indicate with the radio button. The Főtaxi car will arrive for you within 10-15 minutes.",
         "succesText": "Success ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae.",
         "errorText": "Fail ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae."
       },
       "insertCarKey": {
         "stepName": "Insert key",
-        "title": "Kérem helyezze a kulcsot a kinyitott rekeszbe: {num}. Ha a kulcsot betette, és kulcs alatti lap zölden világít, akkor gondosan csukja be a rekeszajtót, és nyomjon a tovább gombra.",
+        "title": "Please put the car key in the opening compartment and then carefully close the cabinet door!",
         "errorText": "A rekesz nyitása nem sikerült, hívja a call center telefonszámát."
       },
       "final": {
         "stepName": "Confirm",
-        "title": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae."
+        "title": "Thank you for your rental. During the next opening hours, we will check at the car, close the contract and unblock the deposit."
       }
     }
   },

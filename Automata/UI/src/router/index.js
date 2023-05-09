@@ -56,6 +56,14 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "sign" */ '../views/SignView.vue'),
   },
+  {
+    path: '/key-cabinets-view',
+    name: 'key-cabinets-view',
+    component: () =>
+      import(
+        /* webpackChunkName: "key-cabinets-view" */ '../views/KeyCabinetsView.vue'
+      ),
+  },
 ];
 
 const router = new VueRouter({

@@ -1,13 +1,16 @@
 import { NotificationFunctions } from '@/functions/NotificationFunctions';
 import { ref } from 'vue';
 
-export const useApi = (getter, { silentError = false } = {}) => {
+export const useApi = (
+  getter,
+  { silentError = false, loadingKey = true } = {}
+) => {
   let isLoading = ref(false);
-  let GetData = async () => {
+  let GetData = async (d) => {
     let result = [false, null];
-    isLoading.value = true;
+    isLoading.value = loadingKey;
     try {
-      let data = await getter();
+      let data = await getter(d);
       result = [true, data];
     } catch (error) {
       if (silentError) {

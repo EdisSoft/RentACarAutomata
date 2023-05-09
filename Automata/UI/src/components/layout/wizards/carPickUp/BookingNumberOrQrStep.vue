@@ -20,26 +20,26 @@ import { AutoberlesService } from '@/services/AutoberlesService';
 import { useApi } from '@/utils/useApi';
 import { useInterval } from '@vueuse/shared';
 import { WizardFunctions } from '@/functions/WizardFunctions';
-import { inject } from 'vue';
+import { inject, ref } from 'vue';
 import { settings } from '@/settings';
 import { vMinLength, vRequired } from '@/utils/vuetifyFormRules';
+import { QrCodeService } from '@/services/QrCodeService';
 
 export default {
   name: 'booking-number-or-qr-step',
   data() {
     return {
-      text: '',
       CarPickupWizard,
     };
   },
   setup() {
-    debugger;
     let wizard = inject('wizard');
+    let text = ref('');
     // let a = useApi(() => {
     //   return AutoberlesService.GetFoglalasok();
     // });
     let [isFoglalasokLoading, Getfoglalasok] = useApi(() => {
-      return AutoberlesService.GetFoglalasok();
+      return AutoberlesService.GetFoglalasok(text.value);
     });
     let [isQrLoading, IsQrCode] = useApi(
       () => {
@@ -63,7 +63,8 @@ export default {
     if (settings.isProd) {
       useInterval(3000, { immediate: true, callback: CheckQr });
     }
-    return { isFoglalasokLoading, Getfoglalasok, wizard };
+    QrCodeService.Start();
+    return { isFoglalasokLoading, Getfoglalasok, text, wizard };
   },
   created() {},
   methods: {

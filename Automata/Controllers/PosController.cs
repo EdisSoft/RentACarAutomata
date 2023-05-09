@@ -11,7 +11,7 @@ namespace Automata.Controllers
         MoneraTerminalFunctions MoneraTerminal { get; set; }
 
         [HttpPost]
-        public JsonResult Payment(int id)
+        public JsonResult Fizetes(int id)
         {
             FoglalasModel model;
 

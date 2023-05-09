@@ -68,6 +68,7 @@
 <script>
 import { LanguageList } from '@/data/languages';
 import { AppFunctions } from '@/functions/AppFunctions';
+import { SetLocale } from '@/plugins/i18n';
 import router from '@/router';
 import { useCountdown } from '@/utils/useCountdown';
 import { gsap, Linear } from 'gsap';
@@ -97,7 +98,7 @@ export default {
 
   methods: {
     SetLocale(language) {
-      this.$i18n.locale = language.key;
+      SetLocale(language.key);
     },
   },
   computed: {
