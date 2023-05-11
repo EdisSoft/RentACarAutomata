@@ -25,7 +25,7 @@ public class FoglalasController : BaseController
         if (result != null && result.Count > 0)
         {
             DeliveryFunctions.UjFoglalas(result[0]);
-        }
+        }        
 
         return Json(result);
     }

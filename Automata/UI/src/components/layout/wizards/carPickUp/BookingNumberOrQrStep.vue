@@ -60,9 +60,9 @@ export default {
       }
       WizardFunctions.HandleNavigationForReservation(wizard, reservation);
     };
-    if (settings.isProd) {
-      useInterval(3000, { immediate: true, callback: CheckQr });
-    }
+    //if (settings.isProd) {
+    useInterval(3000, { immediate: true, callback: CheckQr });
+    //}
     QrCodeService.Start();
     return { isFoglalasokLoading, Getfoglalasok, text, wizard };
   },

@@ -41,14 +41,8 @@ class AutoberlesService {
     return result.data;
   }
   async SaveEmail(id, email) {
-    await timeout(500);
-    console.log({ id, email });
-    return {
-      Id: 0,
-      Text: 'Ok',
-    };
     let params = { id, email };
-    let result = await httpContext.post(`Autoberles/SaveEmail`, null, {
+    let result = await httpContext.post(`Foglalas/SaveEmail`, null, {
       params,
     });
     return result.data;

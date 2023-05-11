@@ -1,5 +1,7 @@
-﻿using FunctionsCore.Models;
+﻿using FunctionsCore;
+using FunctionsCore.Models;
 using FunctionsCore.Services;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,7 +18,20 @@ public class CRMFunctions : ICRMFunctions
 
     public async Task<List<FoglalasModel>> GetFoglalasokByNev(string nev)
     {
-        return await requestService.GetFoglalasokByNev(nev);
+        try
+        {
+            var result = await requestService.GetFoglalasokByNev(nev);
+            if (result is null || result.Count == 0)
+            {
+                throw new FunctionsCore.WarningException("Nincs foglalás!", FunctionsCore.WarningExceptionLevel.Warning);
+            }
+
+            return result;
+        }
+        catch (Exception e)
+        {
+            throw new FunctionsCore.WarningException("Hiba történt!", FunctionsCore.WarningExceptionLevel.Warning);
+        }
     }
 
     public async Task<FoglalasModel> GetFoglalasByQrCode()
@@ -27,7 +42,8 @@ public class CRMFunctions : ICRMFunctions
         {
             return null;
         }
+        Log.Info("kpok");
 
         return await requestService.GetFoglalasByCode(code);
-    }       
+    }
 }
