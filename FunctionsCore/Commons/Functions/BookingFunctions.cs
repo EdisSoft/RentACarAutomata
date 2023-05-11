@@ -14,11 +14,11 @@ public class BookingFunctions : IBookingFunctions
 {
     private static ConcurrentBag<DeliveryModel> deliveryQueue = new ConcurrentBag<DeliveryModel>();
     private static readonly object lockObject = new object();
-    private IHTTPRequestService requestService;
+    private IHttpRequestService requestService;
 
     public static ConcurrentDictionary<int, FoglalasModel> FoglalasokMemory = new ConcurrentDictionary<int, FoglalasModel>();
 
-    public BookingFunctions(IHTTPRequestService requestService)
+    public BookingFunctions(IHttpRequestService requestService)
     {
         this.requestService = requestService;
     }

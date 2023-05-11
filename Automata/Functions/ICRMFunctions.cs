@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Automata.Functions
 {
-    public interface ICRMFunctions
+    public interface ICrmFunctions
     {
         Task<List<FoglalasModel>> GetFoglalasokByNev(string nev);
         Task<FoglalasModel> GetFoglalasByQrCode();

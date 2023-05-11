@@ -2,7 +2,7 @@
 
 namespace FunctionsCore.Models
 {
-    public class CRMFoglalasModel
+    public class CrmFoglalasModel
     {
         public int orderID { get; set; }   
         public DateTime pickupdate { get; set; }

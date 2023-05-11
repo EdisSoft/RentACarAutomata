@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Automata.Functions;
 
-public class CRMFunctions : ICRMFunctions
+public class CrmFunctions : ICrmFunctions
 {
-    private IHTTPRequestService requestService;
+    private IHttpRequestService requestService;
 
-    public CRMFunctions(IHTTPRequestService requestService)
+    public CrmFunctions(IHttpRequestService requestService)
     {
         this.requestService = requestService;
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FunctionsCore.Models
 {
-    public class CRMModel
+    public class CrmModel
     {
     }
 }

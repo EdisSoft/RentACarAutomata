@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FunctionsCore.Services
 {
-    public interface IHTTPRequestService
+    public interface IHttpRequestService
     {
         Task<List<FoglalasModel>> GetFoglalasokByNev(string nev);
         Task<FoglalasModel> GetFoglalasByCode(string code);

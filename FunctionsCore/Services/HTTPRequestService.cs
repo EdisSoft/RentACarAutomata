@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace FunctionsCore.Services;
 
-public class HTTPRequestService : IHTTPRequestService
+public class HttpRequestService : IHttpRequestService
 {
     private readonly HttpClient httpClient;
-    private readonly CRMRequestOptions options;
+    private readonly CrmRequestOptions options;
 
-    public HTTPRequestService(HttpClient httpClient, IConfiguration configuration)
+    public HttpRequestService(HttpClient httpClient, IConfiguration configuration)
     {
-        options = configuration.GetSection(nameof(CRMRequestOptions)).Get<CRMRequestOptions>();
+        options = configuration.GetSection(nameof(CrmRequestOptions)).Get<CrmRequestOptions>();
 
         this.httpClient = httpClient;
 
@@ -35,7 +35,7 @@ public class HTTPRequestService : IHTTPRequestService
     public async Task<List<FoglalasModel>> GetFoglalasokByNev(string nev)
     {
         var responseString = await httpClient.GetStringAsync(options.RequestBase + "?action=pickup&mainparam=" + nev);
-        var CRMFoglalasok = JsonConvert.DeserializeObject<List<CRMFoglalasModel>>(responseString);
+        var CRMFoglalasok = JsonConvert.DeserializeObject<List<CrmFoglalasModel>>(responseString);
 
         return CRMFoglalasok.Select(s => new FoglalasModel()
         {
@@ -55,7 +55,7 @@ public class HTTPRequestService : IHTTPRequestService
     public async Task<FoglalasModel> GetFoglalasByCode(string code)
     {
         var responseString = await httpClient.GetStringAsync(options.RequestBase + "?action=pickup&qr=" + code);
-        var foglalas = JsonConvert.DeserializeObject<CRMFoglalasModel>(responseString);
+        var foglalas = JsonConvert.DeserializeObject<CrmFoglalasModel>(responseString);
 
         return foglalas is null ? null : new FoglalasModel()
         {

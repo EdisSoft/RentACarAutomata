@@ -34,8 +34,8 @@ namespace Automata
         {
             services.AddTransient<IPrinterFunctions, PrinterFunctions>();
             services.AddTransient<IBookingFunctions, BookingFunctions>();
-            services.AddTransient<IHTTPRequestService, HTTPRequestService>();
-            services.AddTransient<ICRMFunctions, CRMFunctions>();
+            services.AddTransient<IHttpRequestService, HttpRequestService>();
+            services.AddTransient<ICrmFunctions, CrmFunctions>();
 
             services.AddControllersWithViews(options =>
             {
@@ -90,7 +90,7 @@ namespace Automata
             //});
             services.AddHttpContextAccessor();
 
-            services.AddHttpClient<IHTTPRequestService, HTTPRequestService>()
+            services.AddHttpClient<IHttpRequestService, HttpRequestService>()
                     .SetHandlerLifetime(TimeSpan.FromMinutes(5));
 
            
