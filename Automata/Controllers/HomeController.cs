@@ -32,6 +32,7 @@ namespace Automata.Controllers
 
         public JsonResult GetData()
         {
+            var lockerAddresses = AppSettingsBase.GetLockerAddresses();
             var nyelv = Request.Headers["Accept-Language"];
             var model = new FoglalasModel() { Id = 12, KezdDatum = DateTime.Now, Fizetendo = 10, Zarolando = 12, Nev = "Gábor", Tipus = "admin", Nyelv = Nyelvek.Magyar };
             BookingFunctions.UjFoglalas(model);
