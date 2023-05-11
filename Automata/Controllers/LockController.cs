@@ -9,22 +9,22 @@ namespace Automata.Controllers
     {
 
         //[HttpPost]
-        public JsonResult OpenLock(int lockno)
+        public JsonResult OpenLock(int lockNo)
         {
             KerongLockFunctions locks = new KerongLockFunctions();
-            locks.OpenLock((byte)lockno);
-            return Json(new ResultModel() { Id = 0, Text = "Opening lock " + lockno });
+            locks.OpenLock((byte)lockNo);
+            return Json(new ResultModel() { Id = 0, Text = "Opening lock " + lockNo });
         }
 
         [HttpPost]
-        public JsonResult LockStatus(int lockno)
+        public JsonResult LockStatus(int lockNo)
         {
             KerongLockFunctions locks = new KerongLockFunctions();
-            if (locks.IsLockClosed((byte)lockno))
+            if (locks.IsLockClosed((byte)lockNo))
             {
-                return Json(new ResultModel() { Id = 0, Text = "Lock " + lockno + " is closed" });
+                return Json(new ResultModel() { Id = 0, Text = "Lock " + lockNo + " is closed" });
             }
-            return Json(new ResultModel() { Id = 0, Text = "Lock " +lockno + " is opened" });
+            return Json(new ResultModel() { Id = 0, Text = "Lock " +lockNo + " is opened" });
         }
     }
 }

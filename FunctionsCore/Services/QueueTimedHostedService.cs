@@ -23,7 +23,7 @@ namespace FunctionsCore.Services
 
         private void DoWork(object state)
         {
-            var func = new DeliveryFunctions();
+            var func = new BookingFunctions();
             //func.UjCsomag(new DeliveryModel() { OrderId = 5654, Type = DeliveryTypes.Email });
             func.Kuldes();
         }

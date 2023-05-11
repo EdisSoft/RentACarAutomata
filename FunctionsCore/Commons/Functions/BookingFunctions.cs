@@ -11,7 +11,7 @@ using System;
 
 namespace FunctionsCore.Commons.Functions
 {
-    public class DeliveryFunctions
+    public class BookingFunctions
     {
         private static ConcurrentBag<DeliveryModel> DelyveryQueue = new ConcurrentBag<DeliveryModel>();
         public static ConcurrentDictionary<int, FoglalasModel> FoglalasokMemory = new ConcurrentDictionary<int, FoglalasModel>();
@@ -68,6 +68,27 @@ namespace FunctionsCore.Commons.Functions
             }
         }
 
+        public static FoglalasModel FindFoglalasById(int id)
+        {
+            Log.Debug($"Foglalás keresése. Foglalás: {id}");
+            try
+            {
+                FoglalasModel resultModel;
+                var foglalasFound = FoglalasokMemory.TryGetValue(id, out resultModel);
+                if (foglalasFound)
+                {
+                    Log.Debug($"Foglalas frissítése sikeres volt! FoglalasId: {resultModel.Id}");
+                    return resultModel;
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error($"Hiba történt a foglalás frissítése közben! FoglalasId: {id}", e);
+                throw;
+            }
+            return null;
+        }
+
         public static FoglalasModel UjFoglalas(FoglalasModel foglalas)
         {
             Log.Debug("Új adat érkezett! Foglalás: " + foglalas.Id);
@@ -87,6 +108,7 @@ namespace FunctionsCore.Commons.Functions
             }
             return null;
         }
+
         public static FoglalasModel FoglalasTorles(FoglalasModel foglalas)
         {
             Log.Debug("Foglalás törlés: " + foglalas.Id);
