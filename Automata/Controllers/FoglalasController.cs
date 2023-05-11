@@ -60,6 +60,10 @@ public class FoglalasController : BaseController
             SendedFl = false
         });
 
+        var nyelv = Request.Headers["Accept-Language"];
+
+        BookingFunctions.UpdateFoglalas(id, nyelv);
+
         return Json(new ResultModel() { Id = 0, Text = "" });
     }
 

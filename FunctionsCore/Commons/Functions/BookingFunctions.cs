@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FunctionsCore.Enums;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FunctionsCore.Commons.Functions;
 
@@ -80,7 +81,7 @@ public class BookingFunctions : IBookingFunctions
     }
 
     public static void SikeresFoglalas(int id, string nyelv)
-    { 
+    {
         try
         {
             if (FoglalasokMemory.TryGetValue(id, out var foglalas))
@@ -92,12 +93,12 @@ public class BookingFunctions : IBookingFunctions
             else
             {
                 throw new KeyNotFoundException();
-            }                   
+            }
         }
         catch (Exception e)
         {
             Log.Error("Hiba történt a foglalás frissítése közben! FoglalasId: " + id, e);
-        }           
+        }
     }
 
     public static FoglalasModel FindFoglalasById(int id)
@@ -121,18 +122,59 @@ public class BookingFunctions : IBookingFunctions
         return null;
     }
 
+    public static void UpdateFoglalas(int foglalasId, string nyelv)
+    {
+        try
+        {
+            if (FoglalasokMemory.TryGetValue(foglalasId, out var foglalasMemory))
+            {
+                switch (nyelv)
+                {
+                    case "en":
+                        foglalasMemory.Nyelv = Nyelvek.English;
+                        break;
+                    case "hu":
+                        foglalasMemory.Nyelv = Nyelvek.Magyar;
+                        break;
+                }
+
+                foglalasMemory.IdeiglenesFl = false;
+                foglalasMemory.UtolsoVarazsloLepes = 3;
+
+                var itemKeysToRemove = FoglalasokMemory.Where(w => w.Value.IdeiglenesFl == true).Select(s => s.Key).ToList();
+
+                foreach (var itemKey in itemKeysToRemove)
+                {
+                    BookingFunctions.FoglalasTorles(itemKey);
+                }
+
+                Log.Debug("Foglalas frissítése sikeres volt! FoglalasId: " + foglalasId);
+            }
+            else
+            {
+                throw new WarningException("Nincs foglalás!", WarningExceptionLevel.Warning);
+            }
+
+        }
+        catch (Exception e)
+        {
+            Log.Error("Hiba történt a foglalás frissítése közben! FoglalasId: " + foglalasId, e);
+            throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
+        }
+    }
+
     public static void UjFoglalas(FoglalasModel foglalas)
     {
         try
         {
             if (FoglalasokMemory.TryGetValue(foglalas.Id, out var foglalasMemory))
             {
-                foglalasMemory = foglalas;                  
+                foglalasMemory = foglalas;
                 Log.Debug("Foglalas frissítése sikeres volt! FoglalasId: " + foglalas.Id);
             }
             else
             {
-                if(!FoglalasokMemory.TryAdd(foglalas.Id, foglalas)) 
+                if (!FoglalasokMemory.TryAdd(foglalas.Id, foglalas))
                 {
                     Log.Error("Foglalás hozzáadása sikertelen! FoglalasId: " + foglalas.Id);
                 }
@@ -141,12 +183,13 @@ public class BookingFunctions : IBookingFunctions
         catch (Exception e)
         {
             Log.Error("Hiba történt a foglalás hozzáadása közben! FoglalasId: " + foglalas.Id, e);
+            throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
         }
     }
 
     public static void UjFoglalas(List<FoglalasModel> foglalasok)
     {
-        foreach(var foglalas in foglalasok)
+        foreach (var foglalas in foglalasok)
         {
             UjFoglalas(foglalas);
         }
@@ -168,7 +211,7 @@ public class BookingFunctions : IBookingFunctions
         catch (Exception e)
         {
             Log.Error("Hiba történt a foglalás törlése közben! FoglalasId: " + id, e);
-            throw;
+            throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
         }
     }
 }
