@@ -42,6 +42,7 @@ namespace FunctionsCore.Commons.Functions
         {
             try
             {
+                Log.Debug("Opening TCP connection");
                 // Connect to the LockDriver server
                 client = new TcpClient(locksTcpAddress, locksTcpPort);
             }
@@ -56,6 +57,7 @@ namespace FunctionsCore.Commons.Functions
         {
             try
             {
+                Log.Debug("Closing TCP connection");
                 // Disconnect to the LockDriver server
                 client.Close();
             }
@@ -130,30 +132,31 @@ namespace FunctionsCore.Commons.Functions
             // Set timeout to 2000ms
             stream.ReadTimeout = 2000;
 
+            /*
             while (!stream.DataAvailable)
             {
                 Thread.Sleep(50);
-            }
+            }*/
             // String to store the response ASCII representation.
             String responseData = String.Empty;
 
             // Read the first batch of the TcpServer response bytes.
             Int32 bytes = stream.Read(data, 0, data.Length);
-            Console.WriteLine("" + bytes + " bytes data read");
+            Log.Debug("" + bytes + " bytes data read");
 
             if (!ValidateFrame(data, bytes))
             {
-                Console.WriteLine("Invalid data received:");
+                string txt = "Invalid data received: ";
                 for (int i = 0; i < bytes; i++)
                 {
-                    Console.Write(data[i].ToString("X2") + " ");
+                    txt += data[i].ToString("X2") + " ";
                 }
-                Console.WriteLine("");
+                Log.Debug(txt);
 
                 return new byte[0];
             }
             responseData = System.Text.Encoding.ASCII.GetString(data, 1, bytes - 2);
-            Console.WriteLine("Received: {0}", responseData);
+            //Console.WriteLine("Received: {0}", responseData);
 
             return System.Text.Encoding.ASCII.GetBytes(responseData);
         }
@@ -162,18 +165,19 @@ namespace FunctionsCore.Commons.Functions
         {
             uint locksStatus = 0;
 
-            // Clear earlier data
+            // Clear earlier data from Stream
             EmptyStream();
 
-            SendCommand(cuBaseAddress, CMD_GET_LOCKS_STATUS);
+            SendCommand((byte)(cuBaseAddress << 4), CMD_GET_LOCKS_STATUS);
             Thread.Sleep(50);
 
             byte[] data = ReadData();
+            string txt = "";
             for (int i = 0; i < data.Length; i++)
             {
-                Console.Write(data[i].ToString("X2") + " ");
+                txt += data[i].ToString("X2") + " ";
             }
-            Console.WriteLine("");
+            Log.Debug(txt);
             if (data.Length > 4)
             {
                 locksStatus = BitConverter.ToUInt16(data, 2);
@@ -188,7 +192,7 @@ namespace FunctionsCore.Commons.Functions
                 throw new ArgumentOutOfRangeException(nameof(lockno), "value must be between 1 and 16");
             }
             Open();
-            SendCommand((byte)(cuBaseAddress << 4 + lockno - 1), CMD_OPEN_LOCK);
+            SendCommand((byte)((cuBaseAddress << 4) + (lockno - 1)), CMD_OPEN_LOCK);
             Thread.Sleep(50);
             Close();
         }
