@@ -5,6 +5,7 @@ using FunctionsCore.Commons.EntitiesJson;
 using FunctionsCore.Commons.Functions;
 using FunctionsCore.Contexts;
 using FunctionsCore.Enums;
+using FunctionsCore.Models;
 using FunctionsCore.Utilities.Extension.StringExtension;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -28,10 +29,31 @@ namespace Automata.Controllers
             _env = env;
         }
 
-        public JsonResult GetData() {
-            var list = new List<int>();
-            list.Add(0);
-            return Json(list);
+
+        public JsonResult GetData()
+        {
+            var lockerAddresses = AppSettingsBase.GetLockerAddresses();
+            var nyelv = Request.Headers["Accept-Language"];
+            var model = new FoglalasModel() { Id = 12, KezdDatum = DateTime.Now, Fizetendo = 10, Zarolando = 12, Nev = "Gábor", Tipus = "admin", Nyelv = Nyelvek.Magyar };
+            BookingFunctions.UjFoglalas(model);
+
+            var foglalas = BookingFunctions.FindFoglalasById(12);
+            if (foglalas != null)
+            {
+                switch (nyelv)
+                {
+                    case "en":
+                        foglalas.Nyelv = Nyelvek.English;
+                        break;
+                    case "hu":
+                        foglalas.Nyelv = Nyelvek.Magyar;
+                        break;
+                }
+                BookingFunctions.UjFoglalas(foglalas);
+
+            }
+
+            return Json(model);
         }
 
         public JsonResult Driver()

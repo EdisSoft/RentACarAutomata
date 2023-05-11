@@ -9,18 +9,29 @@ namespace Automata.Controllers
     public class PosController : BaseController
     {
         MoneraTerminalFunctions MoneraTerminal { get; set; }
+        private static int _tranzakcioId = 0;
+
+        private static int TranzakcioId
+        {
+            get
+            {
+                if (++_tranzakcioId >= 1000) _tranzakcioId = 1;
+                return _tranzakcioId;
+            }
+        }
 
         [HttpPost]
         public JsonResult Fizetes(int id)
         {
             FoglalasModel model;
 
-            if (!DeliveryFunctions.FoglalasokMemory.TryGetValue(id, out model))
+            if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
                 throw new Exception("No such reservation");
 
-            Random random = new Random();
-            int randomNumber = random.Next(0, 1000000000);
-            string ctid = "PAID_" + randomNumber.ToString("D9"); //max 24 chars
+            //Random random = new Random();
+            //int randomNumber = random.Next(0, 1000000000);
+            //string ctid = "PAID_" + randomNumber.ToString("D9"); //max 24 chars
+            string ctid = $"PAID_{DateTime.Now:MMddHHmm}{id:D8}"; //{ TranzakcioId: D4} max 24 chars
 
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
@@ -56,12 +67,13 @@ namespace Automata.Controllers
         {
             FoglalasModel model;
 
-            if (!DeliveryFunctions.FoglalasokMemory.TryGetValue(id, out model))
+            if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
                 throw new Exception("No such reservation");
 
-            Random random = new Random();
-            int randomNumber = random.Next(0, 1000000000);
-            string ctid = "DEID_" + randomNumber.ToString("D9"); //max 24 chars
+            //Random random = new Random();
+            //int randomNumber = random.Next(0, 1000000000);
+            //string ctid = "DEID_" + randomNumber.ToString("D9"); //max 24 chars
+            string ctid = $"DEID_{DateTime.Now:MMddHHmm}{id:D8}"; //{ TranzakcioId: D4} max 24 chars
 
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
