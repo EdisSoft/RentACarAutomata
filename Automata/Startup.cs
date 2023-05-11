@@ -42,7 +42,7 @@ namespace Automata
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IPrinterFunctions, PrinterFunctions>();
+            services.AddTransient<IPrinterFunctions, PrinterFunctions>();
 
             services.AddControllersWithViews(options =>
             {
