@@ -79,35 +79,14 @@ public class BookingFunctions : IBookingFunctions
             }
         }
     }
-
-    public static void SikeresFoglalas(int id, string nyelv)
-    {
-        try
-        {
-            if (FoglalasokMemory.TryGetValue(id, out var foglalas))
-            {
-                foglalas.Nyelv = nyelv == Nyelvek.Magyar.ToString() ? Nyelvek.Magyar : Nyelvek.English;
-                foglalas.IdeiglenesFl = false;
-                Log.Debug("Foglalas megerősítése sikeres volt! FoglalasId: " + foglalas.Id);
-            }
-            else
-            {
-                throw new KeyNotFoundException();
-            }
-        }
-        catch (Exception e)
-        {
-            Log.Error("Hiba történt a foglalás frissítése közben! FoglalasId: " + id, e);
-        }
-    }
+          
 
     public static FoglalasModel FindFoglalasById(int id)
     {
         Log.Debug($"Foglalás keresése. Foglalás: {id}");
         try
         {
-            FoglalasModel resultModel;
-            var foglalasFound = FoglalasokMemory.TryGetValue(id, out resultModel);
+            var foglalasFound = FoglalasokMemory.TryGetValue(id, out var resultModel);
             if (foglalasFound)
             {
                 Log.Debug($"Foglalas frissítése sikeres volt! FoglalasId: {resultModel.Id}");
@@ -121,6 +100,14 @@ public class BookingFunctions : IBookingFunctions
         }
         return null;
     }
+
+    public static void UpdateUtolsoVarazsloLepes(int id, int varazsloLepes)
+    {
+        var foglalas = FindFoglalasById(id);
+        foglalas.UtolsoVarazsloLepes = varazsloLepes;
+        UjFoglalas(foglalas);
+    }
+
 
     public static void UpdateFoglalas(int foglalasId, string nyelv)
     {
@@ -163,30 +150,6 @@ public class BookingFunctions : IBookingFunctions
         }
     }
 
-    public static void UjFoglalas(FoglalasModel foglalas)
-    {
-        try
-        {
-            if (FoglalasokMemory.TryGetValue(foglalas.Id, out var foglalasMemory))
-            {
-                foglalasMemory = foglalas;
-                Log.Debug("Foglalas frissítése sikeres volt! FoglalasId: " + foglalas.Id);
-            }
-            else
-            {
-                if (!FoglalasokMemory.TryAdd(foglalas.Id, foglalas))
-                {
-                    Log.Error("Foglalás hozzáadása sikertelen! FoglalasId: " + foglalas.Id);
-                }
-            }
-        }
-        catch (Exception e)
-        {
-            Log.Error("Hiba történt a foglalás hozzáadása közben! FoglalasId: " + foglalas.Id, e);
-            throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
-        }
-    }
-
     public static void UjFoglalas(List<FoglalasModel> foglalasok)
     {
         foreach (var foglalas in foglalasok)
@@ -195,22 +158,45 @@ public class BookingFunctions : IBookingFunctions
         }
     }
 
-    public static void FoglalasTorles(int id)
+    public static FoglalasModel UjFoglalas(FoglalasModel foglalas)
     {
+        Log.Debug("Új adat érkezett! Foglalás: " + foglalas.Id);
         try
         {
-            if (FoglalasokMemory.Remove(id, out var foglalas))
+            var result = FoglalasokMemory.AddOrUpdate(foglalas.Id, foglalas, (k, v) => foglalas);
+            if (result != null)
             {
-                Log.Debug("Foglalás törlése sikeres volt. FoglalasId: " + id);
-            }
-            else
-            {
-                Log.Info("Foglalás törlése sikertelen volt. FoglalasId: " + id);
+                Log.Debug("Foglalas frissítése sikeres volt! FoglalasId: " + foglalas.Id);
+                return foglalas;
             }
         }
         catch (Exception e)
         {
-            Log.Error("Hiba történt a foglalás törlése közben! FoglalasId: " + id, e);
+            Log.Error("Hiba történt a foglalás frissítése közben! FoglalasId: " + foglalas.Id, e);
+            throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
+        }
+        return null;
+    }
+
+    public static void FoglalasTorles(int foglalasId)
+    {
+        Log.Debug("Foglalás törlés: " + foglalasId);
+        try
+        {
+            FoglalasModel resultModel;
+            var foglalasRemoved = FoglalasokMemory.TryRemove(foglalasId, out resultModel);
+            if (foglalasRemoved)
+            {
+                Log.Debug("Foglalás törlése sikeres volt. FoglalasId: " + foglalasId);
+            }
+            else
+            {
+                Log.Info("Foglalás törlése sikertelen volt. FoglalasId: " + foglalasId);
+            }
+        }
+        catch (Exception e)
+        {
+            Log.Error("Hiba történt a foglalás törlése közben! FoglalasId: " + foglalasId, e);
             throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
         }
     }
