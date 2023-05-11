@@ -24,6 +24,8 @@ namespace FunctionsCore.Models
         public string Tipus { get; set; }
         public Nyelvek Nyelv { get; set; }
         public bool MindenElkuldveFl { get; set; }
+        public int UtolsoVarazsloLepes { get; set; }
+        public bool IdeiglenesFl { get; set; }
 
     }
 }
