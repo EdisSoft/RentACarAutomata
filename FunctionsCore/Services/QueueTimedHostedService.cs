@@ -11,11 +11,11 @@ public class QueueTimedHostedService : IHostedService, IDisposable
 {
     private readonly int refreshTimeMinutes = AppSettingsBase.GetQueueTimings()?.MainQueueMinutes ?? 1;
     private Timer timer;
-    private IDeliveryFunctions deliveryFunctions;
+    private IBookingFunctions bookingFunctions;
 
-    public QueueTimedHostedService(IDeliveryFunctions deliveryFunctions)
+    public QueueTimedHostedService(IBookingFunctions bookingFunctions)
     {
-        this.deliveryFunctions = deliveryFunctions;        
+        this.bookingFunctions = bookingFunctions;        
     }
 
     public Task StartAsync(CancellationToken stoppingToken)
@@ -27,7 +27,7 @@ public class QueueTimedHostedService : IHostedService, IDisposable
     private void DoWork(object state)
     {
         //func.UjCsomag(new DeliveryModel() { OrderId = 5654, Type = DeliveryTypes.Email });
-        deliveryFunctions.Kuldes();
+        bookingFunctions.Kuldes();
     }
 
     public Task StopAsync(CancellationToken stoppingToken)

@@ -1,7 +1,6 @@
 ﻿using Automata.Functions;
 using FunctionsCore.Commons.Functions;
 using FunctionsCore.Models;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -11,21 +10,18 @@ public class FoglalasController : BaseController
 {
     private ICRMFunctions CRMFunctions { get; set; }
 
-    private IDeliveryFunctions deliveryFunctions { get; set; }
+    private IBookingFunctions bookingFunctions { get; set; }
 
-    public FoglalasController(ICRMFunctions CRMFunctions, IDeliveryFunctions deliveryFunctions)
+    public FoglalasController(ICRMFunctions CRMFunctions, IBookingFunctions bookingFunctions)
     {
         this.CRMFunctions = CRMFunctions;
-        this.deliveryFunctions = deliveryFunctions;
+        this.bookingFunctions = bookingFunctions;
     }
 
     public async Task<JsonResult> GetFoglalasok(string nev)
     {
-        var result = await CRMFunctions.GetFoglalasokByNev(nev);
-        if (result != null && result.Count > 0)
-        {
-            DeliveryFunctions.UjFoglalas(result[0]);
-        }        
+        var result = await CRMFunctions.GetFoglalasokByNev(nev);       
+        BookingFunctions.UjFoglalas(result);               
 
         return Json(result);
     }
@@ -35,7 +31,7 @@ public class FoglalasController : BaseController
         var result = await CRMFunctions.GetFoglalasByQrCode();
         if(result != null)
         {
-            DeliveryFunctions.UjFoglalas(result);
+            BookingFunctions.UjFoglalas(result);
         }
 
         return Json(result);
@@ -43,7 +39,7 @@ public class FoglalasController : BaseController
 
     public JsonResult SaveEmail(int id, string email)
     {
-        deliveryFunctions.UjCsomag(new DeliveryModel()
+        bookingFunctions.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
             ValueStr = email,
@@ -56,7 +52,7 @@ public class FoglalasController : BaseController
 
     public JsonResult SaveAlairas(int id, string pic)
     {
-        deliveryFunctions.UjCsomag(new DeliveryModel()
+        bookingFunctions.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
             ValueStr = pic,
@@ -69,7 +65,7 @@ public class FoglalasController : BaseController
 
     public JsonResult SikeresFoglalas(int id, string nyelv)
     {
-        DeliveryFunctions.SikeresFoglalas(id, nyelv);
+        BookingFunctions.SikeresFoglalas(id, nyelv);
         return Json(new ResultModel() { Id = 0, Text = "" });
     }
 }

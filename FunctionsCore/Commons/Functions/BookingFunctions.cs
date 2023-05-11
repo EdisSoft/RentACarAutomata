@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace FunctionsCore.Commons.Functions;
 
-public class DeliveryFunctions : IDeliveryFunctions
+public class BookingFunctions : IBookingFunctions
 {
     private static ConcurrentBag<DeliveryModel> deliveryQueue = new ConcurrentBag<DeliveryModel>();
     private static readonly object lockObject = new object();
@@ -17,7 +17,7 @@ public class DeliveryFunctions : IDeliveryFunctions
 
     public static ConcurrentDictionary<int, FoglalasModel> FoglalasokMemory = new ConcurrentDictionary<int, FoglalasModel>();
 
-    public DeliveryFunctions(IHTTPRequestService requestService)
+    public BookingFunctions(IHTTPRequestService requestService)
     {
         this.requestService = requestService;
     }
@@ -85,7 +85,7 @@ public class DeliveryFunctions : IDeliveryFunctions
         {
             if (FoglalasokMemory.TryGetValue(id, out var foglalas))
             {
-                foglalas.Nyelv = nyelv == Nyelvek.Magyar.ToString() ? Nyelvek.Magyar : Nyelvek.Angol;
+                foglalas.Nyelv = nyelv == Nyelvek.Magyar.ToString() ? Nyelvek.Magyar : Nyelvek.English;
                 foglalas.IdeiglenesFl = false;
                 Log.Debug("Foglalas megerősítése sikeres volt! FoglalasId: " + foglalas.Id);
             }
@@ -98,6 +98,27 @@ public class DeliveryFunctions : IDeliveryFunctions
         {
             Log.Error("Hiba történt a foglalás frissítése közben! FoglalasId: " + id, e);
         }           
+    }
+
+    public static FoglalasModel FindFoglalasById(int id)
+    {
+        Log.Debug($"Foglalás keresése. Foglalás: {id}");
+        try
+        {
+            FoglalasModel resultModel;
+            var foglalasFound = FoglalasokMemory.TryGetValue(id, out resultModel);
+            if (foglalasFound)
+            {
+                Log.Debug($"Foglalas frissítése sikeres volt! FoglalasId: {resultModel.Id}");
+                return resultModel;
+            }
+        }
+        catch (Exception e)
+        {
+            Log.Error($"Hiba történt a foglalás frissítése közben! FoglalasId: {id}", e);
+            throw;
+        }
+        return null;
     }
 
     public static void UjFoglalas(FoglalasModel foglalas)
@@ -120,6 +141,14 @@ public class DeliveryFunctions : IDeliveryFunctions
         catch (Exception e)
         {
             Log.Error("Hiba történt a foglalás hozzáadása közben! FoglalasId: " + foglalas.Id, e);
+        }
+    }
+
+    public static void UjFoglalas(List<FoglalasModel> foglalasok)
+    {
+        foreach(var foglalas in foglalasok)
+        {
+            UjFoglalas(foglalas);
         }
     }
 

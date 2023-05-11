@@ -33,7 +33,7 @@ namespace Automata
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IPrinterFunctions, PrinterFunctions>();
-            services.AddTransient<IDeliveryFunctions, DeliveryFunctions>();
+            services.AddTransient<IBookingFunctions, BookingFunctions>();
             services.AddTransient<IHTTPRequestService, HTTPRequestService>();
             services.AddTransient<ICRMFunctions, CRMFunctions>();
 

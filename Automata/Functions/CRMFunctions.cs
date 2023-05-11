@@ -23,14 +23,19 @@ public class CRMFunctions : ICRMFunctions
             var result = await requestService.GetFoglalasokByNev(nev);
             if (result is null || result.Count == 0)
             {
-                throw new FunctionsCore.WarningException("Nincs foglalás!", FunctionsCore.WarningExceptionLevel.Warning);
+                throw new WarningException("Nincs foglalás!", WarningExceptionLevel.Warning);
+            }
+
+            if(result.Count == 1)
+            {
+                result[0].IdeiglenesFl = false;
             }
 
             return result;
         }
-        catch (Exception e)
+        catch
         {
-            throw new FunctionsCore.WarningException("Hiba történt!", FunctionsCore.WarningExceptionLevel.Warning);
+            throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
         }
     }
 
@@ -42,7 +47,6 @@ public class CRMFunctions : ICRMFunctions
         {
             return null;
         }
-        Log.Info("kpok");
 
         return await requestService.GetFoglalasByCode(code);
     }

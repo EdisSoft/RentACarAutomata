@@ -43,9 +43,11 @@ public class HTTPRequestService : IHTTPRequestService
             Nev = s.kontaktNev,
             KezdDatum = s.pickupdate,
             VegeDatum = s.dropoffdate,
+            RekeszId = Int32.Parse(s.locknumber),
             Email = s.kontaktEmail,
             Fizetendo = Int32.Parse(s.total_price),
             Zarolando = Int32.Parse(s.deposit),
+            Tipus = s.type,
             IdeiglenesFl = true
         }).ToList();
     }
@@ -54,16 +56,18 @@ public class HTTPRequestService : IHTTPRequestService
     {
         var responseString = await httpClient.GetStringAsync(options.RequestBase + "?action=pickup&qr=" + code);
         var foglalas = JsonConvert.DeserializeObject<CRMFoglalasModel>(responseString);
-        return new FoglalasModel()
+
+        return foglalas is null ? null : new FoglalasModel()
         {
             Id = foglalas.orderID,
             Nev = foglalas.kontaktNev,
             KezdDatum = foglalas.pickupdate,
             VegeDatum = foglalas.dropoffdate,
+            RekeszId = Int32.Parse(foglalas.locknumber),
             Email = foglalas.kontaktEmail,
             Fizetendo = Int32.Parse(foglalas.total_price),
             Zarolando = Int32.Parse(foglalas.deposit),
-            IdeiglenesFl = true
+            Tipus = foglalas.type
         };
     }
 

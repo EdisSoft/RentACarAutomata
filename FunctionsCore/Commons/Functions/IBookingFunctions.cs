@@ -2,7 +2,7 @@
 
 namespace FunctionsCore.Commons.Functions
 {
-    public interface IDeliveryFunctions
+    public interface IBookingFunctions
     {
         void UjCsomag(DeliveryModel csomag);
 
