@@ -30,13 +30,13 @@ namespace Automata.Functions
 
 		void displayEvent(string txt)
 		{
-			Log.Debug("Disp event " + System.DateTime.Now.ToString("HH:mm:ss.f") + " ** " + txt);
+			Log.Debug("Disp event ** " + txt);
 		}
 
 		void printEvent(string txt)
 		{
 			LatestReceipt = txt;
-			Log.Debug("Print event " + System.DateTime.Now.ToString("HH:mm:ss.f") + " ** " + txt);
+			Log.Debug("Print event ** " + txt);
 		}
 
 		public int ReadLibInfo(ref string libInfo)
@@ -184,11 +184,17 @@ namespace Automata.Functions
 			return Terminal.settlement();
 		}
 
-		int Payment(string cent_amount, string tran_id)
+		int CallPayment(string cent_amount, string tran_id, EcrWrapperDotNetMlib.PaymentType paymentType)
 		{
 			// clean receipt
 			LatestReceipt = "";
-			return Terminal.payment(cent_amount, tran_id, EcrWrapperDotNetMlib.PaymentType.PAY_DEFAULT);
+			Log.Debug("MoneraTerminal Payment: " + cent_amount + ", " + tran_id + ", " + paymentType);
+			return Terminal.payment(cent_amount, tran_id, paymentType);
+		}
+
+		int Payment(string cent_amount, string tran_id)
+		{
+			return CallPayment(cent_amount, tran_id, EcrWrapperDotNetMlib.PaymentType.PAY_DEFAULT);
 		}
 
 		int Payment(int iAmount, string tran_id)
@@ -198,9 +204,7 @@ namespace Automata.Functions
 
 		int Deposit(string cent_amount, string tran_id)
 		{
-			// clean receipt
-			LatestReceipt = "";
-			return Terminal.payment(cent_amount, tran_id, EcrWrapperDotNetMlib.PaymentType.PAY_PREAUTH);
+			return CallPayment(cent_amount, tran_id, EcrWrapperDotNetMlib.PaymentType.PAY_PREAUTH);
 		}
 
 		int Deposit(int iAmount, string tran_id)

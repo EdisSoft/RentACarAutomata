@@ -9,33 +9,109 @@ namespace Automata.Controllers
     public class PosController : BaseController
     {
         MoneraTerminalFunctions MoneraTerminal { get; set; }
+        private static int _tranzakcioId = 0;
+
+        private static int TranzakcioId
+        {
+            get
+            {
+                if (++_tranzakcioId >= 1000) _tranzakcioId = 1;
+                return _tranzakcioId;
+            }
+        }
 
         [HttpPost]
         public JsonResult Fizetes(int id)
         {
             FoglalasModel model;
-            if (!DeliveryFunctions.FoglalasokMemory.TryGetValue(id, out model))
+
+            if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
                 throw new Exception("No such reservation");
+
+            //Random random = new Random();
+            //int randomNumber = random.Next(0, 1000000000);
+            //string ctid = "PAID_" + randomNumber.ToString("D9"); //max 24 chars
+            string ctid = $"PAID_{DateTime.Now:MMddHHmm}{id:D8}"; //{ TranzakcioId: D4} max 24 chars
 
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
-            MoneraTerminal.NormalPayment(model.Fizetendo, "Nem tudni mi ez"); //TODO: Mi a második paraméter, honnan fogjuk tudni?
+            int res = MoneraTerminal.NormalPayment(model.Fizetendo, ctid); //TODO: Mi a második paraméter, honnan fogjuk tudni?
+            if (res == 0)
+            {
+                MoneraTerminal.GetReceipt();
+            }
 
+            //return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
             return Json(new ResultModel() { Id = 0, Text = "" });
         }
 
-        [HttpPost]
-        public JsonResult LetetZarolas(int id)
+        public JsonResult PaymentPm(int amount)
         {
-            FoglalasModel model;
-            if (!DeliveryFunctions.FoglalasokMemory.TryGetValue(id, out model))
-                throw new Exception("No such reservation");
+            Random random = new Random();
+            int randomNumber = random.Next(0, 1000000000);
+            string ctid = "PAID_" + randomNumber.ToString("D9"); //max 24 chars
 
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
-            MoneraTerminal.DepositPayment(model.Zarolando, "Nem tudni mi ez"); //TODO: Mi a második paraméter, honnan fogjuk tudni?
+            int res = MoneraTerminal.NormalPayment(amount, ctid); //TODO: Mi a második paraméter, honnan fogjuk tudni?
+            if (res == 0)
+            {
+                MoneraTerminal.GetReceipt();
+            }
 
+            return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
+            //return Json(new ResultModel() { Id = 0, Text = "" });
+        }
+
+        public JsonResult LetetZarolas(int id)
+        {
+            FoglalasModel model;
+
+            if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
+                throw new Exception("No such reservation");
+
+            //Random random = new Random();
+            //int randomNumber = random.Next(0, 1000000000);
+            //string ctid = "DEID_" + randomNumber.ToString("D9"); //max 24 chars
+            string ctid = $"DEID_{DateTime.Now:MMddHHmm}{id:D8}"; //{ TranzakcioId: D4} max 24 chars
+
+            MoneraTerminal = new MoneraTerminalFunctions();
+            MoneraTerminal.Init();
+            int res = MoneraTerminal.DepositPayment(model.Zarolando, ctid); //TODO: Mi a második paraméter, honnan fogjuk tudni?
+            if (res == 0)
+            {
+                MoneraTerminal.GetReceipt();
+            }
+
+            //return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
             return Json(new ResultModel() { Id = 0, Text = "" });
+        }
+
+        public JsonResult DepositPm(int amount)
+        {
+            Random random = new Random();
+            int randomNumber = random.Next(0, 1000000000);
+            string ctid = "DEID_" + randomNumber.ToString("D9"); //max 24 chars
+
+            MoneraTerminal = new MoneraTerminalFunctions();
+            MoneraTerminal.Init();
+            int res = MoneraTerminal.DepositPayment(amount, ctid); //TODO: Mi a második paraméter, honnan fogjuk tudni?
+            if (res == 0)
+            {
+                MoneraTerminal.GetReceipt();
+            }
+
+            return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
+            //return Json(new ResultModel() { Id = 0, Text = "" });
+        }
+
+        public JsonResult Cancel()
+        {
+            MoneraTerminal = new MoneraTerminalFunctions();
+            MoneraTerminal.Init();
+            int res = MoneraTerminal.CancelPayment();
+
+            return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
         }
     }
 }

@@ -8,8 +8,12 @@ namespace Automata.Controllers
 {
     public class PrinterController : BaseController
     {
-        [Inject]
         IPrinterFunctions PrinterFunctions { get; set; }
+
+        public PrinterController(IPrinterFunctions printerFunctions)
+        {
+            PrinterFunctions = printerFunctions;
+        }
 
         [HttpPost]
         public JsonResult PrintReceiptHun(string agreementNumber, string plateNumber, DateTime endOfRental, int money, string preAuthorizationNumber)

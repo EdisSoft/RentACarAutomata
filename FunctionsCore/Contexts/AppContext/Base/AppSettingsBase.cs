@@ -1,5 +1,6 @@
 ﻿using FunctionsCore.Commons;
 using FunctionsCore.Commons.Base;
+using FunctionsCore.Models;
 using FunctionsCore.Utilities.Extension;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
@@ -84,6 +85,10 @@ namespace FunctionsCore.Contexts
             return GetObjectResultSetting<QueueTimings>();
         }
 
+        public static LockerAddresses GetLockerAddresses()
+        {
+            return GetObjectResultSetting<LockerAddresses>();
+        }
         public static string GetErtesitesiCenterSetting(string key)
         {
             return GetStringResultSetting("ErtesitesiCenter", key);

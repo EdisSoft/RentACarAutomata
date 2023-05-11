@@ -12,6 +12,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Commons\Functions\Base\**" />
+    <EmbeddedResource Remove="Commons\Functions\Base\**" />
+    <None Remove="Commons\Functions\Base\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Commons\Entities\ErubsSzervezet.cs" />
   </ItemGroup>
 
@@ -52,7 +58,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commons\Functions\Base\" />
+    <Folder Include="Commons\Base\QueueTimings\" />
     <Folder Include="Connected Services\" />
     <Folder Include="Contexts\AppContext\AppSpecific\" />
   </ItemGroup>

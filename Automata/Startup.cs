@@ -114,6 +114,8 @@ namespace Automata
             //services.AddScoped<TokenAuthenticationFunctions>();
 
             AddTimedHostedServices(services);
+
+            KerongLockFunctions.Init();
         }
 
 

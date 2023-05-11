@@ -38,3 +38,160 @@
 2023.04.22 00:24:21 [7a9c,9a3c] | displayevent 1 
 2023.04.22 00:24:35 [7a9c,9a3c] | displayevent 0 
 2023.04.22 00:24:40 [7a9c,9a3c] | printer event 
+2023.04.28 16:09:55 [b784,a270] | MONERA ZVT Terminal Library LAN 02.00 
+2023.04.28 16:09:55 [b784,a270] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.04.28 16:09:55 [b784,a270] | protocol ctor 
+2023.04.28 16:09:55 [b784,a270] | disconnect 
+2023.04.28 16:09:55 [b784,a270] | is stopped 
+2023.04.28 16:09:55 [b784,a270] | SSL connect: 192.168.2.12:4050 
+2023.04.28 16:09:56 [b784,a270] | start thread 
+2023.04.28 16:09:56 [b784,a270] | cancellation 
+2023.04.28 16:09:56 [b784,a270] | displayevent 0 
+2023.04.28 16:10:01 [b784,a270] | disconnect 
+2023.04.28 16:10:01 [b784,175c] | thread exit 
+2023.04.28 16:10:01 [b784,a270] | portclose 
+2023.04.28 20:17:14 [b100,c8f0] | MONERA ZVT Terminal Library LAN 02.00 
+2023.04.28 20:17:14 [b100,c8f0] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.04.28 20:17:14 [b100,c8f0] | protocol ctor 
+2023.04.28 20:17:14 [b100,c8f0] | disconnect 
+2023.04.28 20:17:14 [b100,c8f0] | is stopped 
+2023.04.28 20:17:14 [b100,c8f0] | SSL connect: 192.168.2.12:4050 
+2023.04.28 20:17:15 [b100,c8f0] | start thread 
+2023.04.28 20:17:15 [b100,c8f0] | payment 1100 
+2023.04.28 20:17:15 [b100,c8f0] | displayevent 0 
+2023.04.28 20:17:15 [b100,c8f0] | displayevent 1 
+2023.04.28 20:17:29 [b100,c8f0] | disconnect 
+2023.04.28 20:17:29 [b100,cf08] | thread exit 
+2023.04.28 20:17:29 [b100,c8f0] | portclose 
+2023.04.28 22:47:27 [bffc,8d74] | MONERA ZVT Terminal Library LAN 02.00 
+2023.04.28 22:47:27 [bffc,8d74] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.04.28 22:47:27 [bffc,8d74] | protocol ctor 
+2023.04.28 22:47:27 [bffc,8d74] | disconnect 
+2023.04.28 22:47:27 [bffc,8d74] | is stopped 
+2023.04.28 22:47:27 [bffc,8d74] | SSL connect: 192.168.2.12:4050 
+2023.04.28 22:47:28 [bffc,8d74] | start thread 
+2023.04.28 22:47:28 [bffc,8d74] | payment 1100 
+2023.04.28 22:47:28 [bffc,8d74] | displayevent 0 
+2023.04.28 22:47:29 [bffc,8d74] | displayevent 1 
+2023.04.28 22:47:38 [bffc,8d74] | disconnect 
+2023.04.28 22:47:38 [bffc,9c78] | thread exit 
+2023.04.28 22:47:38 [bffc,8d74] | portclose 
+2023.04.28 22:48:41 [bffc,979c] | protocol ctor 
+2023.04.28 22:48:41 [bffc,979c] | disconnect 
+2023.04.28 22:48:41 [bffc,979c] | is stopped 
+2023.04.28 22:48:41 [bffc,979c] | SSL connect: 192.168.2.12:4050 
+2023.04.28 22:48:42 [bffc,979c] | start thread 
+2023.04.28 22:48:42 [bffc,979c] | payment 900 
+2023.04.28 22:48:42 [bffc,979c] | displayevent 0 
+2023.04.28 22:48:42 [bffc,979c] | displayevent 1 
+2023.04.28 22:48:51 [bffc,979c] | disconnect 
+2023.04.28 22:48:51 [bffc,49fc] | thread exit 
+2023.04.28 22:48:51 [bffc,979c] | portclose 
+2023.04.28 23:01:45 [bffc,40c8] | protocol ctor 
+2023.04.28 23:01:45 [bffc,40c8] | disconnect 
+2023.04.28 23:01:45 [bffc,40c8] | is stopped 
+2023.04.28 23:01:45 [bffc,40c8] | SSL connect: 192.168.2.12:4050 
+2023.04.28 23:01:46 [bffc,40c8] | start thread 
+2023.04.28 23:01:46 [bffc,40c8] | payment 900 
+2023.04.28 23:01:46 [bffc,40c8] | displayevent 0 
+2023.04.28 23:01:47 [bffc,40c8] | displayevent 1 
+2023.04.28 23:01:59 [bffc,40c8] | displayevent 0 
+2023.04.28 23:02:04 [bffc,40c8] | printer event 
+2023.04.28 23:02:05 [bffc,40c8] | disconnect 
+2023.04.28 23:02:05 [bffc,a258] | thread exit 
+2023.04.28 23:02:05 [bffc,40c8] | portclose 
+2023.04.28 23:03:07 [bffc,b860] | protocol ctor 
+2023.04.28 23:03:07 [bffc,b860] | disconnect 
+2023.04.28 23:03:07 [bffc,b860] | is stopped 
+2023.04.28 23:03:07 [bffc,b860] | SSL connect: 192.168.2.12:4050 
+2023.04.28 23:03:08 [bffc,b860] | start thread 
+2023.04.28 23:03:08 [bffc,b860] | cancellation 
+2023.04.28 23:03:08 [bffc,b860] | displayevent 0 
+2023.04.28 23:03:11 [bffc,b860] | disconnect 
+2023.04.28 23:03:11 [bffc,c020] | thread exit 
+2023.04.28 23:03:11 [bffc,b860] | portclose 
+2023.04.28 23:03:16 [bffc,a7b0] | protocol ctor 
+2023.04.28 23:03:16 [bffc,a7b0] | disconnect 
+2023.04.28 23:03:16 [bffc,a7b0] | is stopped 
+2023.04.28 23:03:16 [bffc,a7b0] | SSL connect: 192.168.2.12:4050 
+2023.04.28 23:03:16 [bffc,a7b0] | start thread 
+2023.04.28 23:03:16 [bffc,a7b0] | cancellation 
+2023.04.28 23:03:17 [bffc,a7b0] | displayevent 0 
+2023.04.28 23:03:22 [bffc,a7b0] | disconnect 
+2023.04.28 23:03:22 [bffc,7d68] | thread exit 
+2023.04.28 23:03:22 [bffc,a7b0] | portclose 
+2023.04.28 23:03:33 [bffc,a7b0] | protocol ctor 
+2023.04.28 23:03:33 [bffc,a7b0] | disconnect 
+2023.04.28 23:03:33 [bffc,a7b0] | is stopped 
+2023.04.28 23:03:33 [bffc,a7b0] | SSL connect: 192.168.2.12:4050 
+2023.04.28 23:03:34 [bffc,a7b0] | start thread 
+2023.04.28 23:03:34 [bffc,a7b0] | payment 1100 
+2023.04.28 23:03:34 [bffc,a7b0] | displayevent 0 
+2023.04.28 23:03:35 [bffc,a7b0] | displayevent 1 
+2023.04.28 23:03:43 [bffc,a7b0] | displayevent 0 
+2023.04.28 23:03:48 [bffc,a7b0] | printer event 
+2023.04.28 23:03:49 [bffc,a7b0] | disconnect 
+2023.04.28 23:03:49 [bffc,c984] | thread exit 
+2023.04.28 23:03:49 [bffc,a7b0] | portclose 
+2023.04.28 23:06:34 [bffc,b6e8] | protocol ctor 
+2023.04.28 23:06:34 [bffc,b6e8] | disconnect 
+2023.04.28 23:06:34 [bffc,b6e8] | is stopped 
+2023.04.28 23:06:34 [bffc,b6e8] | SSL connect: 192.168.2.12:4050 
+2023.04.28 23:06:36 [bffc,b6e8] | start thread 
+2023.04.28 23:06:36 [bffc,b6e8] | payment 900 
+2023.04.28 23:06:36 [bffc,b6e8] | displayevent 0 
+2023.04.28 23:06:37 [bffc,b6e8] | displayevent 1 
+2023.04.28 23:06:47 [bffc,b6e8] | disconnect 
+2023.04.28 23:06:47 [bffc,76f4] | thread exit 
+2023.04.28 23:06:47 [bffc,b6e8] | portclose 
+2023.04.28 23:06:57 [bffc,c31c] | protocol ctor 
+2023.04.28 23:06:57 [bffc,c31c] | disconnect 
+2023.04.28 23:06:57 [bffc,c31c] | is stopped 
+2023.04.28 23:06:57 [bffc,c31c] | SSL connect: 192.168.2.12:4050 
+2023.04.28 23:06:57 [bffc,c31c] | start thread 
+2023.04.28 23:06:57 [bffc,c31c] | payment 900 
+2023.04.28 23:06:57 [bffc,c31c] | displayevent 0 
+2023.04.28 23:06:58 [bffc,c31c] | displayevent 1 
+2023.04.28 23:07:07 [bffc,c31c] | displayevent 0 
+2023.04.28 23:07:12 [bffc,c31c] | printer event 
+2023.04.28 23:07:13 [bffc,c31c] | disconnect 
+2023.04.28 23:07:13 [bffc,6e18] | thread exit 
+2023.04.28 23:07:13 [bffc,c31c] | portclose 
+2023.05.09 17:03:03 [f5b8,7c44] | MONERA ZVT Terminal Library LAN 02.00 
+2023.05.09 17:03:03 [f5b8,7c44] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.05.09 17:03:03 [f5b8,7c44] | protocol ctor 
+2023.05.09 17:03:03 [f5b8,7c44] | disconnect 
+2023.05.09 17:03:03 [f5b8,7c44] | is stopped 
+2023.05.09 17:03:03 [f5b8,7c44] | SSL connect: 192.168.2.12:4050 
+2023.05.09 17:04:30 [f5b8,2618] | protocol ctor 
+2023.05.09 17:04:30 [f5b8,2618] | disconnect 
+2023.05.09 17:04:30 [f5b8,2618] | is stopped 
+2023.05.09 17:04:30 [f5b8,2618] | SSL connect: 192.168.2.12:4050 
+2023.05.09 17:05:08 [f5b8,b918] | protocol ctor 
+2023.05.09 17:05:08 [f5b8,b918] | disconnect 
+2023.05.09 17:05:08 [f5b8,b918] | is stopped 
+2023.05.09 17:05:08 [f5b8,b918] | SSL connect: 192.168.2.12:4050 
+2023.05.09 17:18:33 [8078,e018] | MONERA ZVT Terminal Library LAN 02.00 
+2023.05.09 17:18:33 [8078,e018] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.05.09 17:18:33 [8078,e018] | protocol ctor 
+2023.05.09 17:18:33 [8078,e018] | disconnect 
+2023.05.09 17:18:33 [8078,e018] | is stopped 
+2023.05.09 17:18:33 [8078,e018] | SSL connect: 192.168.2.12:4050 
+2023.05.09 17:18:34 [8078,e018] | start thread 
+2023.05.09 17:18:34 [8078,e018] | payment 1100 
+2023.05.09 17:18:34 [8078,e018] | displayevent 0 
+2023.05.09 17:18:34 [8078,e018] | displayevent 1 
+2023.05.09 17:18:42 [8078,e018] | disconnect 
+2023.05.09 17:18:42 [8078,d840] | thread exit 
+2023.05.09 17:18:43 [8078,e018] | portclose 
+2023.05.09 17:23:04 [8078,37fc] | protocol ctor 
+2023.05.09 17:23:04 [8078,37fc] | disconnect 
+2023.05.09 17:23:04 [8078,37fc] | is stopped 
+2023.05.09 17:23:04 [8078,37fc] | SSL connect: 192.168.2.12:4050 
+2023.05.09 17:23:04 [8078,37fc] | start thread 
+2023.05.09 17:23:04 [8078,37fc] | payment 900 
+2023.05.09 17:23:05 [8078,37fc] | displayevent 0 
+2023.05.09 17:23:05 [8078,37fc] | displayevent 1 
+2023.05.09 17:23:13 [8078,37fc] | disconnect 
+2023.05.09 17:23:13 [8078,b348] | thread exit 
+2023.05.09 17:23:13 [8078,37fc] | portclose 
