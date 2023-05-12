@@ -45,6 +45,7 @@ public class HttpRequestService : IHttpRequestService
             VegeDatum = s.dropoffdate,
             RekeszId = Int32.Parse(s.locknumber),
             Email = s.kontaktEmail,
+            Rendszam = s.rendszam,
             Fizetendo = Int32.Parse(s.total_price),
             Zarolando = Int32.Parse(s.deposit),
             Tipus = s.type,
@@ -65,6 +66,7 @@ public class HttpRequestService : IHttpRequestService
             VegeDatum = foglalas.dropoffdate,
             RekeszId = Int32.Parse(foglalas.locknumber),
             Email = foglalas.kontaktEmail,
+            Rendszam = foglalas.rendszam,
             Fizetendo = Int32.Parse(foglalas.total_price),
             Zarolando = Int32.Parse(foglalas.deposit),
             Tipus = foglalas.type
@@ -75,7 +77,7 @@ public class HttpRequestService : IHttpRequestService
     {
         try
         {
-            var result = await httpClient.GetStringAsync(options.RequestBase + $"?action=addEmail&id={id}&email={email}");
+            await httpClient.GetStringAsync(options.RequestBase + $"?action=addEmail&id={id}&email={email}");
         }
         catch (Exception e)
         {
@@ -87,7 +89,7 @@ public class HttpRequestService : IHttpRequestService
     {
         try
         {
-            var result = await httpClient.GetStringAsync(options.RequestBase + $"?action=addsigno&id={id}&base64={signature}");
+            await httpClient.GetStringAsync(options.RequestBase + $"?action=addsigno&id={id}&base64={signature}");
         }
         catch (Exception e)
         {
