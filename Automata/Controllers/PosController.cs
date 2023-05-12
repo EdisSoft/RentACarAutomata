@@ -59,6 +59,8 @@ namespace Automata.Controllers
                 {
                     PrinterFunctions.PrintReceiptEng(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
                 }*/
+                model.FizetveFl = true;
+                MoneraTerminal.GetReceipt();
             }
 
             //return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
@@ -117,6 +119,8 @@ namespace Automata.Controllers
                 {
                     PrinterFunctions.PrintReceiptEng(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
                 }
+                model.ZarolvaFl = true;
+                MoneraTerminal.GetReceipt();
             }
 
             //return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
@@ -139,6 +143,28 @@ namespace Automata.Controllers
 
             return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
             //return Json(new ResultModel() { Id = 0, Text = "" });
+        }
+
+        [HttpPost]
+        public JsonResult FizetesRendben(int id)
+        {
+            FoglalasModel model;
+
+            if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
+                throw new Exception("No such reservation");
+
+            return Json(new ResultModel() { Id = (!model.FizetveFl).GetHashCode(), Text = "" });
+        }
+
+        [HttpPost]
+        public JsonResult LetetZarolasRendben(int id)
+        {
+            FoglalasModel model;
+
+            if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
+                throw new Exception("No such reservation");
+
+            return Json(new ResultModel() { Id = (!model.ZarolvaFl).GetHashCode(), Text = "" });
         }
 
         public JsonResult Cancel()
