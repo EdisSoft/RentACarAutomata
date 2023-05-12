@@ -29,7 +29,7 @@ export default {
     });
 
     let Next = async () => {
-      let [success, data] = await BerletiDijFizetes();
+      let [success, data] = await BerletiDijFizetes(wizard.form.Reservation.Id);
       if (!success) {
         return;
       }
@@ -37,7 +37,7 @@ export default {
         wizard.Goto(CarPickupWizard.FinalStep);
       }
     };
-    PosService.Fizetes();
+    PosService.Fizetes(wizard.form.Reservation.Id);
     return {
       isBerletiDijFizetesLoading,
       Next,
