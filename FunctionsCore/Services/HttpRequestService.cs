@@ -1,4 +1,5 @@
-﻿using FunctionsCore.Models;
+﻿using FunctionsCore.Enums;
+using FunctionsCore.Models;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
