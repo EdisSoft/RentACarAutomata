@@ -14,7 +14,7 @@ namespace FunctionsCore.Models
                 TimeSpan ts = DateTime.Now - receivedTime;
                 if (ts.Seconds < 3)
                     return _code;
-                return "";
+                return null;
             }
             set
             {

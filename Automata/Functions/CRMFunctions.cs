@@ -23,7 +23,7 @@ public class CrmFunctions : ICrmFunctions
             var result = await requestService.GetFoglalasokByNev(nev);
             if (result is null || result.Count == 0)
             {
-                throw new WarningException("Nincs foglalás!", WarningExceptionLevel.Warning);
+                throw new WarningException("", WarningExceptionLevel.Warning); // Nincs foglalás!
             }
 
             if(result.Count == 1)
@@ -43,7 +43,7 @@ public class CrmFunctions : ICrmFunctions
     {
         var code = QrCodeReaderModel.Code;
 
-        if (code == "")
+        if (code == null)
         {
             return null;
         }

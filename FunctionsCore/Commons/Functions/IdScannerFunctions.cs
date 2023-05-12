@@ -15,7 +15,7 @@ namespace FunctionsCore.Commons.Functions
     {
         private static readonly object LockObject = new object();
 
-        public IdScannerModel ScanLicenceFront(int id)
+        public IdScannerModel ScanCard()
         {
             return new IdScannerModel()
             {
