@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FunctionsCore.Models;
+using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -92,13 +93,28 @@ namespace Automata.Functions
 
         //TID=MONERA02, ATH=656473 B, RETNUM = 001, RETTXT=ELFOGADVA, AMT = 1,00, DATE=2014.10.03 13:54:07, CNB=545548######0117, REFNO=39, ACQ=OTP BANK
         //CTYP=MasterCard, LOC = OTP - MONERA TEST TERMINAL, AID=A0000000041010, TC = 3B88BBFC, TRID = CTID_43866, 
-        public bool PrintOTPResult(string TID, string ATH, string RETNUM, string RETTXT, string AMT, string DATE, string CNB, string REFNO, string ACQ, string CTYP, string LOC, string AID, string TC, string TRID)
+        public bool PrintOTPResult(MoneraReceiptModel receipt)
+        //public bool PrintOTPResult(string TID, string ATH, string RETNUM, string RETTXT, string AMT, string DATE, string CNB, string REFNO, string ACQ, string CTYP, string LOC, string AID, string TC, string TRID)
         {
             try
             {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append("TERMINÁL ID: " + TID + "\n");
+                sb.Append("TERMINÁL ID: " + receipt.TerminalID + "\n");
+                sb.Append("ELSZÁMOLÓ: " + receipt.ACQ + "\n");
+                sb.Append("KÁRTYATÍPUS: " + receipt.CardType + "\n");
+                sb.Append("KÁRTYASZÁM: " + receipt.CardNum + "\n");
+                sb.Append("ELADÁS - SALE" + "\n");
+                sb.Append("IDÖ: " + receipt.DateTime + "\n");
+                sb.Append("REF NO: " + receipt.RefNo + "\n");
+                sb.Append("AID: " + receipt.AID + "\n");
+                sb.Append("TC: " + receipt.TC + "\n");
+                sb.Append("ENGEDÉLYSZÁM/AUTH CODE:" + "\n");
+                sb.Append(AlignToCenter(receipt.AuthCode) + "\n");
+                sb.Append("VÁLASZ/RESP: " + receipt.RetNum + "\n");
+                sb.Append(AlignToCenter(receipt.RetText) + "\n");
+                sb.Append("ÖSSZEG: " + receipt.Amount + " Ft\n\n");
+                /*sb.Append("TERMINÁL ID: " + TID + "\n");
                 sb.Append("ELSZÁMOLÓ: " + ACQ + "\n");
                 sb.Append("KÁRTYATÍPUS: " + CTYP + "\n");
                 sb.Append("KÁRTYASZÁM: " + CNB + "\n");
@@ -111,7 +127,7 @@ namespace Automata.Functions
                 sb.Append(ATH + "\n");
                 sb.Append("VÁLASZ/RESP: " + RETNUM + "\n");
                 sb.Append(RETTXT + "\n");
-                sb.Append("ÖSSZEG: " + AMT + "\n");
+                sb.Append("ÖSSZEG: " + AMT + "\n");*/
 
                 sb.Append("                                                                \n");
 

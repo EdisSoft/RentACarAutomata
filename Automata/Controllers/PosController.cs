@@ -9,6 +9,12 @@ namespace Automata.Controllers
     public class PosController : BaseController
     {
         MoneraTerminalFunctions MoneraTerminal { get; set; }
+        IPrinterFunctions PrinterFunctions { get; set; }
+
+        public PosController(IPrinterFunctions printerFunctions)
+        {
+            PrinterFunctions = printerFunctions;
+        }
 
         //private static int _tranzakcioId = 0;
         //private static int TranzakcioId
@@ -33,9 +39,26 @@ namespace Automata.Controllers
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
             int res = MoneraTerminal.NormalPayment(model.Fizetendo, ctid); //TODO: Mi a második paraméter, honnan fogjuk tudni?
+            //int res = 0;
             if (res == 0)
             {
-                MoneraTerminal.GetReceipt();
+                string sReceipt = "TID=02439406|ATH=227187  |RETNUM=001|RETTXT=ELFOGADVA|AMT=11,00|DATE=2023.04.28 23:03:43|" + 
+                    "CNB=478738XXXXXX1811|REFNO=17|ACQ=OTP BANK|CTYP=Visa Card|LOC=VECSE'S FO\" UTCA 195|MERCN=GAME RENTACAR KFT.|" + 
+                    "OWN=GAME RENTACAR|AID=A0000000031010|TC=B3112CA3096DF044|TRID=PAID_19338";
+                MoneraReceiptModel moneraReceipt = new MoneraReceiptModel();
+                moneraReceipt.Parse(MoneraTerminal.GetReceipt());
+                //moneraReceipt.Parse(sReceipt);
+                int amount = (int)Double.Parse(moneraReceipt.Amount);
+
+                PrinterFunctions.PrintOTPResult(moneraReceipt);
+                /*if (model.Nyelv == FunctionsCore.Enums.Nyelvek.Magyar)
+                {
+                    PrinterFunctions.PrintReceiptHun(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
+                }
+                else if (model.Nyelv == FunctionsCore.Enums.Nyelvek.English)
+                {
+                    PrinterFunctions.PrintReceiptEng(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
+                }*/
             }
 
             //return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
@@ -53,7 +76,10 @@ namespace Automata.Controllers
             int res = MoneraTerminal.NormalPayment(amount, ctid); //TODO: Mi a második paraméter, honnan fogjuk tudni?
             if (res == 0)
             {
-                MoneraTerminal.GetReceipt();
+                MoneraReceiptModel moneraReceipt = new MoneraReceiptModel();
+                moneraReceipt.Parse(MoneraTerminal.GetReceipt());
+
+                PrinterFunctions.PrintReceiptHun("aggreeNum", "plateNum", System.DateTime.Today, ((int)Double.Parse( moneraReceipt.Amount )), moneraReceipt.AuthCode);
             }
 
             return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
@@ -72,9 +98,25 @@ namespace Automata.Controllers
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
             int res = MoneraTerminal.DepositPayment(model.Zarolando, ctid); //TODO: Mi a második paraméter, honnan fogjuk tudni?
+            //int res = 0;
             if (res == 0)
             {
-                MoneraTerminal.GetReceipt();
+                string sReceipt = "TID=02439406|ATH=227690  |RETNUM=001|RETTXT=ELFOGADVA|AMT=9,00|DATE=2023.04.28 23:07:08|" + 
+                    "CNB=478738XXXXXX1811|REFNO=18|ACQ=OTP BANK|CTYP=Visa Card|LOC=VECSE'S FO\" UTCA 195|MERCN=GAME RENTACAR KFT.|" + 
+                    "OWN=GAME RENTACAR|AID=A0000000031010|TC=49EF7905F7150AE2|TRID=DEID_77092";
+                MoneraReceiptModel moneraReceipt = new MoneraReceiptModel();
+                moneraReceipt.Parse(MoneraTerminal.GetReceipt());
+                //moneraReceipt.Parse(sReceipt);
+                int amount = (int)Double.Parse(moneraReceipt.Amount);
+
+                if (model.Nyelv == FunctionsCore.Enums.Nyelvek.Magyar)
+                {
+                    PrinterFunctions.PrintReceiptHun(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
+                }
+                else if (model.Nyelv == FunctionsCore.Enums.Nyelvek.English)
+                {
+                    PrinterFunctions.PrintReceiptEng(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
+                }
             }
 
             //return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });

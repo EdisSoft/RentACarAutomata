@@ -45,6 +45,7 @@ public class HttpRequestService : IHttpRequestService
             VegeDatum = s.dropoffdate,
             RekeszId = Int32.Parse(s.locknumber),
             Email = s.kontaktEmail,
+            Rendszam = s.rendszam,
             Fizetendo = Int32.Parse(s.total_price),
             Zarolando = Int32.Parse(s.deposit),
             Tipus = s.type,
@@ -65,6 +66,7 @@ public class HttpRequestService : IHttpRequestService
             VegeDatum = foglalas.dropoffdate,
             RekeszId = Int32.Parse(foglalas.locknumber),
             Email = foglalas.kontaktEmail,
+            Rendszam = foglalas.rendszam,
             Fizetendo = Int32.Parse(foglalas.total_price),
             Zarolando = Int32.Parse(foglalas.deposit),
             Tipus = foglalas.type
