@@ -29,7 +29,7 @@ export default {
     });
 
     let Next = async () => {
-      let [success, data] = await LetetZarolas();
+      let [success, data] = await LetetZarolas(wizard.form.Reservation.Id);
       if (!success) {
         return;
       }
@@ -37,7 +37,7 @@ export default {
         wizard.Goto(CarPickupWizard.PayRentalFeeStep);
       }
     };
-    PosService.LetetZarolas();
+    PosService.LetetZarolas(wizard.form.Reservation.Id);
     return {
       isLetetZarolasLoading,
       Next,
