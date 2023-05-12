@@ -42,25 +42,17 @@ namespace Automata.Controllers
             //int res = 0;
             if (res == 0)
             {
-                string sReceipt = "TID=02439406|ATH=227187  |RETNUM=001|RETTXT=ELFOGADVA|AMT=11,00|DATE=2023.04.28 23:03:43|" + 
-                    "CNB=478738XXXXXX1811|REFNO=17|ACQ=OTP BANK|CTYP=Visa Card|LOC=VECSE'S FO\" UTCA 195|MERCN=GAME RENTACAR KFT.|" + 
-                    "OWN=GAME RENTACAR|AID=A0000000031010|TC=B3112CA3096DF044|TRID=PAID_19338";
+                model.FizetveFl = true;
+
                 MoneraReceiptModel moneraReceipt = new MoneraReceiptModel();
                 moneraReceipt.Parse(MoneraTerminal.GetReceipt());
+
+                //string sReceipt = "TID=02439406|ATH=227187  |RETNUM=001|RETTXT=ELFOGADVA|AMT=11,00|DATE=2023.04.28 23:03:43|" + 
+                //    "CNB=478738XXXXXX1811|REFNO=17|ACQ=OTP BANK|CTYP=Visa Card|LOC=VECSE'S FO\" UTCA 195|MERCN=GAME RENTACAR KFT.|" + 
+                //    "OWN=GAME RENTACAR|AID=A0000000031010|TC=B3112CA3096DF044|TRID=PAID_19338";
                 //moneraReceipt.Parse(sReceipt);
-                int amount = (int)Double.Parse(moneraReceipt.Amount);
 
                 PrinterFunctions.PrintOTPResult(moneraReceipt);
-                /*if (model.Nyelv == FunctionsCore.Enums.Nyelvek.Magyar)
-                {
-                    PrinterFunctions.PrintReceiptHun(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
-                }
-                else if (model.Nyelv == FunctionsCore.Enums.Nyelvek.English)
-                {
-                    PrinterFunctions.PrintReceiptEng(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
-                }*/
-                model.FizetveFl = true;
-                MoneraTerminal.GetReceipt();
             }
 
             //return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
@@ -103,11 +95,14 @@ namespace Automata.Controllers
             //int res = 0;
             if (res == 0)
             {
-                string sReceipt = "TID=02439406|ATH=227690  |RETNUM=001|RETTXT=ELFOGADVA|AMT=9,00|DATE=2023.04.28 23:07:08|" + 
-                    "CNB=478738XXXXXX1811|REFNO=18|ACQ=OTP BANK|CTYP=Visa Card|LOC=VECSE'S FO\" UTCA 195|MERCN=GAME RENTACAR KFT.|" + 
-                    "OWN=GAME RENTACAR|AID=A0000000031010|TC=49EF7905F7150AE2|TRID=DEID_77092";
+                model.ZarolvaFl = true;
+
                 MoneraReceiptModel moneraReceipt = new MoneraReceiptModel();
                 moneraReceipt.Parse(MoneraTerminal.GetReceipt());
+
+                //string sReceipt = "TID=02439406|ATH=227690  |RETNUM=001|RETTXT=ELFOGADVA|AMT=9,00|DATE=2023.04.28 23:07:08|" + 
+                //    "CNB=478738XXXXXX1811|REFNO=18|ACQ=OTP BANK|CTYP=Visa Card|LOC=VECSE'S FO\" UTCA 195|MERCN=GAME RENTACAR KFT.|" + 
+                //    "OWN=GAME RENTACAR|AID=A0000000031010|TC=49EF7905F7150AE2|TRID=DEID_77092";
                 //moneraReceipt.Parse(sReceipt);
                 int amount = (int)Double.Parse(moneraReceipt.Amount);
 
@@ -119,8 +114,6 @@ namespace Automata.Controllers
                 {
                     PrinterFunctions.PrintReceiptEng(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
                 }
-                model.ZarolvaFl = true;
-                MoneraTerminal.GetReceipt();
             }
 
             //return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
