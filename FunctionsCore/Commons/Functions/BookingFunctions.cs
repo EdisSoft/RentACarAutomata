@@ -161,12 +161,21 @@ public class BookingFunctions : IBookingFunctions
     public static FoglalasModel UjFoglalas(FoglalasModel foglalas)
     {
         Log.Debug("Új adat érkezett! Foglalás: " + foglalas.Id);
+
+        int folyamatbanLevoVarazsloLepes = FindFoglalasById(foglalas.Id)?.UtolsoVarazsloLepes ?? 0;
+
         try
         {
             var result = FoglalasokMemory.AddOrUpdate(foglalas.Id, foglalas, (k, v) => foglalas);
             if (result != null)
             {
-                Log.Debug("Foglalas frissítése sikeres volt! FoglalasId: " + foglalas.Id);
+                if (folyamatbanLevoVarazsloLepes == 0)
+                    Log.Debug("Új foglalas felvétele sikeres volt! FoglalasId: " + foglalas.Id);
+                else
+                {
+                    Log.Debug("Foglalas frissítése sikeres volt! FoglalasId: " + foglalas.Id);
+                    result.UtolsoVarazsloLepes = folyamatbanLevoVarazsloLepes;
+                }
                 return foglalas;
             }
         }

@@ -26,7 +26,7 @@ public class FoglalasController : BaseController
         return Json(result);
     }
 
-    public async Task<JsonResult> IsQrCode()
+    public async Task<JsonResult> ReadQr()
     {
         var result = await CrmFunctions.GetFoglalasByQrCode();
         if (result != null)
@@ -49,18 +49,19 @@ public class FoglalasController : BaseController
         return Json(new ResultModel() { Id = 0, Text = "" });
     }
 
-    public JsonResult SaveAlairas(int id, string pic)
+    [HttpPost]
+    public JsonResult SaveAlairas([FromBody]AlairasModel model)
     {
         bookingFunctions.UjCsomag(new DeliveryModel()
         {
-            OrderId = id,
-            ValueStr = pic,
+            OrderId = model.Id,
+            ValueStr = model.Pic,
             Type = FunctionsCore.Enums.DeliveryTypes.Signature
         });
 
         var nyelv = Request.Headers["Accept-Language"];
 
-        BookingFunctions.UpdateFoglalas(id, nyelv);
+        BookingFunctions.UpdateFoglalas(model.Id, nyelv);
 
         return Json(new ResultModel() { Id = 0, Text = "" });
     }
@@ -69,7 +70,7 @@ public class FoglalasController : BaseController
     {
         //temp
         IdScannerFunctions idScannerFunctions = new IdScannerFunctions();
-        var result = idScannerFunctions.ScanLicenceFront(id);
+        var result = idScannerFunctions.ScanCard();
 
         bookingFunctions.UjCsomag(new DeliveryModel()
         {
@@ -87,7 +88,7 @@ public class FoglalasController : BaseController
     {
         //temp
         IdScannerFunctions idScannerFunctions = new IdScannerFunctions();
-        var result = idScannerFunctions.ScanLicenceFront(id);
+        var result = idScannerFunctions.ScanCard();
 
         bookingFunctions.UjCsomag(new DeliveryModel()
         {
@@ -103,7 +104,7 @@ public class FoglalasController : BaseController
     {
         //temp
         IdScannerFunctions idScannerFunctions = new IdScannerFunctions();
-        var result = idScannerFunctions.ScanLicenceFront(id);
+        var result = idScannerFunctions.ScanCard();
 
         bookingFunctions.UjCsomag(new DeliveryModel()
         {
@@ -121,7 +122,7 @@ public class FoglalasController : BaseController
     {
         //temp
         IdScannerFunctions idScannerFunctions = new IdScannerFunctions();
-        var result = idScannerFunctions.ScanLicenceFront(id);
+        var result = idScannerFunctions.ScanCard();
 
         bookingFunctions.UjCsomag(new DeliveryModel()
         {
@@ -137,7 +138,7 @@ public class FoglalasController : BaseController
     {
         //temp
         IdScannerFunctions idScannerFunctions = new IdScannerFunctions();
-        var result = idScannerFunctions.ScanLicenceFront(id);
+        var result = idScannerFunctions.ScanCard();
 
         bookingFunctions.UjCsomag(new DeliveryModel()
         {
@@ -155,7 +156,7 @@ public class FoglalasController : BaseController
     {
         //temp
         IdScannerFunctions idScannerFunctions = new IdScannerFunctions();
-        var result = idScannerFunctions.ScanLicenceFront(id);
+        var result = idScannerFunctions.ScanCard();
 
         bookingFunctions.UjCsomag(new DeliveryModel()
         {

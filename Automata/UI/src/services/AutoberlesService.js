@@ -23,9 +23,11 @@ class AutoberlesService {
     // }
     // return mock;
 
-    let result = await httpContext.post(`Home/GetData`, null, { params });
+    //let result = await httpContext.post(`Home/GetData`, null, { params });
 
-    // let result = await httpContext.post(`Autoberles/GetFoglalasok`, null, { params });
+    let result = await httpContext.post(`Foglalas/GetFoglalasok`, null, {
+      params,
+    });
     return result.data;
   }
   async IsQrCode() {
@@ -37,7 +39,7 @@ class AutoberlesService {
     //   VegeDatum: new Date().toISOString(),
     //   EmailFl: false,
     // };
-    let result = await httpContext.post(`QrCode/ReadQr`);
+    let result = await httpContext.post(`Foglalas/ReadQr`);
     return result.data;
   }
   async SaveEmail(id, email) {
@@ -48,16 +50,18 @@ class AutoberlesService {
     return result.data;
   }
   async SaveAlairas(id, pic) {
-    await timeout(500);
-    console.log({ id, pic });
-    return {
-      Id: 0,
-      Text: 'Ok',
-    };
-    let params = { id, pic };
-    let result = await httpContext.post(`Autoberles/SaveAlairas`, null, {
-      params,
-    });
+    // await timeout(500);
+    // console.log({ id, pic });
+    // return {
+    //   Id: 0,
+    //   Text: 'Ok',
+    // };
+    // let params = { id, pic };
+    // let result = await httpContext.post(`Foglalas/SaveAlairas`, null, {
+    //   params,
+    // });
+    let data = { id, pic };
+    let result = await httpContext.post(`Foglalas/SaveAlairas`, data);
     return result.data;
   }
   async ScanLicenceFront(id) {
