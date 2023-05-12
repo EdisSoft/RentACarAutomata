@@ -28,6 +28,7 @@ namespace FunctionsCore.Models
         public int UtolsoVarazsloLepes { get; set; }
         public bool IdeiglenesFl { get; set; } = false;
         public int RekeszId { get; set; }
-
+        public bool ZarolvaFl { get; set; }
+        public bool FizetveFl { get; set; }
     }
 }

@@ -35,6 +35,7 @@ namespace Automata.Controllers
             int res = MoneraTerminal.NormalPayment(model.Fizetendo, ctid); //TODO: Mi a második paraméter, honnan fogjuk tudni?
             if (res == 0)
             {
+                model.FizetveFl = true;
                 MoneraTerminal.GetReceipt();
             }
 
@@ -74,6 +75,7 @@ namespace Automata.Controllers
             int res = MoneraTerminal.DepositPayment(model.Zarolando, ctid); //TODO: Mi a második paraméter, honnan fogjuk tudni?
             if (res == 0)
             {
+                model.ZarolvaFl = true;
                 MoneraTerminal.GetReceipt();
             }
 
@@ -97,6 +99,28 @@ namespace Automata.Controllers
 
             return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
             //return Json(new ResultModel() { Id = 0, Text = "" });
+        }
+
+        [HttpPost]
+        public JsonResult FizetesRendben(int id)
+        {
+            FoglalasModel model;
+
+            if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
+                throw new Exception("No such reservation");
+
+            return Json(new ResultModel() { Id = (!model.FizetveFl).GetHashCode(), Text = "" });
+        }
+
+        [HttpPost]
+        public JsonResult LetetZarolasRendben(int id)
+        {
+            FoglalasModel model;
+
+            if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
+                throw new Exception("No such reservation");
+
+            return Json(new ResultModel() { Id = (!model.ZarolvaFl).GetHashCode(), Text = "" });
         }
 
         public JsonResult Cancel()

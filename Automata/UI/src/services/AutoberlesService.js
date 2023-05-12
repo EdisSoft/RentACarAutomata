@@ -151,37 +151,29 @@ class AutoberlesService {
     return result.data;
   }
   async LetetZarolas(id) {
-    await timeout(500);
-    console.log({ id });
-    return {
-      Id: 0,
-      Text: 'Ok',
-    };
+    // await timeout(500);
+    // console.log({ id });
+    // return {
+    //   Id: 0,
+    //   Text: 'Ok',
+    // };
     let params = { id };
-    let result = await httpContext.post(
-      `Autoberles/LetetZarolasEllenorzes`,
-      null,
-      {
-        params,
-      }
-    );
+    let result = await httpContext.post(`Pos/LetetZarolasRendben`, null, {
+      params,
+    });
     return result.data;
   }
   async BerletiDijFizetes(id) {
-    await timeout(500);
-    console.log({ id });
-    return {
-      Id: 0,
-      Text: 'Ok',
-    };
+    // await timeout(500);
+    // console.log({ id });
+    // return {
+    //   Id: 0,
+    //   Text: 'Ok',
+    // };
     let params = { id };
-    let result = await httpContext.post(
-      `Autoberles/BerletiDijFizetesEllenorzes`,
-      null,
-      {
-        params,
-      }
-    );
+    let result = await httpContext.post(`Pos/FizetesRendben`, null, {
+      params,
+    });
     return result.data;
   }
 }
