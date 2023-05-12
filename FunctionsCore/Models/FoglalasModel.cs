@@ -19,6 +19,7 @@ namespace FunctionsCore.Models
                 return string.IsNullOrWhiteSpace(Email) ? false : true;
             }
         }
+        public string Rendszam { get; set; }
         public int Zarolando { get; set; }
         public int Fizetendo { get; set; }
         public string Tipus { get; set; }
