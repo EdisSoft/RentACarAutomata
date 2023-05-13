@@ -30,5 +30,7 @@ namespace FunctionsCore.Models
         public int RekeszId { get; set; }
         public bool ZarolvaFl { get; set; }
         public bool FizetveFl { get; set; }
+        public bool ZarolasMegszakadtFl { get; set; }
+        public bool FizetesMegszakadtFl { get; set; }
     }
 }

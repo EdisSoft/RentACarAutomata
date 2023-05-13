@@ -35,6 +35,7 @@ namespace Automata.Controllers
             if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
                 throw new Exception("No such reservation");
 
+            model.FizetesMegszakadtFl = false;
             string ctid = $"PAID_{DateTime.Now:MMddHHmm}{id:D8}"; //{ TranzakcioId: D4} max 24 chars
 
             MoneraTerminal = new MoneraTerminalFunctions();
@@ -54,6 +55,10 @@ namespace Automata.Controllers
                 //moneraReceipt.Parse(sReceipt);
 
                 PrinterFunctions.PrintOTPResult(moneraReceipt);
+            }
+            else
+            {
+                model.FizetesMegszakadtFl = true;
             }
 
             //return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
@@ -88,6 +93,7 @@ namespace Automata.Controllers
             if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
                 throw new Exception("No such reservation");
 
+            model.ZarolasMegszakadtFl = false;
             string ctid = $"DEID_{DateTime.Now:MMddHHmm}{id:D8}"; //{ TranzakcioId: D4} max 24 chars
 
             MoneraTerminal = new MoneraTerminalFunctions();
@@ -115,6 +121,10 @@ namespace Automata.Controllers
                 {
                     PrinterFunctions.PrintReceiptEng(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
                 }
+            }
+            else
+            {
+                model.ZarolasMegszakadtFl = true;
             }
 
             //return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
@@ -146,6 +156,11 @@ namespace Automata.Controllers
 
             if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
                 throw new Exception("No such reservation");
+
+            if (model.FizetesMegszakadtFl)
+            {
+                return Json(new ResultModel() { Id = -1, Text = "Pos újraindítása" });
+            }
 
             if (model.FizetveFl)
             {
@@ -193,6 +208,11 @@ namespace Automata.Controllers
 
             if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
                 throw new Exception("No such reservation");
+
+            if (model.ZarolasMegszakadtFl)
+            {
+                return Json(new ResultModel() { Id = -1, Text = "Pos újraindítása" });
+            }
 
             return Json(new ResultModel() { Id = (!model.ZarolvaFl).GetHashCode(), Text = "" });
         }
