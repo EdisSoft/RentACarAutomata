@@ -24,6 +24,7 @@ import { inject, ref } from 'vue';
 import { settings } from '@/settings';
 import { vMinLength, vRequired } from '@/utils/vuetifyFormRules';
 import { QrCodeService } from '@/services/QrCodeService';
+import router from '@/router';
 
 export default {
   name: 'booking-number-or-qr-step',
@@ -58,7 +59,11 @@ export default {
       if (!reservation) {
         return;
       }
-      WizardFunctions.HandleNavigationForReservation(wizard, reservation);
+      if (reservation.Tipus == 'admin') {
+        router.push({ name: 'key-cabinets-view' });
+      } else {
+        WizardFunctions.HandleNavigationForReservation(wizard, reservation);
+      }
     };
     //if (settings.isProd) {
     useInterval(3000, { immediate: true, callback: CheckQr });

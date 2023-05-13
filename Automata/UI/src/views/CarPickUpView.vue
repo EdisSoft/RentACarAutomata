@@ -112,9 +112,10 @@
 <script>
 import { CarPickupWizard } from '@/enums/CarPickupWizard';
 import router from '@/router';
+import { PosService } from '@/services/PosService';
 import { useCountdown } from '@/utils/useCountdown';
 import { useWizard } from '@/utils/useWizard';
-import { computed } from 'vue';
+import { computed, onBeforeUnmount } from 'vue';
 export default {
   name: 'CarPickUpView',
   provide() {
@@ -137,6 +138,9 @@ export default {
     );
     const { remaingTime } = useCountdown(5 * 60 * 1000, () => {
       router.push({ name: 'home' });
+    });
+    onBeforeUnmount(() => {
+      PosService.Cancel();
     });
     return { Goto, step, remaingTime, CarPickupWizard, form, SetFormValue };
   },
