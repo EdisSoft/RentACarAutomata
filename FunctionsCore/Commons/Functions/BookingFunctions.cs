@@ -118,10 +118,10 @@ public class BookingFunctions : IBookingFunctions
                 switch (nyelv)
                 {
                     case "en":
-                        foglalasMemory.Nyelv = Nyelvek.English;
+                        foglalasMemory.Nyelv = Nyelvek.en;
                         break;
                     case "hu":
-                        foglalasMemory.Nyelv = Nyelvek.Magyar;
+                        foglalasMemory.Nyelv = Nyelvek.hu;
                         break;
                 }
 

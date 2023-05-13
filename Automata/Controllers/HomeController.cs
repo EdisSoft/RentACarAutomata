@@ -34,7 +34,7 @@ namespace Automata.Controllers
         {
             var lockerAddresses = AppSettingsBase.GetLockerAddresses();
             var nyelv = Request.Headers["Accept-Language"];
-            var model = new FoglalasModel() { Id = 12, KezdDatum = DateTime.Now, Fizetendo = 10, Zarolando = 12, Nev = "Gábor", Tipus = "admin", Nyelv = Nyelvek.Magyar };
+            var model = new FoglalasModel() { Id = 12, KezdDatum = DateTime.Now, Fizetendo = 10, Zarolando = 12, Nev = "Gábor", Tipus = "admin", Nyelv = Nyelvek.hu };
             BookingFunctions.UjFoglalas(model);
 
             var foglalas = BookingFunctions.FindFoglalasById(12);
@@ -43,10 +43,10 @@ namespace Automata.Controllers
                 switch (nyelv)
                 {
                     case "en":
-                        foglalas.Nyelv = Nyelvek.English;
+                        foglalas.Nyelv = Nyelvek.en;
                         break;
                     case "hu":
-                        foglalas.Nyelv = Nyelvek.Magyar;
+                        foglalas.Nyelv = Nyelvek.hu;
                         break;
                 }
                 BookingFunctions.UjFoglalas(foglalas);
