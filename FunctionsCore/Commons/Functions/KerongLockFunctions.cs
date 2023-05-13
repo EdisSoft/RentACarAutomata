@@ -192,6 +192,7 @@ namespace FunctionsCore.Commons.Functions
                 throw new ArgumentOutOfRangeException(nameof(lockno), "value must be between 1 and 16");
             }
             Open();
+            Log.Debug("Opening lock " + lockno);
             SendCommand((byte)((cuBaseAddress << 4) + (lockno - 1)), CMD_OPEN_LOCK);
             Thread.Sleep(50);
             Close();
@@ -204,6 +205,7 @@ namespace FunctionsCore.Commons.Functions
                 throw new ArgumentOutOfRangeException(nameof(lockno), "value must be between 1 and 16");
             }
             Open();
+            Log.Debug("Reading locks status");
             uint locksStatus = GetLocksStatus();
             Close();
             return ((locksStatus & (1 << (lockno - 1))) != 0);
@@ -211,6 +213,7 @@ namespace FunctionsCore.Commons.Functions
 
         void OpenAllLocks()
         {
+            Log.Debug("Opening each locks");
             SendCommand(cuBaseAddress, CMD_OPEN_ALL_LOCKS);
             Thread.Sleep(50);
         }

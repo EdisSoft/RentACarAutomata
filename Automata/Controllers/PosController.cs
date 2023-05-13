@@ -1,4 +1,5 @@
 ﻿using Automata.Functions;
+using FunctionsCore;
 using FunctionsCore.Commons.Functions;
 using FunctionsCore.Contexts;
 using FunctionsCore.Enums;
@@ -56,6 +57,7 @@ namespace Automata.Controllers
                 //    "OWN=GAME RENTACAR|AID=A0000000031010|TC=B3112CA3096DF044|TRID=PAID_19338";
                 //moneraReceipt.Parse(sReceipt);
 
+                Log.Debug("Printing payment receipt");
                 PrinterFunctions.PrintOTPResult(moneraReceipt);
             }
             else
@@ -115,6 +117,7 @@ namespace Automata.Controllers
                 //moneraReceipt.Parse(sReceipt);
                 int amount = (int)Double.Parse(moneraReceipt.Amount);
 
+                Log.Debug("Printing deposit receipt");
                 if (model.Nyelv == Nyelvek.hu)
                 {
                     PrinterFunctions.PrintReceiptHun(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
@@ -170,6 +173,7 @@ namespace Automata.Controllers
                 int lockNo = 0;
                 var lockerAddresses = AppSettingsBase.GetLockerAddresses();
 
+                Log.Debug("Opening Compartment" + model.RekeszId);
                 lockNo = lockerAddresses.GetLockNumber(model.RekeszId);
                 KerongLockFunctions locks = new KerongLockFunctions();
                 locks.OpenLock((byte)lockNo);
