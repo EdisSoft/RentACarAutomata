@@ -2,7 +2,7 @@
 {
     public enum Nyelvek
     {
-        English = 1,
-        Magyar = 2
+        en = 1,
+        hu = 2
     }
 }

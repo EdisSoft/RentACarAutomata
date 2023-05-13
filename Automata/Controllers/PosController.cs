@@ -1,6 +1,7 @@
 ﻿using Automata.Functions;
 using FunctionsCore.Commons.Functions;
 using FunctionsCore.Contexts;
+using FunctionsCore.Enums;
 using FunctionsCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -36,6 +37,7 @@ namespace Automata.Controllers
                 throw new Exception("No such reservation");
 
             model.FizetesMegszakadtFl = false;
+
             string ctid = $"PAID_{DateTime.Now:MMddHHmm}{id:D8}"; //{ TranzakcioId: D4} max 24 chars
 
             MoneraTerminal = new MoneraTerminalFunctions();
@@ -113,11 +115,11 @@ namespace Automata.Controllers
                 //moneraReceipt.Parse(sReceipt);
                 int amount = (int)Double.Parse(moneraReceipt.Amount);
 
-                if (model.Nyelv == FunctionsCore.Enums.Nyelvek.Magyar)
+                if (model.Nyelv == Nyelvek.hu)
                 {
                     PrinterFunctions.PrintReceiptHun(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
                 }
-                else if (model.Nyelv == FunctionsCore.Enums.Nyelvek.English)
+                else if (model.Nyelv == Nyelvek.en)
                 {
                     PrinterFunctions.PrintReceiptEng(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
                 }

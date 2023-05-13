@@ -65,12 +65,12 @@ export const Languages = Object.freeze({
       ...defaultKeyboard,
     },
   },
-  ES: {
-    key: 'es',
-    svg: ES,
-    keyboard: {
-      ...defaultKeyboard,
-    },
-  },
+  // ES: {
+  //   key: 'es',
+  //   svg: ES,
+  //   keyboard: {
+  //     ...defaultKeyboard,
+  //   },
+  // },
 });
 export const LanguageList = Array.from(Object.values(Languages));
