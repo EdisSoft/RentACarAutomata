@@ -6,6 +6,6 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>C:\Publish\Release\Automata</_PublishTargetUrl>
-    <History>True|2023-05-12T22:29:26.6832821Z;True|2023-05-12T21:18:42.6594093+02:00;True|2023-05-04T13:20:19.9533139+02:00;True|2023-01-06T11:15:56.0963734+01:00;True|2023-01-06T11:07:20.4707345+01:00;True|2021-07-23T16:47:03.3722175+02:00;True|2021-03-14T00:20:42.2013315+01:00;True|2021-03-13T21:29:59.2105182+01:00;</History>
+    <History>True|2023-05-13T15:26:30.1685585Z;True|2023-05-13T00:29:26.6832821+02:00;True|2023-05-12T21:18:42.6594093+02:00;True|2023-05-04T13:20:19.9533139+02:00;True|2023-01-06T11:15:56.0963734+01:00;True|2023-01-06T11:07:20.4707345+01:00;True|2021-07-23T16:47:03.3722175+02:00;True|2021-03-14T00:20:42.2013315+01:00;True|2021-03-13T21:29:59.2105182+01:00;</History>
   </PropertyGroup>
 </Project>
