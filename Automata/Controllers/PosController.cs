@@ -164,38 +164,13 @@ namespace Automata.Controllers
 
             if (model.FizetveFl)
             {
+                // Open lock
                 int lockNo = 0;
                 var lockerAddresses = AppSettingsBase.GetLockerAddresses();
 
-                switch (model.RekeszId)
-                {
-                    case 1:
-                        lockNo = lockerAddresses.Lock01;
-                        break;
-                    case 2:
-                        lockNo = lockerAddresses.Lock02;
-                        break;
-                    case 3:
-                        lockNo = lockerAddresses.Lock03;
-                        break;
-                    case 4:
-                        lockNo = lockerAddresses.Lock04;
-                        break;
-                    case 5:
-                        lockNo = lockerAddresses.Lock05;
-                        break;
-                    case 6:
-                        lockNo = lockerAddresses.Lock06;
-                        break;
-                    case 7:
-                        lockNo = lockerAddresses.Lock07;
-                        break;
-                    case 8:
-                        lockNo = lockerAddresses.Lock08;
-                        break;
-                }
+                lockNo = lockerAddresses.GetLockNumber(model.RekeszId);
                 KerongLockFunctions locks = new KerongLockFunctions();
-                locks.OpenLock((byte)(lockNo));
+                locks.OpenLock((byte)lockNo);
             }
 
             return Json(new ResultModel() { Id = (!model.FizetveFl).GetHashCode(), Text = "" });
