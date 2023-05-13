@@ -28,6 +28,17 @@ class PosService {
     });
     return result.data;
   }
+  async Cancel() {
+    await timeout(500);
+    console.log('Pos/Cancel');
+    return {
+      Id: 0,
+      Text: 'Ok',
+    };
+
+    let result = await httpContext.post(`Pos/Cancel`);
+    return result.data;
+  }
 }
 
 let instance = new PosService();

@@ -17,35 +17,27 @@
 
         public int GetLockNumber(int iRekeszNo)
         {
-            int lockNo = 0;
             switch (iRekeszNo)
             {
                 case 1:
-                    lockNo = Lock01;
-                    break;
+                    return Lock01;
                 case 2:
-                    lockNo = Lock02;
-                    break;
+                    return Lock02;
                 case 3:
-                    lockNo = Lock03;
-                    break;
+                    return Lock03;
                 case 4:
-                    lockNo = Lock04;
-                    break;
+                    return Lock04;
                 case 5:
-                    lockNo = Lock05;
-                    break;
+                    return Lock05;
                 case 6:
-                    lockNo = Lock06;
-                    break;
+                    return Lock06;
                 case 7:
-                    lockNo = Lock07;
-                    break;
+                    return Lock07;
                 case 8:
-                    lockNo = Lock08;
-                    break;
+                    return Lock08;
             }
-            return lockNo;
+            Log.Error($"Nem létező rekesz: {iRekeszNo}");
+            return 0;
         }
     }
 

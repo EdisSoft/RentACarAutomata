@@ -11,17 +11,34 @@
     </v-container>
     <v-container class="body" fluid>
       <v-row>
-        <v-col cols="12" md="6" class="d-flex flex-column gap-1rem">
-          <key-cabinet-item v-for="n in 4" :key="n" :cabinet-number="n">
+        <v-col
+          cols="12"
+          md="4"
+          offset-md="1"
+          class="d-flex flex-column gap-1rem"
+        >
+          <key-cabinet-item
+            v-for="n in cabinets.left"
+            :key="n.Id"
+            :cabinet-number="n.Id"
+            :is-opened="n.IsOpened"
+            @opened="GetLockStatuses"
+          >
           </key-cabinet-item>
         </v-col>
         <v-col
           cols="12"
-          offset-md1
-          md="6"
+          md="4"
+          offset-md="2"
           class="d-flex flex-column gap-1rem justify-end"
         >
-          <key-cabinet-item v-for="n in 4" :key="n" :cabinet-number="n + 4">
+          <key-cabinet-item
+            v-for="n in cabinets.right"
+            :key="n.Id"
+            :cabinet-number="n.Id"
+            :is-opened="n.IsOpened"
+            @opened="GetLockStatuses"
+          >
           </key-cabinet-item>
         </v-col>
       </v-row>
@@ -33,10 +50,12 @@
 
 <script>
 import router from '@/router';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useCountdown } from '@/utils/useCountdown';
 import { AutomataService } from '@/services/AutomataService';
 import { useApi } from '@/utils/useApi';
+import { LockService } from '@/services/LockService';
+import chunk from 'lodash/chunk';
 export default {
   name: 'Home',
   provide() {
@@ -47,16 +66,41 @@ export default {
     };
   },
   setup() {
+    let lockStatuses = ref([]);
     let { remaingTime } = useCountdown(60 * 1000, () => {
       router.push({ name: 'welcome' });
     });
-
-    return { remaingTime };
+    let [lockStatusesLoading, GetLockStatuses] = useApi(
+      async () => {
+        let result = await LockService.LockStatuses();
+        lockStatuses.value = result;
+        return result;
+      },
+      { silentError: true }
+    );
+    GetLockStatuses();
+    return { remaingTime, lockStatuses, GetLockStatuses };
   },
   mounted() {},
-
   methods: {},
-  computed: {},
+  computed: {
+    cabinets() {
+      let cabinets = [];
+      let lockStatuses = this.lockStatuses;
+      for (let i = 0; i < 9; i++) {
+        let id = i + 1;
+        let status = lockStatuses.find((f) => f.RekeszId == id);
+        let cabinet = {
+          Id: id,
+          Name: id,
+          IsOpened: status?.IsOpen ?? false,
+        };
+        cabinets.push(cabinet);
+      }
+      let [left, right] = chunk(cabinets, 4);
+      return { left, right };
+    },
+  },
 };
 </script>
 <style lang="scss" scoped></style>
