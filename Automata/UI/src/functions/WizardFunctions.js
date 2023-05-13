@@ -4,7 +4,10 @@ import { CarPickupWizard } from '@/enums/CarPickupWizard';
 class WizardFunctions {
   HandleNavigationForReservation(wizard, reservation) {
     wizard.SetFormValue('Reservation', reservation);
-    if (reservation.EmailFl) {
+    let step = reservation.UtolsoVarazsloLepes;
+    if (step) {
+      wizard.Goto(step);
+    } else if (reservation.EmailFl) {
       wizard.Goto(CarPickupWizard.SignStep);
     } else {
       wizard.Goto(CarPickupWizard.EmailAdressStep);
