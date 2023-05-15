@@ -8,19 +8,19 @@ namespace Automata.Controllers;
 
 public class FoglalasController : BaseController
 {
-    private ICrmFunctions CrmFunctions { get; set; }
+    private ICrmFunctions crmFunctions { get; set; }
 
     private IBookingFunctions bookingFunctions { get; set; }
 
-    public FoglalasController(ICrmFunctions CRMFunctions, IBookingFunctions bookingFunctions)
+    public FoglalasController(ICrmFunctions crmFunctions, IBookingFunctions bookingFunctions)
     {
-        this.CrmFunctions = CRMFunctions;
+        this.crmFunctions = crmFunctions;
         this.bookingFunctions = bookingFunctions;
     }
 
     public async Task<JsonResult> GetFoglalasok(string nev)
     {
-        var result = await CrmFunctions.GetFoglalasokByNev(nev);
+        var result = await crmFunctions.GetFoglalasokByNev(nev);
         BookingFunctions.UjFoglalas(result);
 
         return Json(result);
@@ -28,7 +28,7 @@ public class FoglalasController : BaseController
 
     public async Task<JsonResult> ReadQr()
     {
-        var result = await CrmFunctions.GetFoglalasByQrCode();
+        var result = await crmFunctions.GetFoglalasByQrCode();
         if (result != null)
         {
             BookingFunctions.UjFoglalas(result);

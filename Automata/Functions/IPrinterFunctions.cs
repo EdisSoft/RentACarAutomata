@@ -7,7 +7,7 @@ namespace Automata.Functions
     {
         bool PrintReceiptHun(string agreementNumber, string plateNumber, DateTime endOfRental, int money, string preAuthorizationNumber);
         bool PrintReceiptEng(string agreementNumber, string plateNumber, DateTime endOfRental, int money, string preAuthorizationNumber);
-        public bool PrintOTPResult(MoneraReceiptModel receipt);
+        public bool PrintOtpResult(MoneraReceiptModel receipt);
 
     }
 }

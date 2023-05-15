@@ -13,10 +13,12 @@ namespace Automata.Controllers
     {
         MoneraTerminalFunctions MoneraTerminal { get; set; }
         IPrinterFunctions PrinterFunctions { get; set; }
+        IBookingFunctions bookingFunctions { get; set; }
 
-        public PosController(IPrinterFunctions printerFunctions)
+        public PosController(IPrinterFunctions printerFunctions, IBookingFunctions bookingFunctions)
         {
             PrinterFunctions = printerFunctions;
+            bookingFunctions = bookingFunctions;
         }
 
         //private static int _tranzakcioId = 0;
@@ -34,7 +36,7 @@ namespace Automata.Controllers
         {
             FoglalasModel model;
 
-            if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
+            if (!FunctionsCore.Commons.Functions.BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
                 throw new Exception("No such reservation");
 
             model.FizetesMegszakadtFl = false;
@@ -58,7 +60,9 @@ namespace Automata.Controllers
                 //moneraReceipt.Parse(sReceipt);
 
                 Log.Debug("Printing payment receipt");
-                PrinterFunctions.PrintOTPResult(moneraReceipt);
+                PrinterFunctions.PrintOtpResult(moneraReceipt);
+
+                BookingFunctions.UpdateUtolsoVarazsloLepes(id, 9);
             }
             else
             {
@@ -93,8 +97,10 @@ namespace Automata.Controllers
         public JsonResult LetetZarolas(int id)
         {
             FoglalasModel model;
+            byte nyelv = 1;
+            string printLn;
 
-            if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
+            if (!FunctionsCore.Commons.Functions.BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
                 throw new Exception("No such reservation");
 
             model.ZarolasMegszakadtFl = false;
@@ -109,7 +115,8 @@ namespace Automata.Controllers
                 model.ZarolvaFl = true;
 
                 MoneraReceiptModel moneraReceipt = new MoneraReceiptModel();
-                moneraReceipt.Parse(MoneraTerminal.GetReceipt());
+                printLn = MoneraTerminal.GetReceipt();
+                moneraReceipt.Parse(printLn);
 
                 //string sReceipt = "TID=02439406|ATH=227690  |RETNUM=001|RETTXT=ELFOGADVA|AMT=9,00|DATE=2023.04.28 23:07:08|" + 
                 //    "CNB=478738XXXXXX1811|REFNO=18|ACQ=OTP BANK|CTYP=Visa Card|LOC=VECSE'S FO\" UTCA 195|MERCN=GAME RENTACAR KFT.|" + 
@@ -120,12 +127,25 @@ namespace Automata.Controllers
                 Log.Debug("Printing deposit receipt");
                 if (model.Nyelv == Nyelvek.hu)
                 {
+                    nyelv = 1;
                     PrinterFunctions.PrintReceiptHun(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
                 }
-                else if (model.Nyelv == Nyelvek.en)
+                else
                 {
+                    nyelv = 0;
                     PrinterFunctions.PrintReceiptEng(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
                 }
+
+                //bookingFunctions.UjCsomag(new DeliveryModel()
+                //{
+                //    OrderId = id,
+                //    ValueStr = moneraReceipt.AuthCode,
+                //    Value2Str = printLn,
+                //    ValueInt = nyelv,
+                //    Type = DeliveryTypes.Deposit
+                //});
+
+                BookingFunctions.UpdateUtolsoVarazsloLepes(id, 9);
             }
             else
             {
@@ -159,7 +179,7 @@ namespace Automata.Controllers
         {
             FoglalasModel model;
 
-            if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
+            if (!FunctionsCore.Commons.Functions.BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
                 throw new Exception("No such reservation");
 
             if (model.FizetesMegszakadtFl)
@@ -187,7 +207,7 @@ namespace Automata.Controllers
         {
             FoglalasModel model;
 
-            if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
+            if (!FunctionsCore.Commons.Functions.BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
                 throw new Exception("No such reservation");
 
             if (model.ZarolasMegszakadtFl)

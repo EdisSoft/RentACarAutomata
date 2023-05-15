@@ -93,7 +93,7 @@ namespace Automata.Functions
 
         //TID=MONERA02, ATH=656473 B, RETNUM = 001, RETTXT=ELFOGADVA, AMT = 1,00, DATE=2014.10.03 13:54:07, CNB=545548######0117, REFNO=39, ACQ=OTP BANK
         //CTYP=MasterCard, LOC = OTP - MONERA TEST TERMINAL, AID=A0000000041010, TC = 3B88BBFC, TRID = CTID_43866, 
-        public bool PrintOTPResult(MoneraReceiptModel receipt)
+        public bool PrintOtpResult(MoneraReceiptModel receipt)
         //public bool PrintOTPResult(string TID, string ATH, string RETNUM, string RETTXT, string AMT, string DATE, string CNB, string REFNO, string ACQ, string CTYP, string LOC, string AID, string TC, string TRID)
         {
             try
