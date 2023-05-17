@@ -58,8 +58,16 @@ namespace FunctionsCore.Commons.Functions
             try
             {
                 Log.Debug("Closing TCP connection");
+
+                // Get a network stream for reading and writing data
+                NetworkStream stream = client.GetStream();
+                Log.Debug("Stream: " + stream.GetHashCode().ToString("X8"));
+                stream.Close();
+
                 // Disconnect to the LockDriver server
                 client.Close();
+                client.Dispose();
+                client = null;
             }
             catch (Exception e)
             {
@@ -85,6 +93,7 @@ namespace FunctionsCore.Commons.Functions
 
             // Get a network stream for reading and writing data
             NetworkStream stream = client.GetStream();
+            Log.Debug("Stream: " + stream.GetHashCode().ToString("X8"));
 
             // Send the message to the connected TcpServer.
             stream.Write(buffer, 0, 5);
@@ -114,6 +123,7 @@ namespace FunctionsCore.Commons.Functions
 
             // Get a network stream for reading and writing data
             NetworkStream stream = client.GetStream();
+            Log.Debug("Stream: " + stream.GetHashCode().ToString("X8"));
 
             while (stream.DataAvailable)
             {
@@ -129,6 +139,7 @@ namespace FunctionsCore.Commons.Functions
 
             // Get a network stream for reading and writing data
             NetworkStream stream = client.GetStream();
+            Log.Debug("Stream: " + stream.GetHashCode().ToString("X8"));
             // Set timeout to 2000ms
             stream.ReadTimeout = 2000;
 

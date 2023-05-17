@@ -438,3 +438,18 @@
 2023.05.13 16:43:43 [c280,8614] | OpenSSL 1.1.1l  24 Aug 2021 
 2023.05.13 16:43:43 [c280,8614] | protocol ctor 
 2023.05.13 16:43:44 [c280,8614] | protocol ctor 
+2023.05.15 16:11:53 [864c,cdf8] | MONERA ZVT Terminal Library LAN 02.00 
+2023.05.15 16:11:53 [864c,cdf8] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.05.15 16:11:53 [864c,cdf8] | protocol ctor 
+2023.05.15 16:11:53 [864c,cdf8] | disconnect 
+2023.05.15 16:11:53 [864c,cdf8] | is stopped 
+2023.05.15 16:11:53 [864c,cdf8] | SSL connect: 192.168.2.12:4050 
+2023.05.15 16:11:54 [864c,cdf8] | start thread 
+2023.05.15 16:11:54 [864c,cdf8] | payment 1000 
+2023.05.15 16:11:55 [864c,cdf8] | displayevent 0 
+2023.05.15 16:11:55 [864c,cdf8] | displayevent 1 
+2023.05.15 16:12:04 [864c,cdf8] | displayevent 0 
+2023.05.15 16:12:09 [864c,cdf8] | printer event 
+2023.05.15 16:12:10 [864c,cdf8] | disconnect 
+2023.05.15 16:12:10 [864c,f214] | thread exit 
+2023.05.15 16:12:10 [864c,cdf8] | portclose 
