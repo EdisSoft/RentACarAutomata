@@ -97,8 +97,6 @@ namespace Automata.Controllers
         public JsonResult LetetZarolas(int id)
         {
             FoglalasModel model;
-            byte nyelv = 1;
-            string printLn;
 
             if (!FunctionsCore.Commons.Functions.BookingFunctions.FoglalasokMemory.TryGetValue(id, out model))
                 throw new Exception("No such reservation");
@@ -108,14 +106,14 @@ namespace Automata.Controllers
 
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
-            int res = MoneraTerminal.DepositPayment(model.Zarolando, ctid); //TODO: Mi a második paraméter, honnan fogjuk tudni?
+            int res = MoneraTerminal.DepositPayment(model.Zarolando, ctid);
             //int res = 0;
             if (res == 0)
             {
                 model.ZarolvaFl = true;
 
                 MoneraReceiptModel moneraReceipt = new MoneraReceiptModel();
-                printLn = MoneraTerminal.GetReceipt();
+                string printLn = MoneraTerminal.GetReceipt();
                 moneraReceipt.Parse(printLn);
 
                 //string sReceipt = "TID=02439406|ATH=227690  |RETNUM=001|RETTXT=ELFOGADVA|AMT=9,00|DATE=2023.04.28 23:07:08|" + 
@@ -127,23 +125,21 @@ namespace Automata.Controllers
                 Log.Debug("Printing deposit receipt");
                 if (model.Nyelv == Nyelvek.hu)
                 {
-                    nyelv = 1;
                     PrinterFunctions.PrintReceiptHun(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
                 }
                 else
                 {
-                    nyelv = 0;
                     PrinterFunctions.PrintReceiptEng(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
                 }
 
-                //bookingFunctions.UjCsomag(new DeliveryModel()
-                //{
-                //    OrderId = id,
-                //    ValueStr = moneraReceipt.AuthCode,
-                //    Value2Str = printLn,
-                //    ValueInt = nyelv,
-                //    Type = DeliveryTypes.Deposit
-                //});
+                bookingFunctions.UjCsomag(new DeliveryModel()
+                {
+                    OrderId = id,
+                    ValueStr = moneraReceipt.AuthCode,
+                    Value2Str = printLn,
+                    ValueInt = model.Nyelv == Nyelvek.hu ? 1 : 0,
+                    Type = DeliveryTypes.Deposit
+                });
 
                 BookingFunctions.UpdateUtolsoVarazsloLepes(id, 9);
             }
@@ -218,6 +214,7 @@ namespace Automata.Controllers
             return Json(new ResultModel() { Id = (!model.ZarolvaFl).GetHashCode(), Text = "" });
         }
 
+        [HttpPost]
         public JsonResult Cancel()
         {
             MoneraTerminal = new MoneraTerminalFunctions();

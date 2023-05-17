@@ -145,6 +145,9 @@ namespace Automata.Functions
 
         private string AlignToCenter(string text)
         {
+            if (text == null)
+                text = "";
+
             var width = 45;
             var count = (width / 2) - (text.Length / 2);
 
