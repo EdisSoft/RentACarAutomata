@@ -81,6 +81,9 @@
     <Reference Include="EcrWrapperDotNetMlib">
       <HintPath>Driver\EcrWrapperDotNetMlib.dll</HintPath>
     </Reference>
+    <Reference Include="Pr22">
+      <HintPath>Driver\Pr22.dll</HintPath>
+    </Reference>
     <Reference Include="TableDependency.SqlClient">
       <HintPath>..\FunctionsCore\Commons\Assembly\TableDependency.SqlClient.dll</HintPath>
     </Reference>

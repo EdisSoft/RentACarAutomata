@@ -67,6 +67,9 @@
     <Reference Include="EcrWrapperDotNetMlib">
       <HintPath>..\Automata\Driver\EcrWrapperDotNetMlib.dll</HintPath>
     </Reference>
+    <Reference Include="Pr22">
+      <HintPath>..\Automata\Driver\Pr22.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
