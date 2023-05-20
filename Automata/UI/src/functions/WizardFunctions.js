@@ -14,7 +14,6 @@ class WizardFunctions {
     }
   }
   HandleNavigationForPayment(wizard, reservation, toStep) {
-    console.log(wizard, reservation, toStep);
     if (toStep == CarPickupWizard.PayDepositStep) {
       if (reservation.Zarolando > 0) {
         wizard.Goto(CarPickupWizard.PayDepositStep);
