@@ -21,6 +21,7 @@
 <script>
 import { CarPickupWizard } from '@/enums/CarPickupWizard';
 import { SuccesResponse } from '@/enums/SuccesResponse';
+import { WizardFunctions } from '@/functions/WizardFunctions';
 import { i18n } from '@/plugins/i18n';
 import { AutoberlesService } from '@/services/AutoberlesService';
 import { useApi } from '@/utils/useApi';
@@ -56,7 +57,11 @@ export default {
           return;
         }
         if (data.Id == SuccesResponse.Next) {
-          wizard.Goto(CarPickupWizard.PayDepositStep);
+          WizardFunctions.HandleNavigationForPayment(
+            wizard,
+            wizard.form.Reservation,
+            CarPickupWizard.PayDepositStep
+          );
         }
         return;
       }

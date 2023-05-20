@@ -19,9 +19,9 @@ class NotificationFunctions {
 
     if (error && error.isAxiosError && error.response) {
       let responseData = error.response.data;
-      title = responseData.title || title;
-      text = responseData.message || text;
-      warningLevel = error.level;
+      title = responseData.Title || title;
+      text = responseData.Message || text;
+      warningLevel = responseData.ErrorLevel;
     }
     let buttonTrueColor = undefined;
     switch (warningLevel) {

@@ -15,6 +15,7 @@
 <script>
 import { CarPickupWizard } from '@/enums/CarPickupWizard';
 import { SuccesResponse } from '@/enums/SuccesResponse';
+import { WizardFunctions } from '@/functions/WizardFunctions';
 import { AutoberlesService } from '@/services/AutoberlesService';
 import { PosService } from '@/services/PosService';
 import { useApi } from '@/utils/useApi';
@@ -34,7 +35,11 @@ export default {
         return;
       }
       if (data.Id == SuccesResponse.Next) {
-        wizard.Goto(CarPickupWizard.PayRentalFeeStep);
+        WizardFunctions.HandleNavigationForPayment(
+          wizard,
+          wizard.form.Reservation,
+          CarPickupWizard.PayRentalFeeStep
+        );
       }
     };
     PosService.LetetZarolas(wizard.form.Reservation.Id);
