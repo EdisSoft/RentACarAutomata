@@ -7,6 +7,9 @@ using FunctionsCore.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.IO;
+using Microsoft.Extensions.Configuration;
 
 namespace FunctionsCore.Commons.Functions;
 
@@ -15,11 +18,15 @@ public class BookingFunctions : IBookingFunctions
     private static ConcurrentBag<DeliveryModel> deliveryQueue = new ConcurrentBag<DeliveryModel>();
     private static readonly object lockObject = new object();
     private IHttpRequestService requestService;
+    private FTPConnectionOptions options;
+
 
     public static ConcurrentDictionary<int, FoglalasModel> FoglalasokMemory = new ConcurrentDictionary<int, FoglalasModel>();
 
-    public BookingFunctions(IHttpRequestService requestService)
+    public BookingFunctions(IHttpRequestService requestService, IConfiguration configuration)
     {
+        options = configuration.GetSection(nameof(FTPConnectionOptions)).Get<FTPConnectionOptions>();
+
         this.requestService = requestService;
     }
 
@@ -69,8 +76,23 @@ public class BookingFunctions : IBookingFunctions
                             requestService.SaveSignature(csomag.OrderId, csomag.ValueStr);
                             break;
                         case DeliveryTypes.ScanLicenceFront:
-                            ////FTP-re feltölteni: csomag.ValueBytes
+                            UploadImage(csomag.Id, csomag.ValueBytes, "LicenseFront.jpg");
                             break;
+                        case DeliveryTypes.ScanLicenceBack:
+                            UploadImage(csomag.Id, csomag.ValueBytes, "LicenseBack.jpg");
+                            break;
+                        case DeliveryTypes.ScanIdCardFrontOrPassport:
+                            UploadImage(csomag.Id, csomag.ValueBytes, "IdCardFrontOrPassport.jpg");
+                            break;
+                        case DeliveryTypes.ScanIdCardBack:
+                            UploadImage(csomag.Id, csomag.ValueBytes, "IdCardBack.jpg");
+                            break;
+                        case DeliveryTypes.ScanCreditCardFront:
+                            UploadImage(csomag.Id, csomag.ValueBytes, "CreditCardFront.jpg");
+                            break;
+                        case DeliveryTypes.ScanCreditCardBack:
+                            UploadImage(csomag.Id, csomag.ValueBytes, "CreditCardBack.jpg");
+                            break;                       
                         case DeliveryTypes.KeyTaken:
                             FoglalasTorles(csomag.ValueInt);
                             break;
@@ -79,7 +101,7 @@ public class BookingFunctions : IBookingFunctions
             }
         }
     }
-          
+
 
     public static FoglalasModel FindFoglalasById(int id)
     {
@@ -104,6 +126,11 @@ public class BookingFunctions : IBookingFunctions
     public static void UpdateUtolsoVarazsloLepes(int id, int varazsloLepes)
     {
         var foglalas = FindFoglalasById(id);
+        if (foglalas is null)
+        {
+            Log.Error($"Hiba történt a foglalás frissítése közben! FoglalasId: {id}");
+            throw new WarningException("Nincs meg a foglalás!", WarningExceptionLevel.Warning);
+        }
         foglalas.UtolsoVarazsloLepes = varazsloLepes;
         UjFoglalas(foglalas);
     }
@@ -208,5 +235,90 @@ public class BookingFunctions : IBookingFunctions
             Log.Error("Hiba történt a foglalás törlése közben! FoglalasId: " + foglalasId, e);
             throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
         }
+    }
+
+    private void UploadImage(string id, byte[] picture, string pictureName)
+    {
+        var path = $"{options.Address}/{id}/";
+
+        if (DoesFtpDirectoryExist(path) == false)
+        {
+            Log.Error("Hiba történt FTP mappa létrehozása közben! FoglalasId: " + id);
+            throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
+        }
+
+        FtpWebRequest req = null;
+        WebResponse response = null;
+        try
+        {
+            req = (FtpWebRequest)WebRequest.Create(path + "\\" + pictureName);
+
+            req.Credentials = new NetworkCredential(options.UserName, options.Password);
+            req.Method = WebRequestMethods.Ftp.UploadFile;
+            req.ContentLength = picture.Length;
+            req.UseBinary = true;
+            req.KeepAlive = false;
+            req.EnableSsl = true;
+            ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
+
+            using (Stream sw = req.GetRequestStream())
+            {
+                sw.Write(picture, 0, picture.Length);
+            }
+
+            response = req.GetResponse();
+        }
+        catch (WebException ex)
+        {
+            Log.Error("Hiba történt fájl feltöltése közben! FoglalasId: " + id, ex);
+            throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
+        }
+        finally
+        {
+            if (response != null)
+            {
+                response.Close();
+            }
+        }
+    }
+
+    private bool DoesFtpDirectoryExist(string path)
+    {
+        var result = true;
+        FtpWebResponse response = null;
+        Stream ftpStream = null;
+        try
+        {
+            FtpWebRequest request = (FtpWebRequest)WebRequest.Create(path);
+            request.Credentials = new NetworkCredential(options.UserName, options.Password);
+            request.Method = WebRequestMethods.Ftp.MakeDirectory;
+            request.UsePassive = true;
+            request.UseBinary = true;
+            request.KeepAlive = false;
+            request.EnableSsl = true;
+            ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
+            response = (FtpWebResponse)request.GetResponse();
+            ftpStream = response.GetResponseStream();
+        }
+        catch (WebException ex)
+        {
+            FtpWebResponse exResponse = (FtpWebResponse)ex.Response;
+
+            result = exResponse.StatusCode == FtpStatusCode.ActionNotTakenFileUnavailable;
+            exResponse.Close();
+        }
+        finally
+        {
+            if (response is not null)
+            {
+                response.Close();
+            }
+            if (ftpStream is not null)
+            {
+                ftpStream.Close();
+            }
+        }
+
+        return result;
     }
 }

@@ -18,6 +18,7 @@ public class FoglalasController : BaseController
         this.bookingFunctions = bookingFunctions;
     }
 
+    [HttpGet]
     public async Task<JsonResult> GetFoglalasok(string nev)
     {
         var result = await crmFunctions.GetFoglalasokByNev(nev);
@@ -37,6 +38,7 @@ public class FoglalasController : BaseController
         return Json(result);
     }
 
+    [HttpPost]
     public JsonResult SaveEmail(int id, string email)
     {
         bookingFunctions.UjCsomag(new DeliveryModel()
@@ -50,7 +52,7 @@ public class FoglalasController : BaseController
     }
 
     [HttpPost]
-    public JsonResult SaveAlairas([FromBody]AlairasModel model)
+    public JsonResult SaveAlairas([FromBody] AlairasModel model)
     {
         bookingFunctions.UjCsomag(new DeliveryModel()
         {
@@ -66,16 +68,13 @@ public class FoglalasController : BaseController
         return Json(new ResultModel() { Id = 0, Text = "" });
     }
 
-    public JsonResult ScanLicenceFront(int id)
+    [HttpPost]
+    public JsonResult ScanLicenceFront(int id,[FromBody] byte[] picture)
     {
-        //temp
-        IdScannerFunctions idScannerFunctions = new IdScannerFunctions();
-        var result = idScannerFunctions.ScanCard();
-
         bookingFunctions.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
-            ValueBytes = result.Kep,
+            ValueBytes = picture,
             Type = FunctionsCore.Enums.DeliveryTypes.ScanLicenceFront
         });
 
@@ -84,32 +83,26 @@ public class FoglalasController : BaseController
         return Json(new ResultModel() { Id = 0, Text = "" });
     }
 
-    public JsonResult ScanLicenceBack(int id)
+    [HttpPost]
+    public JsonResult ScanLicenceBack(int id, [FromBody] byte[] picture)
     {
-        //temp
-        IdScannerFunctions idScannerFunctions = new IdScannerFunctions();
-        var result = idScannerFunctions.ScanCard();
-
         bookingFunctions.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
-            ValueBytes = result.Kep,
+            ValueBytes = picture,
             Type = FunctionsCore.Enums.DeliveryTypes.ScanLicenceBack
         });
 
         return Json(new ResultModel() { Id = 0, Text = "" });
     }
 
-    public JsonResult ScanIdCardFrontOrPassport(int id)
+    [HttpPost]
+    public JsonResult ScanIdCardFrontOrPassport(int id, [FromBody] byte[] picture)
     {
-        //temp
-        IdScannerFunctions idScannerFunctions = new IdScannerFunctions();
-        var result = idScannerFunctions.ScanCard();
-
         bookingFunctions.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
-            ValueBytes = result.Kep,
+            ValueBytes = picture,
             Type = FunctionsCore.Enums.DeliveryTypes.ScanIdCardFrontOrPassport
         });
 
@@ -118,32 +111,26 @@ public class FoglalasController : BaseController
         return Json(new ResultModel() { Id = 0, Text = "" });
     }
 
-    public JsonResult ScanIdCardBack(int id)
+    [HttpPost]
+    public JsonResult ScanIdCardBack(int id, [FromBody] byte[] picture)
     {
-        //temp
-        IdScannerFunctions idScannerFunctions = new IdScannerFunctions();
-        var result = idScannerFunctions.ScanCard();
-
         bookingFunctions.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
-            ValueBytes = result.Kep,
+            ValueBytes = picture,
             Type = FunctionsCore.Enums.DeliveryTypes.ScanIdCardBack
         });
 
         return Json(new ResultModel() { Id = 0, Text = "" });
     }
 
-    public JsonResult ScanCreditCardFront(int id)
+    [HttpPost]
+    public JsonResult ScanCreditCardFront(int id, [FromBody] byte[] picture)
     {
-        //temp
-        IdScannerFunctions idScannerFunctions = new IdScannerFunctions();
-        var result = idScannerFunctions.ScanCard();
-
         bookingFunctions.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
-            ValueBytes = result.Kep,
+            ValueBytes = picture,
             Type = FunctionsCore.Enums.DeliveryTypes.ScanCreditCardFront
         });
 
@@ -152,16 +139,13 @@ public class FoglalasController : BaseController
         return Json(new ResultModel() { Id = 0, Text = "" });
     }
 
-    public JsonResult ScanCreditCardBack(int id)
+    [HttpPost]
+    public JsonResult ScanCreditCardBack(int id, [FromBody] byte[] picture)
     {
-        //temp
-        IdScannerFunctions idScannerFunctions = new IdScannerFunctions();
-        var result = idScannerFunctions.ScanCard();
-
         bookingFunctions.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
-            ValueBytes = result.Kep,
+            ValueBytes = picture,
             Type = FunctionsCore.Enums.DeliveryTypes.ScanCreditCardBack
         });
 
