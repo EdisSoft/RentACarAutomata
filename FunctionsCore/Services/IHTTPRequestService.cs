@@ -13,5 +13,7 @@ namespace FunctionsCore.Services
         Task<FoglalasModel> GetFoglalasByCode(string code);
         void SaveEmail(int id, string email);
         void SaveSignature(int id, string signature);
+        void SendDeposit(int id, string language, int deposittrid, string slip);
+        void SendPayment(int id, string language, int deposittrid, string slip);
     }
 }

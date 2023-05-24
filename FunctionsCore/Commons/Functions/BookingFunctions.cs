@@ -96,6 +96,12 @@ public class BookingFunctions : IBookingFunctions
                         case DeliveryTypes.KeyTaken:
                             FoglalasTorles(csomag.ValueInt);
                             break;
+                        case DeliveryTypes.Payment:
+                            requestService.SendPayment(csomag.OrderId, ((Nyelvek)csomag.ValueInt).ToString(), 2, csomag.Value2Str);
+                            break;
+                        case DeliveryTypes.Deposit:
+                            requestService.SendPayment(csomag.OrderId, ((Nyelvek)csomag.ValueInt).ToString(), 2, csomag.Value2Str);
+                            break;
                     }
                 }
             }

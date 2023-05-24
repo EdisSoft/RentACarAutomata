@@ -8,35 +8,35 @@ namespace Automata.Controllers;
 
 public class FoglalasController : BaseController
 {
-    private ICrmFunctions crmFunctions { get; set; }
+    private ICrmFunctions CrmFunctions { get; set; }
 
-    private IBookingFunctions bookingFunctions { get; set; }
+    private IBookingFunctions BookingFunctions { get; set; }
 
-    private IdScannerFunctions idScannerFunctions { get; set; }
+    private IdScannerFunctions IdScannerFunctions { get; set; }
 
     public FoglalasController(ICrmFunctions crmFunctions, IBookingFunctions bookingFunctions)
     {
-        this.crmFunctions = crmFunctions;
-        this.bookingFunctions = bookingFunctions;
+        CrmFunctions = crmFunctions;
+        BookingFunctions = bookingFunctions;
 
-        idScannerFunctions = new IdScannerFunctions();
+        IdScannerFunctions = new IdScannerFunctions();
     }
 
     [HttpGet]
     public async Task<JsonResult> GetFoglalasok(string nev)
     {
-        var result = await crmFunctions.GetFoglalasokByNev(nev);
-        BookingFunctions.UjFoglalas(result);
+        var result = await CrmFunctions.GetFoglalasokByNev(nev);
+        FunctionsCore.Commons.Functions.BookingFunctions.UjFoglalas(result);
 
         return Json(result);
     }
 
     public async Task<JsonResult> ReadQr()
     {
-        var result = await crmFunctions.GetFoglalasByQrCode();
+        var result = await CrmFunctions.GetFoglalasByQrCode();
         if (result != null)
         {
-            BookingFunctions.UjFoglalas(result);
+            FunctionsCore.Commons.Functions.BookingFunctions.UjFoglalas(result);
         }
 
         return Json(result);
@@ -45,7 +45,7 @@ public class FoglalasController : BaseController
     [HttpPost]
     public JsonResult SaveEmail(int id, string email)
     {
-        bookingFunctions.UjCsomag(new DeliveryModel()
+        BookingFunctions.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
             ValueStr = email,
@@ -58,7 +58,7 @@ public class FoglalasController : BaseController
     [HttpPost]
     public JsonResult SaveAlairas([FromBody] AlairasModel model)
     {
-        bookingFunctions.UjCsomag(new DeliveryModel()
+        BookingFunctions.UjCsomag(new DeliveryModel()
         {
             OrderId = model.Id,
             ValueStr = model.Pic,
@@ -67,7 +67,7 @@ public class FoglalasController : BaseController
 
         var nyelv = Request.Headers["Accept-Language"];
 
-        BookingFunctions.UpdateFoglalas(model.Id, nyelv);
+        FunctionsCore.Commons.Functions.BookingFunctions.UpdateFoglalas(model.Id, nyelv);
 
         return Json(new ResultModel() { Id = 0, Text = "" });
     }
@@ -75,16 +75,16 @@ public class FoglalasController : BaseController
     [HttpPost]
     public JsonResult ScanLicenceFront(int id)
     {
-        var model = idScannerFunctions.ScanCard();
+        var model = IdScannerFunctions.ScanCard();
         
-        bookingFunctions.UjCsomag(new DeliveryModel()
+        BookingFunctions.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
             ValueBytes = model.Kep,
             Type = FunctionsCore.Enums.DeliveryTypes.ScanLicenceFront
         });
 
-        BookingFunctions.UpdateUtolsoVarazsloLepes(id, 5);
+        FunctionsCore.Commons.Functions.BookingFunctions.UpdateUtolsoVarazsloLepes(id, 5);
 
         return Json(new ResultModel() { Id = 0, Text = "" });
     }
@@ -92,9 +92,9 @@ public class FoglalasController : BaseController
     [HttpPost]
     public JsonResult ScanLicenceBack(int id)
     {
-        var model = idScannerFunctions.ScanCard();
+        var model = IdScannerFunctions.ScanCard();
 
-        bookingFunctions.UjCsomag(new DeliveryModel()
+        BookingFunctions.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
             ValueBytes = model.Kep,
@@ -107,16 +107,16 @@ public class FoglalasController : BaseController
     [HttpPost]
     public JsonResult ScanIdCardFrontOrPassport(int id)
     {
-        var model = idScannerFunctions.ScanCard();
+        var model = IdScannerFunctions.ScanCard();
 
-        bookingFunctions.UjCsomag(new DeliveryModel()
+        BookingFunctions.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
             ValueBytes = model.Kep,
             Type = FunctionsCore.Enums.DeliveryTypes.ScanIdCardFrontOrPassport
         });
 
-        BookingFunctions.UpdateUtolsoVarazsloLepes(id, 6);
+        FunctionsCore.Commons.Functions.BookingFunctions.UpdateUtolsoVarazsloLepes(id, 6);
 
         return Json(new ResultModel() { Id = 0, Text = "" });
     }
@@ -124,9 +124,9 @@ public class FoglalasController : BaseController
     [HttpPost]
     public JsonResult ScanIdCardBack(int id)
     {
-        var model = idScannerFunctions.ScanCard();
+        var model = IdScannerFunctions.ScanCard();
 
-        bookingFunctions.UjCsomag(new DeliveryModel()
+        BookingFunctions.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
             ValueBytes = model.Kep,
@@ -139,16 +139,16 @@ public class FoglalasController : BaseController
     [HttpPost]
     public JsonResult ScanCreditCardFront(int id)
     {
-        var model = idScannerFunctions.ScanCard();
+        var model = IdScannerFunctions.ScanCard();
 
-        bookingFunctions.UjCsomag(new DeliveryModel()
+        BookingFunctions.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
             ValueBytes = model.Kep,
             Type = FunctionsCore.Enums.DeliveryTypes.ScanCreditCardFront
         });
 
-        BookingFunctions.UpdateUtolsoVarazsloLepes(id, 7);
+        FunctionsCore.Commons.Functions.BookingFunctions.UpdateUtolsoVarazsloLepes(id, 7);
 
         return Json(new ResultModel() { Id = 0, Text = "" });
     }
@@ -156,9 +156,9 @@ public class FoglalasController : BaseController
     [HttpPost]
     public JsonResult ScanCreditCardBack(int id)
     {
-        var model = idScannerFunctions.ScanCard();
+        var model = IdScannerFunctions.ScanCard();
 
-        bookingFunctions.UjCsomag(new DeliveryModel()
+        BookingFunctions.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
             ValueBytes = model.Kep,

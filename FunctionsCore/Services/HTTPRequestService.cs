@@ -81,7 +81,8 @@ public class HttpRequestService : IHttpRequestService
         }
         catch (Exception e)
         {
-            //TODO
+            Log.Error($"Hiba email mentése közben! Foglalás: {id}", e);
+            throw new WarningException("Hiba email mentése közben!", WarningExceptionLevel.Warning);
         }
     }
 
@@ -93,7 +94,34 @@ public class HttpRequestService : IHttpRequestService
         }
         catch (Exception e)
         {
-            //TODO
+            Log.Error($"Hiba aláírás mentése közben! Foglalás: {id}", e);
+            throw new WarningException("Hiba aláírás mentése közben!", WarningExceptionLevel.Warning);
+        }
+    }
+
+    public async void SendDeposit(int id, string language, int deposittrid, string slip)
+    {
+        try
+        {
+            await httpClient.GetStringAsync(options.RequestBase + $"?action=deposit&id={id}&lang={language}&deposittrid={deposittrid}&slip={slip}");
+        }
+        catch (Exception e)
+        {
+            Log.Error($"Hiba deposit CRM küldése közben! Foglalás: {id}", e);
+            throw new WarningException("Hiba deposit CRM küldése közben!", WarningExceptionLevel.Warning);
+        }
+    }
+
+    public async void SendPayment(int id, string language, int deposittrid, string slip)
+    {
+        try
+        {
+            await httpClient.GetStringAsync(options.RequestBase + $"?action=payment&id={id}&lang={language}&deposittrid={deposittrid}&slip={slip}");
+        }
+        catch (Exception e)
+        {
+            Log.Error($"Hiba fizetés CRM küldése közben! Foglalás: {id}", e);
+            throw new WarningException("Hiba fizetés CRM küldése közben!", WarningExceptionLevel.Warning);
         }
     }
 }
