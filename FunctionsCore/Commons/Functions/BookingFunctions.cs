@@ -19,6 +19,8 @@ public class BookingFunctions : IBookingFunctions
     private static readonly object lockObject = new object();
     private IHttpRequestService requestService;
     private FTPConnectionOptions options;
+    private int TempFoglalasId { get; set; }
+    private int TempRekeszId { get; set; }
 
 
     public static ConcurrentDictionary<int, FoglalasModel> FoglalasokMemory = new ConcurrentDictionary<int, FoglalasModel>();
@@ -139,8 +141,7 @@ public class BookingFunctions : IBookingFunctions
         }
         foglalas.UtolsoVarazsloLepes = varazsloLepes;
         UjFoglalas(foglalas);
-    }
-
+    }   
 
     public static void UpdateFoglalas(int foglalasId, string nyelv)
     {
@@ -326,5 +327,22 @@ public class BookingFunctions : IBookingFunctions
         }
 
         return result;
+    }
+
+    public void SetTempValues(int foglalasId, int rekeszId)
+    {
+        TempFoglalasId = foglalasId;
+        TempRekeszId = rekeszId;
+    }
+
+    public int GetRekeszId(int foglalasId)
+    {
+        if(foglalasId != TempFoglalasId)
+        {
+            Log.Error($"Hiba történt kulcsleadás közben! Mentett foglalás ({TempFoglalasId}) nem egyezik meg az aktuális foglalással ({foglalasId})!");
+            throw new WarningException("Hiba történt leadás közben!", WarningExceptionLevel.Warning);
+        }
+
+        return TempRekeszId;
     }
 }

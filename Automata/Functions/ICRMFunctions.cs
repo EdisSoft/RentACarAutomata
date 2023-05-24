@@ -8,5 +8,7 @@ namespace Automata.Functions
     {
         Task<List<FoglalasModel>> GetFoglalasokByNev(string nev);
         Task<FoglalasModel> GetFoglalasByQrCode();
+        Task<AutoLeadasModel> KocsiLeadas(string rendszam);
+        Task KulcsLeadas(int id, int rekeszId, bool taxiFl);
     }
 }

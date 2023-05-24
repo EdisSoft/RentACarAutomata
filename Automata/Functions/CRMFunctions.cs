@@ -50,4 +50,14 @@ public class CrmFunctions : ICrmFunctions
 
         return await requestService.GetFoglalasByCode(code);
     }
+
+    public async Task<AutoLeadasModel> KocsiLeadas(string rendszam)
+    {       
+        return await requestService.KocsiLeadas(rendszam);
+    }
+
+    public async Task KulcsLeadas(int id, int rekeszId, bool taxiFl)
+    {
+        await requestService.KulcsLeadas(id, rekeszId, taxiFl);
+    }   
 }

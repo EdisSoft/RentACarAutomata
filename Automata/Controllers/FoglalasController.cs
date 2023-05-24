@@ -167,4 +167,24 @@ public class FoglalasController : BaseController
 
         return Json(new ResultModel() { Id = 0, Text = "" });
     }
+
+    [HttpPost]
+    public async Task<JsonResult> Leadas(string rendszam)
+    {
+        var result = await CrmFunctions.KocsiLeadas(rendszam);
+
+        BookingFunctions.SetTempValues(result.Id, result.LockNumber);
+
+        return Json(result.LockNumber);
+    }
+
+    [HttpPost]
+    public JsonResult KulcsLeadas(int id, bool taxiFl)
+    {
+        var rekeszId = BookingFunctions.GetRekeszId(id);        
+
+        CrmFunctions.KulcsLeadas(id, rekeszId, taxiFl);
+
+        return Json(new ResultModel() { Id = 0, Text = "" });
+    }
 }

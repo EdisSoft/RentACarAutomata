@@ -124,4 +124,33 @@ public class HttpRequestService : IHttpRequestService
             throw new WarningException("Hiba fizetés CRM küldése közben!", WarningExceptionLevel.Warning);
         }
     }
+
+    public async Task<AutoLeadasModel> KocsiLeadas(string rendszam)
+    {
+        try
+        {
+            var responseString = await httpClient.GetStringAsync(options.RequestBase + $"?action=dropoff&rendszam={rendszam}");
+
+            return JsonConvert.DeserializeObject<AutoLeadasModel>(responseString);
+        }
+        catch (Exception e)
+        {
+            Log.Error($"Hiba auto leadása közben! Rendszám: {rendszam}", e);
+            throw new WarningException($"Hiba auto leadása közben! Rendszám: {rendszam}", WarningExceptionLevel.Warning);
+        }
+    }
+
+    public async Task KulcsLeadas(int id, int rekeszId, bool taxiFl)
+    {
+        try
+        {
+            var taxiInt = taxiFl ? 1 : 0;
+            await httpClient.GetStringAsync(options.RequestBase + $"?action=finished&id={id}&locknumber={rekeszId}&taxi={taxiInt}");
+        }
+        catch (Exception e)
+        {
+            Log.Error($"Hiba kulcs leadása közben! Foglalás: {id}", e);
+            throw new WarningException($"Hiba kulcs leadása közben! Foglalás: {id}", WarningExceptionLevel.Warning);
+        }
+    }
 }
