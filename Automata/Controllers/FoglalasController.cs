@@ -22,7 +22,7 @@ public class FoglalasController : BaseController
         IdScannerFunctions = new IdScannerFunctions();
     }
 
-    [HttpGet]
+    [HttpPost]
     public async Task<JsonResult> GetFoglalasok(string nev)
     {
         var result = await CrmFunctions.GetFoglalasokByNev(nev);
