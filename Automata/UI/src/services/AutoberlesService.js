@@ -67,12 +67,12 @@ class AutoberlesService {
   async ScanLicenceFront(id) {
     await timeout(500);
     console.log({ id });
-    return {
-      Id: 0,
-      Text: 'Ok',
-    };
+    // return {
+    //   Id: 0,
+    //   Text: 'Ok',
+    // };
     let params = { id };
-    let result = await httpContext.post(`Autoberles/ScanLicenceFront`, null, {
+    let result = await httpContext.post(`Foglalas/ScanLicenceFront`, null, {
       params,
     });
     return result.data;
@@ -80,12 +80,12 @@ class AutoberlesService {
   async ScanLicenceBack(id) {
     await timeout(500);
     console.log({ id });
-    return {
-      Id: 0,
-      Text: 'Ok',
-    };
+    // return {
+    //   Id: 0,
+    //   Text: 'Ok',
+    // };
     let params = { id };
-    let result = await httpContext.post(`Autoberles/ScanLicenceBack`, null, {
+    let result = await httpContext.post(`Foglalas/ScanLicenceBack`, null, {
       params,
     });
     return result.data;
@@ -93,13 +93,13 @@ class AutoberlesService {
   async ScanIdCardFrontOrPassport(id) {
     await timeout(500);
     console.log({ id });
-    return {
-      Id: 0,
-      Text: 'Ok',
-    };
+    // return {
+    //   Id: 0,
+    //   Text: 'Ok',
+    // };
     let params = { id };
     let result = await httpContext.post(
-      `Autoberles/ScanIdCardFrontOrPassport`,
+      `Foglalas/ScanIdCardFrontOrPassport`,
       null,
       {
         params,
@@ -110,12 +110,12 @@ class AutoberlesService {
   async ScanIdCardBack(id) {
     await timeout(500);
     console.log({ id });
-    return {
-      Id: 0,
-      Text: 'Ok',
-    };
+    // return {
+    //   Id: 0,
+    //   Text: 'Ok',
+    // };
     let params = { id };
-    let result = await httpContext.post(`Autoberles/ScanIdCardBack`, null, {
+    let result = await httpContext.post(`Foglalas/ScanIdCardBack`, null, {
       params,
     });
     return result.data;
@@ -123,10 +123,10 @@ class AutoberlesService {
   async ScanCreditCardFront(id) {
     await timeout(500);
     console.log({ id });
-    return {
-      Id: 0,
-      Text: 'Ok',
-    };
+    // return {
+    //   Id: 0,
+    //   Text: 'Ok',
+    // };
     let params = { id };
     let result = await httpContext.post(
       `Autoberles/ScanCreditCardFront`,
@@ -140,12 +140,12 @@ class AutoberlesService {
   async ScanCreditCardBack(id) {
     await timeout(500);
     console.log({ id });
-    return {
-      Id: 0,
-      Text: 'Ok',
-    };
+    // return {
+    //   Id: 0,
+    //   Text: 'Ok',
+    // };
     let params = { id };
-    let result = await httpContext.post(`Autoberles/ScanCreditCardBack`, null, {
+    let result = await httpContext.post(`Foglalas/ScanCreditCardBack`, null, {
       params,
     });
     return result.data;

@@ -10,14 +10,21 @@ using FunctionsCore.Enums;
 using System;
 using Pr22;
 using Pr22.Task;
+using Microsoft.Extensions.Configuration;
 
 namespace FunctionsCore.Commons.Functions
 {
-    public class IdScannerFunctions
+    public class IdScannerFunctions: IIdScannerFunctions
     {
         private static readonly object LockObject = new object();
         private DocumentReaderDevice docReader = null;
         private bool DocPresent = false;
+        private IHttpRequestService requestService;
+
+        public IdScannerFunctions(IHttpRequestService requestService, IConfiguration configuration)
+        {
+            this.requestService = requestService;
+        }
 
         //----------------------------------------------------------------------
         /// <summary>

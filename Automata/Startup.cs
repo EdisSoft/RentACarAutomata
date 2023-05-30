@@ -36,6 +36,7 @@ namespace Automata
             services.AddTransient<IBookingFunctions, BookingFunctions>();
             services.AddTransient<IHttpRequestService, HttpRequestService>();
             services.AddTransient<ICrmFunctions, CrmFunctions>();
+            services.AddTransient<IIdScannerFunctions, IdScannerFunctions>();
 
             services.AddControllersWithViews(options =>
             {

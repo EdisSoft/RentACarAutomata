@@ -12,14 +12,13 @@ public class FoglalasController : BaseController
 
     private IBookingFunctions BookingFunctions { get; set; }
 
-    private IdScannerFunctions IdScannerFunctions { get; set; }
+    private IIdScannerFunctions IdScannerFunctions { get; set; }
 
-    public FoglalasController(ICrmFunctions crmFunctions, IBookingFunctions bookingFunctions)
+    public FoglalasController(ICrmFunctions crmFunctions, IBookingFunctions bookingFunctions, IIdScannerFunctions idScannerFunctions)
     {
         CrmFunctions = crmFunctions;
         BookingFunctions = bookingFunctions;
-
-        IdScannerFunctions = new IdScannerFunctions();
+        IdScannerFunctions = idScannerFunctions;
     }
 
     [HttpPost]
