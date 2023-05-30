@@ -148,8 +148,6 @@ namespace FunctionsCore.Commons.Functions
             {
                 Thread.Sleep(50);
             }*/
-            // String to store the response ASCII representation.
-            String responseData = String.Empty;
 
             // Read the first batch of the TcpServer response bytes.
             Int32 bytes = stream.Read(data, 0, data.Length);
@@ -166,10 +164,16 @@ namespace FunctionsCore.Commons.Functions
 
                 return new byte[0];
             }
-            responseData = System.Text.Encoding.ASCII.GetString(data, 1, bytes - 2);
+
+            // String to store the response ASCII representation.
+            //String responseData = String.Empty;
+            //responseData = System.Text.Encoding.ASCII.GetString(data, 1, bytes - 2);
+            Byte[] responseData = new byte[bytes - 3];
+            Array.Copy(data, 1, responseData, 0, bytes - 3);
             //Console.WriteLine("Received: {0}", responseData);
 
-            return System.Text.Encoding.ASCII.GetBytes(responseData);
+            //return System.Text.Encoding.ASCII.GetBytes(responseData);
+            return responseData;
         }
 
         public uint GetLocksStatus()
