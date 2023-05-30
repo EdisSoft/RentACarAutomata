@@ -1,4 +1,5 @@
-﻿using FunctionsCore.Models;
+﻿using FunctionsCore;
+using FunctionsCore.Models;
 using System;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -8,6 +9,10 @@ namespace Automata.Functions
     public class PrinterFunctions : IPrinterFunctions
     {
         public static string PrinterName { get; } = "SAM4S GIANT-100";
+        // Manual feed and cut command for printing
+        static string PrinterFeedAndCut { get; } = "\x1D\x56\x42\x60\n";
+        // Number of characters on an 80mm wide printer roll
+        static int PrinterWidth = 42;
              
         public bool PrintReceiptHun(string agreementNumber, string plateNumber, DateTime endOfRental, int money, string preAuthorizationNumber)
         {
@@ -33,10 +38,12 @@ namespace Automata.Functions
                 sb.Append(AlignToCenter("Köszönjük a bérlést!") + "\n\n\n\n");
                 sb.Append(AlignToCenter("Website: gamerentacar.com") + "\n\n");
                 sb.Append(AlignToCenter("Email: info@gamerentacar.com") + "\n\n");
-                sb.Append(AlignToCenter("Phone: +36 30 622 7959"));
+                sb.Append(AlignToCenter("Phone: +36 30 622 7959") + "\n\n");
 
                 // Blank String to Print out properly
-                sb.Append("                                                                                                                  \n");
+                //sb.Append("                                                                                                                  \n");
+                // Feed and Cut
+                sb.Append(PrinterFeedAndCut);
 
                 RawPrinterHelper.SendStringToPrinter(PrinterName, sb.ToString());
             }
@@ -44,6 +51,7 @@ namespace Automata.Functions
             {
                 //log
                 //ex.Message
+                Log.Error(ex.Message);
                 return false;
             }
 
@@ -74,10 +82,12 @@ namespace Automata.Functions
                 sb.Append(AlignToCenter("Thank you for your rental!") + "\n\n\n\n");
                 sb.Append(AlignToCenter("Website: gamerentacar.com") + "\n\n");
                 sb.Append(AlignToCenter("Email: info@gamerentacar.com") + "\n\n");
-                sb.Append(AlignToCenter("Phone: +36 30 622 7959"));
+                sb.Append(AlignToCenter("Phone: +36 30 622 7959") + "\n");
 
                 // Blank String to Print out properly
-                sb.Append("                                                                                                                  \n");
+                //sb.Append("                                                                                                                  \n");
+                // Feed and Cut
+                sb.Append(PrinterFeedAndCut);
 
                 RawPrinterHelper.SendStringToPrinter(PrinterName, sb.ToString());
             }
@@ -85,6 +95,7 @@ namespace Automata.Functions
             {
                 //log
                 //ex.Message
+                Log.Error(ex.Message);
                 return false;
             }
 
@@ -99,7 +110,7 @@ namespace Automata.Functions
             try
             {
                 StringBuilder sb = new StringBuilder();
-
+                
                 sb.Append("TERMINÁL ID: " + receipt.TerminalID + "\n");
                 sb.Append("ELSZÁMOLÓ: " + receipt.ACQ + "\n");
                 sb.Append("KÁRTYATÍPUS: " + receipt.CardType + "\n");
@@ -113,7 +124,11 @@ namespace Automata.Functions
                 sb.Append(AlignToCenter(receipt.AuthCode) + "\n");
                 sb.Append("VÁLASZ/RESP: " + receipt.RetNum + "\n");
                 sb.Append(AlignToCenter(receipt.RetText) + "\n");
-                sb.Append("ÖSSZEG: " + receipt.Amount + " Ft\n\n");
+                sb.Append("ÖSSZEG: " + receipt.Amount + " Ft\n");
+                
+                // Feed and Cut
+                sb.Append(PrinterFeedAndCut);
+                
                 /*sb.Append("TERMINÁL ID: " + TID + "\n");
                 sb.Append("ELSZÁMOLÓ: " + ACQ + "\n");
                 sb.Append("KÁRTYATÍPUS: " + CTYP + "\n");
@@ -129,7 +144,54 @@ namespace Automata.Functions
                 sb.Append(RETTXT + "\n");
                 sb.Append("ÖSSZEG: " + AMT + "\n");*/
 
-                sb.Append("                                                                \n");
+                /*sb.Append("1" + "\n");
+                sb.Append("12" + "\n");
+                sb.Append(AlignToRight("1") + "\n");
+                sb.Append(AlignToRight("12") + "\n");
+                sb.Append(AlignToCenter("1") + "\n");
+                sb.Append(AlignToCenter("12") + "\n");
+                sb.Append(AlignToEdge("ABCDE", "12345") + "\n");
+                sb.Append(AlignToEdge("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "01234567890123456789") + "\n");
+                sb.Append("\n\n\n\n");
+                sb.Append("\x1D\x56\x01\n");
+                sb.Append("1" + "\n");
+                sb.Append("12" + "\n");
+                sb.Append(AlignToRight("1") + "\n");
+                sb.Append(AlignToRight("12") + "\n");
+                sb.Append(AlignToCenter("1") + "\n");
+                sb.Append(AlignToCenter("12") + "\n");
+                sb.Append(AlignToEdge("ABCDE", "12345") + "\n");
+                sb.Append(AlignToEdge("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "01234567890123456789") + "\n");
+                sb.Append(PrinterFeedAndCut);*/
+                
+                //sb.Append("012345678901234567890123456789012345678901\n");
+                //sb.Append("abcdefghijklmnopqrstuvwxyz áéíóöőúüű");
+                //sb.Append("ABCDEFGHIJKLMNOPQRSTUVWXYZ ÁÉÍÓÖŐÚÜŰ\n");
+                //sb.Append(".,;:'\"!?/\\@\n");
+                //sb.Append("\x1D\x56\x01\n");
+                //sb.Append("012345678901234567890123456789012345678901\n");
+                //sb.Append("abcdefghijklmnopqrstuvwxyz áéíóöőúüű");
+                //sb.Append("ABCDEFGHIJKLMNOPQRSTUVWXYZ ÁÉÍÓÖŐÚÜŰ\n");
+                //sb.Append(".,;:'\"!?/\\@\n");
+                //sb.Append(" \n");
+                //sb.Append("\x1D\x56\x01\n");
+                /*sb.Append("012345678901234567890123456789012345678901\n");
+                sb.Append("abcdefghijklmnopqrstuvwxyz áéíóöőúüű");
+                sb.Append("ABCDEFGHIJKLMNOPQRSTUVWXYZ ÁÉÍÓÖŐÚÜŰ\n");
+                sb.Append(".,;:'\"!?/\\@\n");
+                sb.Append(" \n");
+                sb.Append(" \n");
+                sb.Append("\x1D\x56\x01\n");
+                sb.Append("012345678901234567890123456789012345678901\n");
+                sb.Append("abcdefghijklmnopqrstuvwxyz áéíóöőúüű\n");
+                sb.Append("ABCDEFGHIJKLMNOPQRSTUVWXYZ ÁÉÍÓÖŐÚÜŰ\n");
+                sb.Append(".,;:'\"!?/\\@\n");
+                sb.Append("\x1D\x56\x42\x20\n");
+                sb.Append("012345678901234567890123456789012345678901\n");
+                sb.Append("árvíztűrő tükörfúrógép\n");
+                sb.Append("ÁRVÍZTŰRŐ TÜKÖRFÚRÓGÉP\n");
+                sb.Append(".,;:'\"!?/\\@\n");
+                sb.Append("\x1D\x56\x42\x40\n");*/
 
                 RawPrinterHelper.SendStringToPrinter(PrinterName, sb.ToString());
             }
@@ -137,6 +199,7 @@ namespace Automata.Functions
             {
                 //log
                 //ex.Message
+                Log.Error(ex.Message);
                 return false;
             }
 
@@ -148,8 +211,7 @@ namespace Automata.Functions
             if (text == null)
                 text = "";
 
-            var width = 45;
-            var count = (width / 2) - (text.Length / 2);
+            var count = (PrinterWidth / 2) - (text.Length / 2);
 
             if (count > 0)
             {
@@ -158,6 +220,29 @@ namespace Automata.Functions
             }
 
             return text;
+        }
+
+        private string AlignToRight(string text)
+        {
+            if (text == null)
+                text = "";
+
+            return text.PadLeft(PrinterWidth);
+        }
+
+        private string AlignToEdge(string left, string right)
+        {
+            if (left == null)
+                left = "";
+            if (right == null)
+                right = "";
+
+            if (left.Length + right.Length <  PrinterWidth)
+            {
+                return left + right.PadLeft(PrinterWidth - left.Length);
+            }
+
+            return left + "\n" + right.PadLeft(PrinterWidth);
         }
 
         /// <summary>
@@ -239,6 +324,7 @@ namespace Automata.Functions
                 if (bSuccess == false)
                 {
                     dwError = Marshal.GetLastWin32Error();
+                    Log.Debug("Printing error: " + dwError);
                 }
 
                 return bSuccess;
