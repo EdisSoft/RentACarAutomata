@@ -128,13 +128,9 @@ class AutoberlesService {
     //   Text: 'Ok',
     // };
     let params = { id };
-    let result = await httpContext.post(
-      `Autoberles/ScanCreditCardFront`,
-      null,
-      {
-        params,
-      }
-    );
+    let result = await httpContext.post(`Foglalas/ScanCreditCardFront`, null, {
+      params,
+    });
     return result.data;
   }
   async ScanCreditCardBack(id) {
