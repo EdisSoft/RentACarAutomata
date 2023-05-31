@@ -37,6 +37,7 @@ namespace Automata
             services.AddTransient<IHttpRequestService, HttpRequestService>();
             services.AddTransient<ICrmFunctions, CrmFunctions>();
             services.AddTransient<IIdScannerFunctions, IdScannerFunctions>();
+            services.AddTransient<IKerongLockFunctions, KerongLockFunctions>();
 
             services.AddControllersWithViews(options =>
             {

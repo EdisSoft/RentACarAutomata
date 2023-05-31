@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FunctionsCore.Commons.Functions
 {
-    public class KerongLockFunctions
+    public class KerongLockFunctions: IKerongLockFunctions
     {
         static string locksTcpAddress = "";
         static int locksTcpPort = 0;

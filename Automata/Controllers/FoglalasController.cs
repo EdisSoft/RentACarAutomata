@@ -1,7 +1,9 @@
 ﻿using Automata.Functions;
 using FunctionsCore.Commons.Functions;
+using FunctionsCore.Enums;
 using FunctionsCore.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace Automata.Controllers;
@@ -163,6 +165,37 @@ public class FoglalasController : BaseController
             ValueBytes = model.Kep,
             Type = FunctionsCore.Enums.DeliveryTypes.ScanCreditCardBack
         });
+
+        //FoglalasModel foglalas = null;
+        if (!FunctionsCore.Commons.Functions.BookingFunctions.FoglalasokMemory.TryGetValue(id, out FoglalasModel foglalas))
+        {
+            throw new Exception($"ScanCreditCardBack: No such reservation: {id}");
+        }
+
+        if (foglalas.Zarolando == 0)
+        {
+            BookingFunctions.UjCsomag(new DeliveryModel()  // Ha nem kell deposit
+            {
+                OrderId = foglalas.Id,
+                ValueInt = 0,
+                ValueStr = "",
+                ValueNyelv = foglalas.Nyelv,
+                Type = DeliveryTypes.Deposit
+            });
+
+            if (foglalas.Fizetendo == 0)  // Ha a fizetés is már rendezve lett – különben a deposit részen figyeljük
+            {
+                BookingFunctions.UjCsomag(new DeliveryModel()
+                {
+                    OrderId = foglalas.Id,
+                    ValueInt = 0,
+                    ValueStr = "",
+                    ValueNyelv = foglalas.Nyelv,
+                    Type = DeliveryTypes.Payment
+                });
+            }
+        }
+
 
         return Json(new ResultModel() { Id = 0, Text = "" });
     }

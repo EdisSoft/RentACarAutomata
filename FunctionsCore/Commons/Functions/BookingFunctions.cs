@@ -94,15 +94,15 @@ public class BookingFunctions : IBookingFunctions
                             break;
                         case DeliveryTypes.ScanCreditCardBack:
                             UploadImage(csomag.Id, csomag.ValueBytes, "CreditCardBack.jpg");
-                            break;                       
-                        case DeliveryTypes.KeyTaken:
-                            FoglalasTorles(csomag.ValueInt);
-                            break;
-                        case DeliveryTypes.Payment:
-                            requestService.SendPayment(csomag.OrderId, ((Nyelvek)csomag.ValueInt).ToString(), 2, csomag.Value2Str);
                             break;
                         case DeliveryTypes.Deposit:
-                            requestService.SendPayment(csomag.OrderId, ((Nyelvek)csomag.ValueInt).ToString(), 2, csomag.Value2Str);
+                            requestService.SendDeposit(csomag.OrderId, csomag.ValueNyelv.ToString(), csomag.ValueInt, csomag.ValueStr);
+                            break;
+                        case DeliveryTypes.Payment:
+                            requestService.SendPayment(csomag.OrderId, csomag.ValueNyelv.ToString(), csomag.ValueInt, csomag.ValueStr);
+                            break;
+                        case DeliveryTypes.KeyTaken:
+                            FoglalasTorles(csomag.ValueInt);
                             break;
                     }
                 }
@@ -119,7 +119,7 @@ public class BookingFunctions : IBookingFunctions
             var foglalasFound = FoglalasokMemory.TryGetValue(id, out var resultModel);
             if (foglalasFound)
             {
-                Log.Debug($"Foglalas frissítése sikeres volt! FoglalasId: {resultModel.Id}");
+                Log.Debug($"Foglalas kikeresése sikeres volt! FoglalasId: {resultModel.Id}");
                 return resultModel;
             }
         }
@@ -200,6 +200,8 @@ public class BookingFunctions : IBookingFunctions
 
         try
         {
+            foglalas.ZarolvaFl = foglalas.Zarolando == 0; // Zárolás kész
+            foglalas.FizetveFl = foglalas.Fizetendo == 0; // Fizetés kész
             var result = FoglalasokMemory.AddOrUpdate(foglalas.Id, foglalas, (k, v) => foglalas);
             if (result != null)
             {

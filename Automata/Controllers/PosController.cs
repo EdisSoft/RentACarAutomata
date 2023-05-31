@@ -6,6 +6,7 @@ using FunctionsCore.Enums;
 using FunctionsCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Text.RegularExpressions;
 
 namespace Automata.Controllers
 {
@@ -39,9 +40,16 @@ namespace Automata.Controllers
                 throw new Exception("No such reservation");
             }
 
+            JsonResult res = FizetesFolyamat(model);
+
+            return res;
+        }
+
+        public JsonResult FizetesFolyamat(FoglalasModel model)
+        {
             model.FizetesMegszakadtFl = false;
 
-            string ctid = $"PAID_{DateTime.Now:MMddHHmm}{id:D8}"; //{ TranzakcioId: D4} max 24 chars
+            string ctid = $"PAID_{DateTime.Now:MMddHHmm}{model.Id:D8}"; //{ TranzakcioId: D4} max 24 chars
 
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
@@ -64,14 +72,17 @@ namespace Automata.Controllers
                 Log.Debug("Printing payment receipt");
                 PrinterFunctions.PrintOtpResult(moneraReceipt);
 
-                FunctionsCore.Commons.Functions.BookingFunctions.UpdateUtolsoVarazsloLepes(id, 9);
+                FunctionsCore.Commons.Functions.BookingFunctions.UpdateUtolsoVarazsloLepes(model.Id, 9);
+
+                int authCode;
+                int.TryParse(Regex.Replace(moneraReceipt.AuthCode, @"[^\d]", ""), out authCode); // Csak számokat tartalmazzon
 
                 BookingFunctions.UjCsomag(new DeliveryModel()
                 {
-                    OrderId = id,
-                    ValueStr = moneraReceipt.AuthCode,
-                    Value2Str = printLn,
-                    ValueInt = (int)model.Nyelv,
+                    OrderId = model.Id,
+                    ValueInt = authCode,
+                    ValueStr = printLn,
+                    ValueNyelv = model.Nyelv,
                     Type = DeliveryTypes.Payment
                 });
             }
@@ -112,8 +123,15 @@ namespace Automata.Controllers
                 throw new Exception("No such reservation");
             }
 
+            JsonResult res = LetetZarolasFolyamat(model);
+
+            return res;
+        }
+
+        public JsonResult LetetZarolasFolyamat(FoglalasModel model)
+        {
             model.ZarolasMegszakadtFl = false;
-            string ctid = $"DEID_{DateTime.Now:MMddHHmm}{id:D8}"; //{ TranzakcioId: D4} max 24 chars
+            string ctid = $"DEID_{DateTime.Now:MMddHHmm}{model.Id:D8}"; //{ TranzakcioId: D4} max 24 chars
 
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
@@ -143,16 +161,32 @@ namespace Automata.Controllers
                     PrinterFunctions.PrintReceiptEng(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
                 }
 
+                FunctionsCore.Commons.Functions.BookingFunctions.UpdateUtolsoVarazsloLepes(model.Id, 8);
+
+                int authCode;
+                int.TryParse(Regex.Replace(moneraReceipt.AuthCode, @"[^\d]", ""), out authCode); // Csak számokat tartalmazzon
+
                 BookingFunctions.UjCsomag(new DeliveryModel()
                 {
-                    OrderId = id,
-                    ValueStr = moneraReceipt.AuthCode,
-                    Value2Str = printLn,
-                    ValueInt = model.Nyelv == Nyelvek.hu ? 1 : 0,
+                    OrderId = model.Id,
+                    ValueInt = authCode,
+                    ValueStr = printLn,
+                    ValueNyelv = model.Nyelv,
                     Type = DeliveryTypes.Deposit
                 });
 
-                FunctionsCore.Commons.Functions.BookingFunctions.UpdateUtolsoVarazsloLepes(id, 9);
+                if (model.Fizetendo == 0) // Ha a fizetés már rendezve lett
+                {
+                    BookingFunctions.UjCsomag(new DeliveryModel()
+                    {
+                        OrderId = model.Id,
+                        ValueInt = 0,
+                        ValueStr = "",
+                        ValueNyelv = model.Nyelv,
+                        Type = DeliveryTypes.Payment
+                    });
+                }
+
             }
             else
             {
@@ -191,6 +225,8 @@ namespace Automata.Controllers
 
             if (model.FizetesMegszakadtFl)
             {
+                Log.Info($"FizetesRendben action: FizetesMegszakadtFl miatt pos újraindítás ({model.Id}).");
+                FizetesFolyamat(model);
                 return Json(new ResultModel() { Id = -1, Text = "Pos újraindítása" });
             }
 
@@ -200,7 +236,7 @@ namespace Automata.Controllers
                 int lockNo = 0;
                 var lockerAddresses = AppSettingsBase.GetLockerAddresses();
 
-                Log.Debug("Opening Compartment" + model.RekeszId);
+                Log.Debug($"Opening Compartment: {model.RekeszId}");
                 lockNo = lockerAddresses.GetLockNumber(model.RekeszId);
                 KerongLockFunctions locks = new KerongLockFunctions();
                 locks.OpenLock((byte)lockNo);
@@ -219,6 +255,8 @@ namespace Automata.Controllers
 
             if (model.ZarolasMegszakadtFl)
             {
+                Log.Info($"LetetZarolasRendben action: ZarolasMegszakadtFl miatt pos újraindítás ({model.Id}).");
+                LetetZarolasFolyamat(model);
                 return Json(new ResultModel() { Id = -1, Text = "Pos újraindítása" });
             }
 
