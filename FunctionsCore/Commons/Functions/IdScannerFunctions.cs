@@ -10,6 +10,7 @@ using FunctionsCore.Enums;
 using System;
 using Pr22;
 using Pr22.Task;
+using Pr22.Processing;
 using Microsoft.Extensions.Configuration;
 
 namespace FunctionsCore.Commons.Functions
@@ -142,7 +143,8 @@ namespace FunctionsCore.Commons.Functions
         {
             Log.Debug("Image scanned. Page: " + e.Page + " Light: " + e.Light);
             Pr22.Imaging.RawImage img = ((DocumentReaderDevice)a).Scanner.GetPage(e.Page).Select(e.Light).GetImage();
-            img.Save(Pr22.Imaging.RawImage.FileFormat.Png).Save($"IMG_{ DateTime.Now:yyyyMMddHHmmss}_" + e.Light + ".png");
+            // Saving scanned image to jpeg 
+            img.Save(Pr22.Imaging.RawImage.FileFormat.Jpeg).Save($"IMG_{ DateTime.Now:yyyyMMddHHmmss}_" + e.Light + ".jpg");
         }
         //----------------------------------------------------------------------
 
@@ -178,6 +180,7 @@ namespace FunctionsCore.Commons.Functions
 
             DocScanner Scanner = docReader.Scanner;
             Engine OcrEngine = docReader.Engine;
+            string fileName = $"{DateTime.Now:yyyyMMddHHmmss}";
 
             // Start detection task, for automatic starting scanning
             //TaskControl LiveTask = Scanner.StartTask(FreerunTask.Detection());
@@ -194,10 +197,32 @@ namespace FunctionsCore.Commons.Functions
             //}
 
             Log.Debug("Scanning the images.");
-            Pr22.Processing.Page page = Scanner.Scan(ScanningTask, Pr22.Imaging.PagePosition.First);
+            Page page = Scanner.Scan(ScanningTask, Pr22.Imaging.PagePosition.First);
+
+            // MRZ
+            Log.Debug("Reading all the field data of the Machine Readable Zone.");
+            EngineTask MrzReadingTask = new EngineTask();
+            //Specify the fields we would like to receive.
+            MrzReadingTask.Add(FieldSource.Mrz, FieldId.All);
+            Document MrzDoc = OcrEngine.Analyze(page, MrzReadingTask);
+
+            //PrintDocFields(MrzDoc);
+            //Returned fields by the Analyze function can be saved to an XML file:
+            MrzDoc.Save(Document.FileFormat.Xml).Save($"DOC_{fileName}_MRZ.xml");
+
+            // VIZ
+            Log.Debug("Reading all the textual and graphical field data as well as " +
+                "authentication result from the Visual Inspection Zone.");
+            EngineTask VIZReadingTask = new EngineTask();
+            VIZReadingTask.Add(FieldSource.Viz, FieldId.All);
+            Document VizDoc = OcrEngine.Analyze(page, VIZReadingTask);
+
+            //PrintDocFields(VizDoc);
+            //Returned fields by the Analyze function can be saved to an XML file:
+            VizDoc.Save(Document.FileFormat.Xml).Save($"DOC_{fileName}_VIZ.xml");
 
             Log.Debug("Saving whole document.");
-            docReader.Engine.GetRootDocument().Save(Pr22.Processing.Document.FileFormat.Zipped).Save($"DOC_{ DateTime.Now:yyyyMMddHHmmss}.zip");
+            docReader.Engine.GetRootDocument().Save(Document.FileFormat.Zipped).Save($"DOC_{fileName}.zip");
             
             // Stop detection task
             //LiveTask.Stop();
@@ -207,7 +232,8 @@ namespace FunctionsCore.Commons.Functions
                 Nev = "Kovács Gábor",
                 ErvenyessegVege = DateTime.Now.AddYears(2),
                 OkmanyTipus = "IdCard",
-                Kep = page.Select(Pr22.Imaging.Light.White).GetImage().Save(Pr22.Imaging.RawImage.FileFormat.Png).ToByteArray()
+                //Kep = page.Select(Pr22.Imaging.Light.White).GetImage().Save(Pr22.Imaging.RawImage.FileFormat.Png).ToByteArray()
+                Kep = page.Select(Pr22.Imaging.Light.White).GetImage().Save(Pr22.Imaging.RawImage.FileFormat.Jpeg).ToByteArray()
             };
 
             Log.Debug("Scanning processes are finished.");

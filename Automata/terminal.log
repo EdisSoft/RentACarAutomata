@@ -453,3 +453,50 @@
 2023.05.15 16:12:10 [864c,cdf8] | disconnect 
 2023.05.15 16:12:10 [864c,f214] | thread exit 
 2023.05.15 16:12:10 [864c,cdf8] | portclose 
+2023.05.25 17:15:17 [8ce4,1e60] | MONERA ZVT Terminal Library LAN 02.00 
+2023.05.25 17:15:17 [8ce4,1e60] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.05.25 17:15:17 [8ce4,1e60] | protocol ctor 
+2023.05.25 17:15:17 [8ce4,1e60] | disconnect 
+2023.05.25 17:15:17 [8ce4,1e60] | is stopped 
+2023.05.25 17:15:17 [8ce4,1e60] | SSL connect: 192.168.2.12:4050 
+2023.05.25 17:15:18 [8ce4,1e60] | start thread 
+2023.05.25 17:15:18 [8ce4,1e60] | payment 1000 
+2023.05.25 17:15:18 [8ce4,1e60] | displayevent 0 
+2023.05.25 17:15:18 [8ce4,1e60] | displayevent 1 
+2023.05.25 17:15:50 [8ce4,1e60] | disconnect 
+2023.05.25 17:15:50 [8ce4,c614] | thread exit 
+2023.05.25 17:15:50 [8ce4,1e60] | portclose 
+2023.05.29 22:52:51 [8ce4,6f94] | protocol ctor 
+2023.05.29 22:52:51 [8ce4,6f94] | disconnect 
+2023.05.29 22:52:51 [8ce4,6f94] | is stopped 
+2023.05.29 22:52:51 [8ce4,6f94] | SSL connect: 192.168.2.12:4050 
+2023.05.30 22:37:09 [9600,358c] | MONERA ZVT Terminal Library LAN 02.00 
+2023.05.30 22:37:09 [9600,358c] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.05.30 22:37:09 [9600,358c] | protocol ctor 
+2023.05.30 22:37:09 [9600,358c] | disconnect 
+2023.05.30 22:37:09 [9600,358c] | is stopped 
+2023.05.30 22:37:09 [9600,358c] | SSL connect: 192.168.2.12:4050 
+2023.05.30 22:37:10 [9600,358c] | start thread 
+2023.05.30 22:37:10 [9600,358c] | payment 1000 
+2023.05.30 22:37:11 [9600,358c] | displayevent 0 
+2023.05.30 22:37:11 [9600,358c] | displayevent 1 
+2023.05.30 22:37:28 [9600,358c] | displayevent 0 
+2023.05.30 22:37:32 [9600,358c] | printer event 
+2023.05.30 22:37:33 [9600,358c] | disconnect 
+2023.05.30 22:37:33 [9600,c378] | thread exit 
+2023.05.30 22:37:33 [9600,358c] | portclose 
+2023.05.30 22:56:28 [db44,638c] | MONERA ZVT Terminal Library LAN 02.00 
+2023.05.30 22:56:28 [db44,638c] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.05.30 22:56:28 [db44,638c] | protocol ctor 
+2023.05.30 22:56:28 [db44,638c] | disconnect 
+2023.05.30 22:56:28 [db44,638c] | is stopped 
+2023.05.30 22:56:28 [db44,638c] | SSL connect: 192.168.2.12:4050 
+2023.05.30 22:56:29 [db44,638c] | start thread 
+2023.05.30 22:56:29 [db44,638c] | payment 1000 
+2023.05.30 22:56:29 [db44,638c] | displayevent 0 
+2023.05.30 22:56:29 [db44,638c] | displayevent 1 
+2023.05.30 22:56:44 [db44,638c] | displayevent 0 
+2023.05.30 22:56:49 [db44,638c] | printer event 
+2023.05.30 22:56:50 [db44,638c] | disconnect 
+2023.05.30 22:56:50 [db44,c3e0] | thread exit 
+2023.05.30 22:56:50 [db44,638c] | portclose 
