@@ -112,11 +112,11 @@ public class HttpRequestService : IHttpRequestService
         }
     }
 
-    public async void SendPayment(int id, string language, int paymenttrid, string slip)
+    public async void SendPayment(int id, string language, int deposittrid, string slip)
     {
         try
         {
-            await httpClient.GetStringAsync(options.RequestBase + $"?action=payment&id={id}&lang={language}&paymenttrid={paymenttrid}&slip={slip}");
+            await httpClient.GetStringAsync(options.RequestBase + $"?action=payment&id={id}&lang={language}&deposittrid={deposittrid}&slip={slip}");
         }
         catch (Exception e)
         {
