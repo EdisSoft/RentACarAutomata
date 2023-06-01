@@ -18,10 +18,10 @@ namespace Automata.Controllers
         }
 
         [HttpPost]
-        public JsonResult OpenLock(int lockNo)
+        public JsonResult OpenLock(int rekeszId)
         {
-            KerongLockFunctions.OpenLock((byte)lockNo);
-            return Json(new ResultModel() { Id = 0, Text = "Opening lock " + lockNo });
+            KerongLockFunctions.OpenLock((byte)rekeszId);
+            return Json(new ResultModel() { Id = 0, Text = "Opening lock " + rekeszId });
         }
 
         [HttpPost]

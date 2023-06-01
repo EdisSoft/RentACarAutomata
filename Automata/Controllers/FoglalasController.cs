@@ -205,17 +205,17 @@ public class FoglalasController : BaseController
     {
         var result = await CrmFunctions.KocsiLeadas(rendszam);
 
-        BookingFunctions.SetTempValues(result.Id, result.LockNumber);
+        BookingFunctions.SetTempValues(result.Id, result.RekeszId);
 
-        return Json(result.LockNumber);
+        return Json(result.RekeszId);
     }
 
     [HttpPost]
-    public JsonResult KulcsLeadas(int id, bool taxiFl)
+    public JsonResult KulcsLeadas(int id, int rekeszId, bool taxiFl)
     {
-        var rekeszId = BookingFunctions.GetRekeszId(id);        
+        var rekeszIdOriginal = BookingFunctions.GetRekeszId(id);        
 
-        CrmFunctions.KulcsLeadas(id, rekeszId, taxiFl);
+        CrmFunctions.KulcsLeadas(id, rekeszIdOriginal, taxiFl);
 
         return Json(new ResultModel() { Id = 0, Text = "" });
     }

@@ -44,7 +44,7 @@ export default {
     let taxiRendelesConfirm = ref('');
     let taxiRendelesError = ref(false);
     let [isTaxiRendelesLoading, TaxiRendeles] = useApi(() => {
-      return AutoleadasService.TaxiRendeles(wizard.form.Reservation.Id);
+      return AutoleadasService.TaxiRendeles(wizard.form.Reservation.Id, true);
     });
     let nextBtnDisabled = computed(() => {
       return selectedItem.value == null;

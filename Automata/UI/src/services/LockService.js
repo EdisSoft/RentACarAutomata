@@ -2,13 +2,13 @@ import { timeout } from '@/utils/common';
 import { httpContext } from '../utils/httpContext';
 
 class LockService {
-  async OpenLock(lockNo) {
+  async OpenLock(rekeszId) {
     // await timeout(500);
     // return {
     //   Id: 0,
     //   Text: 'Ok',
     // };
-    let params = { lockNo };
+    let params = { rekeszId };
     let result = await httpContext.post(`Lock/OpenLock`, null, {
       params,
     });
