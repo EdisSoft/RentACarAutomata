@@ -34,6 +34,8 @@ public class HttpRequestService : IHttpRequestService
 
     public async Task<List<FoglalasModel>> GetFoglalasokByNev(string nev)
     {
+        Log.Info($"HttpRequestService.GetFoglalasokByNev({nev})");
+
         var responseString = await httpClient.GetStringAsync(options.RequestBase + "?action=pickup&mainparam=" + nev);
         var CRMFoglalasok = JsonConvert.DeserializeObject<List<CrmFoglalasModel>>(responseString);
 
@@ -55,9 +57,11 @@ public class HttpRequestService : IHttpRequestService
 
     public async Task<FoglalasModel> GetFoglalasByCode(string code)
     {
+        Log.Info($"HttpRequestService.GetFoglalasByCode({code})");
         var responseString = await httpClient.GetStringAsync(options.RequestBase + "?action=pickup&qr=" + code);
         var foglalas = JsonConvert.DeserializeObject<CrmFoglalasModel>(responseString);
 
+        Log.Info($"HttpRequestService.GetFoglalasByCode foglalasId: {foglalas.orderID}");
         return foglalas is null ? null : new FoglalasModel()
         {
             Id = foglalas.orderID,
@@ -77,6 +81,7 @@ public class HttpRequestService : IHttpRequestService
     {
         try
         {
+            Log.Info($"HttpRequestService.SaveEmail({id})");
             await httpClient.GetStringAsync(options.RequestBase + $"?action=addEmail&id={id}&email={email}");
         }
         catch (Exception e)
@@ -90,6 +95,7 @@ public class HttpRequestService : IHttpRequestService
     {
         try
         {
+            Log.Info($"HttpRequestService.SaveSignature({id})");
             await httpClient.GetStringAsync(options.RequestBase + $"?action=addsigno&id={id}&base64={signature}");
         }
         catch (Exception e)
@@ -103,6 +109,7 @@ public class HttpRequestService : IHttpRequestService
     {
         try
         {
+            Log.Info($"HttpRequestService.SendDeposit({id},{language},{deposittrid})");
             await httpClient.GetStringAsync(options.RequestBase + $"?action=deposit&id={id}&lang={language}&deposittrid={deposittrid}&slip={slip}");
         }
         catch (Exception e)
@@ -116,6 +123,7 @@ public class HttpRequestService : IHttpRequestService
     {
         try
         {
+            Log.Info($"HttpRequestService.SendPayment({id},{language},{paymenttrid})");
             await httpClient.GetStringAsync(options.RequestBase + $"?action=payment&id={id}&lang={language}&paymenttrid={paymenttrid}&slip={slip}");
         }
         catch (Exception e)
@@ -129,9 +137,20 @@ public class HttpRequestService : IHttpRequestService
     {
         try
         {
+            Log.Info($"HttpRequestService.KocsiLeadas({rendszam})");
             var responseString = await httpClient.GetStringAsync(options.RequestBase + $"?action=dropoff&rendszam={rendszam}");
 
-            return JsonConvert.DeserializeObject<AutoLeadasModel>(responseString);
+            var entity = JsonConvert.DeserializeObject<CrmAutoLeadasModel>(responseString);
+            if (entity == null)
+                return null;
+
+            return new AutoLeadasModel()
+            {
+                Id = entity.Id,
+                Rendszam = entity.Rendszam,
+                RfId = entity.Keyid,
+                RekeszId = entity.LockNumber
+            };
         }
         catch (Exception e)
         {
@@ -144,6 +163,7 @@ public class HttpRequestService : IHttpRequestService
     {
         try
         {
+            Log.Info($"HttpRequestService.KulcsLeadas({id})");
             var taxiInt = taxiFl ? 1 : 0;
             await httpClient.GetStringAsync(options.RequestBase + $"?action=finished&id={id}&locknumber={rekeszId}&taxi={taxiInt}");
         }
