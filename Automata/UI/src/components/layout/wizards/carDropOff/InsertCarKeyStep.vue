@@ -24,7 +24,11 @@
         ></v-progress-circular>
       </v-overlay>
     </v-sheet>
-    <wizard-footer @next="Next()" :nextBtnDisabled="isUresRekeszNyitasLoading">
+    <wizard-footer
+      @next="Next()"
+      :loading="isKulcsLeadasLoading"
+      :nextBtnDisabled="isUresRekeszNyitasLoading"
+    >
     </wizard-footer>
   </div>
 </template>
@@ -32,7 +36,6 @@
 <script>
 import { CarDropOffWizard } from '@/enums/CarDropOffWizard';
 import { SuccesResponse } from '@/enums/SuccesResponse';
-import { i18n } from '@/plugins/i18n';
 import { AutoleadasService } from '@/services/AutoleadasService';
 import { useApi } from '@/utils/useApi';
 import { computed, inject, onMounted, ref } from 'vue';
@@ -47,12 +50,21 @@ export default {
     let [isUresRekeszNyitasLoading, UresRekeszNyitas] = useApi(() => {
       return AutoleadasService.UresRekeszNyitas(input.value);
     });
+    let [isKulcsLeadasLoading, KulcsLeadas] = useApi(() => {
+      return AutoleadasService.KulcsLeadas(
+        input.value,
+        wizard.form.TaxiRendeles
+      );
+    });
     let nextBtnDisabled = computed(() => {
       let text = input.value.trim();
       return text.length < 3;
     });
     let Next = async () => {
-      wizard.Goto(CarDropOffWizard.Final);
+      let [success, result] = await KulcsLeadas();
+      if (success && result.Id == SuccesResponse.Next) {
+        wizard.Goto(CarDropOffWizard.Final);
+      }
     };
     onMounted(async () => {
       let [success, data] = await UresRekeszNyitas();
@@ -64,6 +76,7 @@ export default {
     });
     return {
       isUresRekeszNyitasLoading,
+      isKulcsLeadasLoading,
       input,
       azon,
       hibasNyitas,

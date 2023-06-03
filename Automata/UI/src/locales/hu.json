@@ -52,7 +52,7 @@
       },
       "final": {
         "stepName": "Kész",
-        "title": "Köszönjük, jó utat kívánunk!"
+        "title": "Köszönjük, jó utat kívánunk! {num}. rekesz nyitva!"
       }
     },
     "carDropOff": {
@@ -72,7 +72,7 @@
       },
       "insertCarKey": {
         "stepName": "kulcsleadás",
-        "title": "Kérem tegye a kinyiló rekeszbe a gépjármű kulcsát majd gondosan zárja be a szekrény ajtaját!",
+        "title": "Kérem tegye a kinyiló rekeszbe ({num}. rekesz) a gépjármű kulcsát majd gondosan zárja be a szekrény ajtaját!",
         "errorText": "A rekesz nyitása nem sikerült, hívja a call center telefonszámát."
       },
       "final": {

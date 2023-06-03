@@ -2,7 +2,7 @@ import { timeout } from '@/utils/common';
 import { httpContext } from '../utils/httpContext';
 
 class AutoleadasService {
-  async GetFoglalas(rendszam) {
+  async Leadas(rendszam) {
     // await timeout(500);
     // return {
     //   Id: 1,
@@ -18,7 +18,7 @@ class AutoleadasService {
     });
     return result.data;
   }
-  async TaxiRendeles(id, taxiFl) {
+  async KulcsLeadas(id, taxiFl) {
     // await timeout(500);
     // return {
     //   Id: 0,
@@ -38,7 +38,7 @@ class AutoleadasService {
       Text: '17',
     };
     let params = { id };
-    let result = await httpContext.post(`Autoleadas/UresRekeszNyitas`, null, {
+    let result = await httpContext.post(`Autoleadas/OpenLock`, null, {
       params,
     });
     return result.data;

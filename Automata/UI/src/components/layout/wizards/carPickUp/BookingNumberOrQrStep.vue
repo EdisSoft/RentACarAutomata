@@ -97,7 +97,7 @@ export default {
   computed: {
     validations() {
       return {
-        text: [vRequired(), vMinLength(3)],
+        text: [vRequired(), vMinLength(5)],
       };
     },
   },

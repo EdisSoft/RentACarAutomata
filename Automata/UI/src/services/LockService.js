@@ -25,6 +25,19 @@ class LockService {
     let result = await httpContext.get(`Lock/LockStatuses`);
     return result.data;
   }
+  async OpenLockByBookingId(id) {
+    await timeout(500);
+    console.log({ id });
+    return {
+      Id: 0,
+      Text: '5',
+    };
+    let params = { id };
+    let result = await httpContext.post(`Lock/OpenLockByBookingId`, null, {
+      params,
+    });
+    return result.data;
+  }
 }
 
 let instance = new LockService();

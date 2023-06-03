@@ -52,7 +52,7 @@
       },
       "final": {
         "stepName": "Confirm",
-        "title": "Thank you!"
+        "title": "Thank you! Number {num} lock is opened."
       }
     },
     "carDropOff": {
@@ -72,7 +72,7 @@
       },
       "insertCarKey": {
         "stepName": "Insert key",
-        "title": "Please put the car key in the opening compartment and then carefully close the cabinet door!",
+        "title": "Please put the car key in the opening compartment (cabinet {num}.) and then carefully close the cabinet door!",
         "errorText": "A rekesz nyitása nem sikerült, hívja a call center telefonszámát."
       },
       "final": {
