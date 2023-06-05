@@ -35,6 +35,32 @@ namespace Automata.Controllers
         }
 
         [HttpPost]
+        public JsonResult OpenCompartment(int compNo)
+        {
+            Log.Debug($"Lock/OpenCompartment({compNo})");
+
+            KerongLockFunctions.OpenCompartment((byte)compNo);
+            return Json(new ResultModel() { Id = 0, Text = "Opening compartment " + compNo });
+        }
+
+        [HttpPost]
+        public JsonResult CompartmentStatus(int compNo)
+        {
+            if (KerongLockFunctions.IsCompartmentClosed((byte)compNo))
+            {
+                return Json(new ResultModel() { Id = 0, Text = "Compartment " + compNo + " is closed" });
+            }
+            return Json(new ResultModel() { Id = 0, Text = "Compartment " + compNo + " is opened" });
+        }
+
+        [HttpPost]
+        public JsonResult CompartmentStatuses()
+        {
+            var model = KerongLockFunctions.GetCompartmentStatuses();
+            return Json(model);
+        }
+
+        [HttpPost]
         public JsonResult OpenLockByBookingId(int id)
         {
             Log.Debug($"Lock/OpenLockByBookingId({id})");
@@ -44,7 +70,7 @@ namespace Automata.Controllers
                 throw new Exception("No such reservation");
             }
 
-            KerongLockFunctions.OpenLock((byte)model.RekeszId);
+            KerongLockFunctions.OpenCompartment((byte)model.RekeszId);
 
             return Json(new ResultModel() { Id = 0, Text = model.RekeszId.ToString() });
         }

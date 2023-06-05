@@ -15,14 +15,14 @@ class LockService {
     return result.data;
   }
   async LockStatuses() {
-    let r = [];
-    for (let i = 0; i < 9; i++) {
-      r.push({ RekeszId: i + 1, IsOpen: i % 2 == 0 });
-    }
-    await timeout(500);
-    console.log('LockStatuses');
-    return r;
-    let result = await httpContext.get(`Lock/LockStatuses`);
+    //let r = [];
+    //for (let i = 0; i < 9; i++) {
+    //  r.push({ RekeszId: i + 1, IsOpen: i % 2 == 0 });
+    //}
+    //await timeout(500);
+    //console.log('LockStatuses');
+    //return r;
+    let result = await httpContext.post(`Lock/CompartmentStatuses`);
     return result.data;
   }
 }

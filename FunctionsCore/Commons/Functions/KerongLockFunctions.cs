@@ -1,4 +1,5 @@
 ﻿using FunctionsCore.Contexts;
+using FunctionsCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +52,7 @@ namespace FunctionsCore.Commons.Functions
                 Log.Error("Error: " + e);
                 throw;
             }
+            Thread.Sleep(100);
         }
 
         void Close()
@@ -68,6 +70,7 @@ namespace FunctionsCore.Commons.Functions
                 client.Close();
                 client.Dispose();
                 client = null;
+                Thread.Sleep(100);
             }
             catch (Exception e)
             {
@@ -97,6 +100,17 @@ namespace FunctionsCore.Commons.Functions
 
             // Send the message to the connected TcpServer.
             stream.Write(buffer, 0, 5);
+
+            stream.Flush();
+
+            string txt = "";
+            for (int i = 0; i < 5; i++)
+            {
+                txt += buffer[i].ToString("X2") + " ";
+            }
+            Log.Debug("Command sent: " + txt);
+
+            Thread.Sleep(100);
 
             return 0;
         }
@@ -211,6 +225,7 @@ namespace FunctionsCore.Commons.Functions
             SendCommand((byte)((cuBaseAddress << 4) + (lockno - 1)), CMD_OPEN_LOCK);
             Thread.Sleep(50);
             Close();
+            Thread.Sleep(500);
         }
 
         public bool IsLockClosed(byte lockno)
@@ -223,6 +238,7 @@ namespace FunctionsCore.Commons.Functions
             Log.Debug("Reading locks status");
             uint locksStatus = GetLocksStatus();
             Close();
+            Thread.Sleep(100);
             return ((locksStatus & (1 << (lockno - 1))) != 0);
         }
 
@@ -230,7 +246,57 @@ namespace FunctionsCore.Commons.Functions
         {
             Log.Debug("Opening each locks");
             SendCommand(cuBaseAddress, CMD_OPEN_ALL_LOCKS);
-            Thread.Sleep(50);
+            Thread.Sleep(100);
+        }
+
+        public void OpenCompartment(byte compNo)
+        {
+            int lockNo = 0;
+            var lockerAddresses = AppSettingsBase.GetLockerAddresses();
+
+            Log.Debug($"Opening Compartment: {compNo}");
+            lockNo = lockerAddresses.GetLockNumber(compNo);
+            OpenLock((byte)lockNo);
+        }
+
+        public bool IsCompartmentClosed(byte compNo)
+        {
+            int lockNo = 0;
+            var lockerAddresses = AppSettingsBase.GetLockerAddresses();
+
+            Log.Debug($"Reading Compartment state: {compNo}");
+            //if ((lockno < 1) || (lockno > 16))
+            //{
+            //    throw new ArgumentOutOfRangeException(nameof(lockno), "value must be between 1 and 16");
+            //}
+            Log.Debug("Reading locks status");
+            lockNo = lockerAddresses.GetLockNumber(compNo);
+            return IsLockClosed((byte)lockNo);
+        }
+
+        public List<RekeszStatusModel> GetCompartmentStatuses()
+        {
+            uint locksStatuses;
+            int lockNo;
+            bool isOpen;
+            var lockerAddresses = AppSettingsBase.GetLockerAddresses();
+
+            Log.Debug("Reading locks statuses");
+            Open();
+            locksStatuses = GetLocksStatus();
+            Close();
+
+            var compStatuses = new List<RekeszStatusModel>();
+            for (int i = 1; i <= lockerAddresses.NumberOfCompartments; i++)
+            {
+                lockNo = lockerAddresses.GetLockNumber((byte)i);
+                //((locksStatus & (1 << (lockno - 1))) != 0);
+                isOpen = ((locksStatuses & (1 << (lockNo - 1))) == 0);
+                // r.push({ RekeszId: i + 1, IsOpen: i % 2 == 0 });
+                Log.Debug("{ " + $"RekeszId: {i}, IsOpen: {isOpen}" + " }");
+                compStatuses.Add(new RekeszStatusModel() { RekeszId = i, IsOpen = isOpen });
+            }
+            return compStatuses;
         }
 
 

@@ -15,6 +15,8 @@
         public int Lock07 { get; set; }
         public int Lock08 { get; set; }
 
+        public int NumberOfCompartments { get; } = 8;
+
         public int GetLockNumber(int iRekeszNo)
         {
             switch (iRekeszNo)

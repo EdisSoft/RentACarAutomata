@@ -15,11 +15,13 @@ namespace Automata.Controllers
         private MoneraTerminalFunctions MoneraTerminal { get; set; }
         private IPrinterFunctions PrinterFunctions { get; set; }
         private IBookingFunctions BookingFunctions { get; set; }
+        private IKerongLockFunctions KerongLockFunctions { get; set; }
 
-        public PosController(IPrinterFunctions printerFunctions, IBookingFunctions bookingFunctions)
+        public PosController(IPrinterFunctions printerFunctions, IBookingFunctions bookingFunctions, IKerongLockFunctions kerongLockFunctions)
         {
             PrinterFunctions = printerFunctions;
             BookingFunctions = bookingFunctions;
+            KerongLockFunctions = kerongLockFunctions;
         }
 
         //private static int _tranzakcioId = 0;
@@ -35,6 +37,17 @@ namespace Automata.Controllers
         [HttpPost]
         public JsonResult Fizetes(int id)
         {
+            /*{
+                // For testing printer functions
+                MoneraReceiptModel moneraReceipt = new MoneraReceiptModel();
+                string sReceipt = "TID=02439406|ATH=227187  |RETNUM=001|RETTXT=ELFOGADVA|AMT=11,00|DATE=2023.04.28 23:03:43|" +
+                    "CNB=478738XXXXXX1811|REFNO=17|ACQ=OTP BANK|CTYP=Visa Card|LOC=VECSE'S FO\" UTCA 195|MERCN=GAME RENTACAR KFT.|" +
+                    "OWN=GAME RENTACAR|AID=A0000000031010|TC=B3112CA3096DF044|TRID=PAID_19338";
+                moneraReceipt.Parse(sReceipt);
+                Log.Debug("Printing test payment receipt");
+                PrinterFunctions.PrintOtpResult(moneraReceipt);
+                return Json(new ResultModel() { Id = 0, Text = "Test printing" });
+            }*/
             if (!FunctionsCore.Commons.Functions.BookingFunctions.FoglalasokMemory.TryGetValue(id, out FoglalasModel model))
             {
                 throw new Exception("No such reservation");
@@ -232,14 +245,9 @@ namespace Automata.Controllers
 
             if (model.FizetveFl)
             {
-                // Open lock
-                int lockNo = 0;
-                var lockerAddresses = AppSettingsBase.GetLockerAddresses();
-
+                // Opening compartment
                 Log.Debug($"Opening Compartment: {model.RekeszId}");
-                lockNo = lockerAddresses.GetLockNumber(model.RekeszId);
-                KerongLockFunctions locks = new KerongLockFunctions();
-                locks.OpenLock((byte)lockNo);
+                KerongLockFunctions.OpenCompartment((byte)model.RekeszId);
             }
 
             return Json(new ResultModel() { Id = (!model.FizetveFl).GetHashCode(), Text = "" });
