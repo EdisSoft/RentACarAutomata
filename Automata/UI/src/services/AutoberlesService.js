@@ -65,7 +65,7 @@ class AutoberlesService {
     return result.data;
   }
   async ScanLicenceFront(id) {
-    await timeout(500);
+    // await timeout(500);
     console.log({ id });
     // return {
     //   Id: 0,
@@ -78,7 +78,7 @@ class AutoberlesService {
     return result.data;
   }
   async ScanLicenceBack(id) {
-    await timeout(500);
+    // await timeout(500);
     console.log({ id });
     // return {
     //   Id: 0,
@@ -91,7 +91,7 @@ class AutoberlesService {
     return result.data;
   }
   async ScanIdCardFrontOrPassport(id) {
-    await timeout(500);
+    // await timeout(500);
     console.log({ id });
     // return {
     //   Id: 0,
@@ -108,7 +108,7 @@ class AutoberlesService {
     return result.data;
   }
   async ScanIdCardBack(id) {
-    await timeout(500);
+    // await timeout(500);
     console.log({ id });
     // return {
     //   Id: 0,
@@ -121,7 +121,7 @@ class AutoberlesService {
     return result.data;
   }
   async ScanCreditCardFront(id) {
-    await timeout(500);
+    // await timeout(500);
     console.log({ id });
     // return {
     //   Id: 0,
@@ -134,7 +134,7 @@ class AutoberlesService {
     return result.data;
   }
   async ScanCreditCardBack(id) {
-    await timeout(500);
+    // await timeout(500);
     console.log({ id });
     // return {
     //   Id: 0,

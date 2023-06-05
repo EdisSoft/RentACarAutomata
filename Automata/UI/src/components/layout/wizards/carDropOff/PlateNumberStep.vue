@@ -13,8 +13,7 @@
         </wizard-text-input>
       </v-form>
     </v-sheet>
-    <wizard-footer @next="Next()" :loading="isGetFoglalasLoading">
-    </wizard-footer>
+    <wizard-footer @next="Next()" :loading="isLeadasLoading"> </wizard-footer>
   </div>
 </template>
 
@@ -31,8 +30,8 @@ export default {
     let wizard = inject('wizard');
     let input = ref('');
     let form = ref(null);
-    let [isGetFoglalasLoading, GetFoglalas] = useApi(() => {
-      return AutoleadasService.GetFoglalas(input.value);
+    let [isLeadasLoading, Leadas] = useApi(() => {
+      return AutoleadasService.Leadas(input.value);
     });
 
     let Next = async () => {
@@ -40,7 +39,7 @@ export default {
       if (!isValid) {
         return;
       }
-      let [success, reservation] = await GetFoglalas();
+      let [success, reservation] = await Leadas();
       if (!success) {
         return;
       }
@@ -48,10 +47,10 @@ export default {
       wizard.Goto(CarDropOffWizard.TaxiService);
     };
     let validations = {
-      input: [vRequired(), vMinLength(3)],
+      input: [vRequired(), vMinLength(6)],
     };
     return {
-      isGetFoglalasLoading,
+      isLeadasLoading,
       input,
       form,
       validations,

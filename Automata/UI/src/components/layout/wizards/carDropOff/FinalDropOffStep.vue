@@ -4,6 +4,9 @@
       <wizard-simple-input>
         <template #title>
           {{ $t('wizards.carDropOff.final.title') }}
+          <div class="font-size-md" v-if="wizard.form.TaxiRendeles">
+            {{ $t('wizards.carDropOff.taxiService.succesText') }}
+          </div>
         </template>
       </wizard-simple-input>
     </v-sheet>

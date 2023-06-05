@@ -2,30 +2,33 @@ import { timeout } from '@/utils/common';
 import { httpContext } from '../utils/httpContext';
 
 class AutoleadasService {
-  async GetFoglalas(rendszam) {
-    await timeout(500);
-    return {
-      Id: 1,
-      Nev: 'John Doe ' + 1,
-      KezdDatum: new Date().toISOString(),
-      VegeDatum: new Date().toISOString(),
-      EmailFl: false,
-    };
+  async Leadas(rendszam) {
+    // await timeout(500);
+    // return {
+    //   Id: 1,
+    //   Nev: 'John Doe ' + 1,
+    //   KezdDatum: new Date().toISOString(),
+    //   VegeDatum: new Date().toISOString(),
+    //   EmailFl: false,
+    // };
 
-    let result = await httpContext.post(`Autoleadas/GetFoglalas`);
-    return result.data;
-  }
-  async TaxiRendeles(id) {
-    await timeout(500);
-    return {
-      Id: 0,
-      Text: 'Ok',
-    };
-
-    let params = { id };
-    let result = await httpContext.post(`Autoleadas/TaxiRendeles`, null, {
+    let params = { rendszam };
+    let result = await httpContext.post(`Foglalas/Leadas`, null, {
       params,
     });
+    return result.data;
+  }
+  async KulcsLeadas(id, taxiFl) {
+    // await timeout(500);
+    // return {
+    //   Id: 0,
+    //   Text: 'Ok',
+    // };
+    // let data = { id, pic };
+    // let result = await httpContext.post(`Foglalas/SaveAlairas`, data);
+
+    let data = { id, taxiFl };
+    let result = await httpContext.post(`Foglalas/KulcsLeadas`, data);
     return result.data;
   }
   async UresRekeszNyitas(id) {
@@ -35,7 +38,7 @@ class AutoleadasService {
       Text: '17',
     };
     let params = { id };
-    let result = await httpContext.post(`Autoleadas/UresRekeszNyitas`, null, {
+    let result = await httpContext.post(`Autoleadas/OpenLock`, null, {
       params,
     });
     return result.data;

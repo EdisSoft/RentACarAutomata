@@ -35,7 +35,7 @@ export default {
       return AutoberlesService.SaveAlairas(wizard.form.Reservation.Id, base64);
     });
     let nextBtnDisabled = computed(() => {
-      return points.value < 100;
+      return points.value < 33;
     });
     let Next = async () => {
       let [success, data] = await SaveAlairas();
