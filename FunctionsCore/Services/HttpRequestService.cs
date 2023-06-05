@@ -39,6 +39,25 @@ public class HttpRequestService : IHttpRequestService
         var responseString = await httpClient.GetStringAsync(options.RequestBase + "?action=pickup&mainparam=" + nev);
         var CRMFoglalasok = JsonConvert.DeserializeObject<List<CrmFoglalasModel>>(responseString);
 
+        //mock
+        //var res = new List<FoglalasModel>();
+
+        //res.Add(new FoglalasModel()
+        //{
+        //    Id = 1,
+        //    Nev = "Teszt",
+        //    KezdDatum = DateTime.Now,
+        //    VegeDatum = DateTime.Now.AddDays(7),
+        //    RekeszId = 3,
+        //    Rendszam = "APA565",
+        //    Email = "gabor@mail.hu",
+        //    Fizetendo = 500,
+        //    Zarolando = 200000,
+        //    Tipus = "user",
+        //    IdeiglenesFl = false
+        //});
+        //return res;
+
         return CRMFoglalasok.Select(s => new FoglalasModel()
         {
             Id = s.orderID,

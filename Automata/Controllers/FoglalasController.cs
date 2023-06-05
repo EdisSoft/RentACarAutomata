@@ -205,9 +205,13 @@ public class FoglalasController : BaseController
     {
         var result = await CrmFunctions.KocsiLeadas(rendszam);
 
-        BookingFunctions.SetTempValues(result.Id, result.RekeszId);
+        if (result != null)
+        {
+            BookingFunctions.SetTempValues(result.Id, result.RekeszId);
+            return Json(result.RekeszId);
+        }
 
-        return Json(result.RekeszId);
+        return Json(null);
     }
 
     [HttpPost]
