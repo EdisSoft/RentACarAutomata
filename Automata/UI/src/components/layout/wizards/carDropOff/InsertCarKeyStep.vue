@@ -37,6 +37,7 @@
 import { CarDropOffWizard } from '@/enums/CarDropOffWizard';
 import { SuccesResponse } from '@/enums/SuccesResponse';
 import { AutoleadasService } from '@/services/AutoleadasService';
+import { LockService } from '@/services/LockService';
 import { useApi } from '@/utils/useApi';
 import { computed, inject, onMounted, ref } from 'vue';
 
@@ -44,21 +45,17 @@ export default {
   name: 'insert-car-key-step',
   setup() {
     let wizard = inject('wizard');
-    let input = ref('');
+
     let hibasNyitas = ref(false);
     let azon = ref(null);
     let [isUresRekeszNyitasLoading, UresRekeszNyitas] = useApi(() => {
-      return AutoleadasService.UresRekeszNyitas(input.value);
+      return LockService.OpenLock(wizard.form.Reservation.RekeszId);
     });
     let [isKulcsLeadasLoading, KulcsLeadas] = useApi(() => {
       return AutoleadasService.KulcsLeadas(
-        input.value,
+        wizard.form.Reservation.Id,
         wizard.form.TaxiRendeles
       );
-    });
-    let nextBtnDisabled = computed(() => {
-      let text = input.value.trim();
-      return text.length < 3;
     });
     let Next = async () => {
       let [success, result] = await KulcsLeadas();
@@ -77,10 +74,8 @@ export default {
     return {
       isUresRekeszNyitasLoading,
       isKulcsLeadasLoading,
-      input,
       azon,
       hibasNyitas,
-      nextBtnDisabled,
       Next,
     };
   },
