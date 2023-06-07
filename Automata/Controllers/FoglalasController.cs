@@ -213,7 +213,7 @@ public class FoglalasController : BaseController
             if (rekeszId == null)
                 throw new WarningException("There is no free slot.", WarningExceptionLevel.Warning);
 
-            return Json(rekeszId);
+            return Json(new { Id = result.Id, RekeszId = rekeszId });
         }
         throw new WarningException("No car with this license plate has been issued.", WarningExceptionLevel.Warning);
     }
