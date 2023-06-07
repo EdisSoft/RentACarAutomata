@@ -219,7 +219,7 @@ public class FoglalasController : BaseController
     }
 
     [HttpPost]
-    public JsonResult KulcsLeadas(int id, int rekeszId, bool taxiFl)
+    public JsonResult KulcsLeadas(int id, bool taxiFl)
     {
         var rekeszIdOriginal = BookingFunctions.GetRekeszId(id);        
 
