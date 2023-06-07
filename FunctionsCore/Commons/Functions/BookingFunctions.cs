@@ -342,12 +342,6 @@ public class BookingFunctions : IBookingFunctions
 
     public int GetRekeszId(int foglalasId)
     {
-        if(foglalasId != tempFoglalasId)
-        {
-            Log.Error($"Hiba történt kulcsleadás közben! Mentett foglalás ({tempFoglalasId}) nem egyezik meg az aktuális foglalással ({foglalasId})!");
-            throw new WarningException("Hiba történt leadás közben!", WarningExceptionLevel.Warning);
-        }
-
         return tempRekeszId;
     }
 }

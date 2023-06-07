@@ -178,13 +178,14 @@ public class HttpRequestService : IHttpRequestService
         }
     }
 
-    public async Task KulcsLeadas(int id, int rekeszId, bool taxiFl)
+    public async Task<bool> KulcsLeadas(int id, int rekeszId, bool taxiFl)
     {
         try
         {
             Log.Info($"HttpRequestService.KulcsLeadas({id})");
             var taxiInt = taxiFl ? 1 : 0;
-            await httpClient.GetStringAsync(options.RequestBase + $"?action=finished&id={id}&locknumber={rekeszId}&taxi={taxiInt}");
+            var responseString = await httpClient.GetStringAsync(options.RequestBase + $"?action=finished&id={id}&locknumber={rekeszId}&taxi={taxiInt}");
+            return true;
         }
         catch (Exception e)
         {

@@ -223,8 +223,8 @@ public class FoglalasController : BaseController
     {
         var rekeszIdOriginal = BookingFunctions.GetRekeszId(id);        
 
-        CrmFunctions.KulcsLeadas(id, rekeszIdOriginal, taxiFl);
+        var result = CrmFunctions.KulcsLeadas(id, rekeszIdOriginal, taxiFl);
 
-        return Json(new ResultModel() { Id = 0, Text = "" });
+        return Json(new ResultModel() { Id = (!result.Result).GetHashCode(), Text = "" });
     }
 }

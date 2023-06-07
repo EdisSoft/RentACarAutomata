@@ -56,8 +56,8 @@ public class CrmFunctions : ICrmFunctions
         return await requestService.KocsiLeadas(rendszam);
     }
 
-    public async Task KulcsLeadas(int id, int rekeszId, bool taxiFl)
+    public async Task<bool> KulcsLeadas(int id, int rekeszId, bool taxiFl)
     {
-        await requestService.KulcsLeadas(id, rekeszId, taxiFl);
+       return await requestService.KulcsLeadas(id, rekeszId, taxiFl);
     }   
 }

@@ -16,6 +16,6 @@ namespace FunctionsCore.Services
         void SendDeposit(int id, string language, int deposittrid, string slip);
         void SendPayment(int id, string language, int paymenttrid, string slip);
         Task<AutoLeadasModel> KocsiLeadas(string rendszam);
-        Task KulcsLeadas(int id, int rekeszId, bool taxiFl);
+        Task<bool> KulcsLeadas(int id, int rekeszId, bool taxiFl);
     }
 }
