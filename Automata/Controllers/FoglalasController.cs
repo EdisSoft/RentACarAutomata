@@ -1,4 +1,5 @@
 ﻿using Automata.Functions;
+using FunctionsCore;
 using FunctionsCore.Commons.Functions;
 using FunctionsCore.Enums;
 using FunctionsCore.Models;
@@ -207,11 +208,14 @@ public class FoglalasController : BaseController
 
         if (result != null)
         {
-            BookingFunctions.SetTempValues(result.Id, result.RekeszId);
-            return Json(result.RekeszId);
-        }
+            int? rekeszId = BookingFunctions.SetTempValues(result.Id, result.RekeszIds);
 
-        return Json(null);
+            if (rekeszId == null)
+                throw new WarningException("There is no free slot.", WarningExceptionLevel.Warning);
+
+            return Json(rekeszId);
+        }
+        throw new WarningException("No car with this license plate has been issued.", WarningExceptionLevel.Warning);
     }
 
     [HttpPost]

@@ -168,7 +168,7 @@ public class HttpRequestService : IHttpRequestService
                 Id = entity.Id,
                 Rendszam = entity.Rendszam,
                 RfId = entity.Keyid,
-                RekeszId = entity.LockNumber
+                RekeszIds = entity.LockNumbers
             };
         }
         catch (Exception e)

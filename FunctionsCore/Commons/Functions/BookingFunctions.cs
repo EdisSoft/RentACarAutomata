@@ -20,6 +20,7 @@ public class BookingFunctions : IBookingFunctions
     private IHttpRequestService requestService;
     private FTPConnectionOptions options;
     private static int tempFoglalasId { get; set; }
+    private static List<int> tempRekeszIds { get; set; }
     private static int tempRekeszId { get; set; }
 
 
@@ -331,10 +332,12 @@ public class BookingFunctions : IBookingFunctions
         return result;
     }
 
-    public void SetTempValues(int foglalasId, int rekeszId)
+    public int SetTempValues(int foglalasId, List<int> rekeszIds)
     {
         tempFoglalasId = foglalasId;
-        tempRekeszId = rekeszId;
+        tempRekeszIds = rekeszIds;
+        tempRekeszId = rekeszIds.FirstOrDefault();
+        return tempRekeszId;
     }
 
     public int GetRekeszId(int foglalasId)

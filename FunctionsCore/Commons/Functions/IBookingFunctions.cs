@@ -1,4 +1,5 @@
 ﻿using FunctionsCore.Models;
+using System.Collections.Generic;
 
 namespace FunctionsCore.Commons.Functions
 {
@@ -7,7 +8,7 @@ namespace FunctionsCore.Commons.Functions
         void UjCsomag(DeliveryModel csomag);
         void KuldesAsync();
         void Kuldes();
-        void SetTempValues(int foglalasId, int rekeszId);
+        int SetTempValues(int foglalasId, List<int> rekeszIds);
         int GetRekeszId(int foglalasId);
     }
 }
