@@ -73,38 +73,124 @@ public class BookingFunctions : IBookingFunctions
                     switch (csomag.Type)
                     {
                         case DeliveryTypes.Email:
-                            requestService.SaveEmail(csomag.OrderId, csomag.ValueStr);
+                            try
+                            {
+                                requestService.SaveEmail(csomag.OrderId, csomag.ValueStr);
+                            }
+                            catch (Exception e)
+                            {                                
+                                UjCsomag(csomag);
+                                throw new WarningException("Hiba történt email küldése közben!", WarningExceptionLevel.Warning);
+                            }
                             break;
                         case DeliveryTypes.Signature:
-                            requestService.SaveSignature(csomag.OrderId, csomag.ValueStr);
+                            try
+                            {
+                                requestService.SaveSignature(csomag.OrderId, csomag.ValueStr);
+                            }
+                            catch (Exception e)
+                            {                                
+                                UjCsomag(csomag);
+                                throw new WarningException("Hiba történt aláírás mentése közben!", WarningExceptionLevel.Warning);
+                            }
                             break;
                         case DeliveryTypes.ScanLicenceFront:
-                            UploadImage(csomag.Id, csomag.ValueBytes, "LicenseFront.jpg");
+                            try
+                            {
+                                UploadImage(csomag.Id, csomag.ValueBytes, "LicenseFront.jpg");
+                            }
+                            catch
+                            {
+                                UjCsomag(csomag);
+                                throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
+                            }
                             break;
                         case DeliveryTypes.ScanLicenceBack:
-                            UploadImage(csomag.Id, csomag.ValueBytes, "LicenseBack.jpg");
+                            try
+                            {
+                                UploadImage(csomag.Id, csomag.ValueBytes, "LicenseBack.jpg");
+                            }
+                            catch
+                            {
+                                UjCsomag(csomag);
+                                throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
+                            }
                             break;
                         case DeliveryTypes.ScanIdCardFrontOrPassport:
-                            UploadImage(csomag.Id, csomag.ValueBytes, "IdCardFrontOrPassport.jpg");
+                            try
+                            {
+                                UploadImage(csomag.Id, csomag.ValueBytes, "IdCardFrontOrPassport.jpg");
+                            }
+                            catch
+                            {
+                                UjCsomag(csomag);
+                                throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
+                            }
                             break;
                         case DeliveryTypes.ScanIdCardBack:
-                            UploadImage(csomag.Id, csomag.ValueBytes, "IdCardBack.jpg");
+                            try
+                            {
+                                UploadImage(csomag.Id, csomag.ValueBytes, "IdCardBack.jpg");
+                            }
+                            catch
+                            {
+                                UjCsomag(csomag);
+                                throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
+                            }
                             break;
                         case DeliveryTypes.ScanCreditCardFront:
-                            UploadImage(csomag.Id, csomag.ValueBytes, "CreditCardFront.jpg");
+                            try
+                            {
+                                UploadImage(csomag.Id, csomag.ValueBytes, "CreditCardFront.jpg");
+                            }
+                            catch
+                            {
+                                UjCsomag(csomag);
+                                throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
+                            }
                             break;
                         case DeliveryTypes.ScanCreditCardBack:
-                            UploadImage(csomag.Id, csomag.ValueBytes, "CreditCardBack.jpg");
+                            try
+                            {
+                                UploadImage(csomag.Id, csomag.ValueBytes, "CreditCardBack.jpg");
+                            }
+                            catch
+                            {
+                                UjCsomag(csomag);
+                                throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
+                            }
                             break;
                         case DeliveryTypes.Deposit:
-                            requestService.SendDeposit(csomag.OrderId, csomag.ValueNyelv.ToString(), csomag.ValueInt, csomag.ValueStr);
+                            try
+                            {
+                                requestService.SendDeposit(csomag.OrderId, csomag.ValueNyelv.ToString(), csomag.ValueInt, csomag.ValueStr);
+                            }
+                            catch (Exception e)
+                            {
+                                UjCsomag(csomag);
+                                throw new WarningException(e.Message, WarningExceptionLevel.Warning);
+                            }
                             break;
                         case DeliveryTypes.Payment:
-                            requestService.SendPayment(csomag.OrderId, csomag.ValueNyelv.ToString(), csomag.ValueInt, csomag.ValueStr);
+                            var paymentSent = false;
+                            try
+                            {
+                                requestService.SendPayment(csomag.OrderId, csomag.ValueNyelv.ToString(), csomag.ValueInt, csomag.ValueStr);
+                                paymentSent = true;
+                                FoglalasTorles(csomag.ValueInt);
+                            }
+                            catch (Exception e)
+                            {
+                                if (!paymentSent)
+                                {
+                                    UjCsomag(csomag);
+                                }
+                                throw new WarningException(e.Message, WarningExceptionLevel.Warning);
+                            }
                             break;
-                        case DeliveryTypes.KeyTaken:
-                            FoglalasTorles(csomag.ValueInt);
-                            break;
+                        //case DeliveryTypes.KeyTaken:
+                        //    FoglalasTorles(csomag.ValueInt);
+                        //    break;
                     }
                 }
             }
@@ -142,7 +228,7 @@ public class BookingFunctions : IBookingFunctions
         }
         foglalas.UtolsoVarazsloLepes = varazsloLepes;
         UjFoglalas(foglalas);
-    }   
+    }
 
     public static void UpdateFoglalas(int foglalasId, string nyelv)
     {
