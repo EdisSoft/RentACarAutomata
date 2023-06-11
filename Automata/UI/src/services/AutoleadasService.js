@@ -19,16 +19,8 @@ class AutoleadasService {
     return result.data;
   }
   async KulcsLeadas(id, taxiFl) {
-    // await timeout(500);
-    // return {
-    //   Id: 0,
-    //   Text: 'Ok',
-    // };
-    // let data = { id, pic };
-    // let result = await httpContext.post(`Foglalas/SaveAlairas`, data);
-
-    let data = { id, taxiFl };
-    let result = await httpContext.post(`Foglalas/KulcsLeadas`, data);
+    let params = { id, taxiFl };
+    let result = await httpContext.post(`Foglalas/KulcsLeadas`, null, params);
     return result.data;
   }
   async UresRekeszNyitas(id) {
