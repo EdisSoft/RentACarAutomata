@@ -27,7 +27,7 @@
     <wizard-footer
       @next="Next()"
       :loading="isKulcsLeadasLoading"
-      :nextBtnDisabled="isUresRekeszNyitasLoading"
+      :nextBtnDisabled="isUresRekeszNyitasLoading || hibasNyitas"
     >
     </wizard-footer>
   </div>
