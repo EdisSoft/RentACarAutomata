@@ -106,7 +106,7 @@ public class HttpRequestService : IHttpRequestService
         catch (Exception e)
         {
             Log.Error($"Hiba email mentése közben! Foglalás: {id}", e);
-            throw new WarningException("Hiba email mentése közben!", WarningExceptionLevel.Warning);
+            throw;
         }
     }
 
@@ -120,7 +120,7 @@ public class HttpRequestService : IHttpRequestService
         catch (Exception e)
         {
             Log.Error($"Hiba aláírás mentése közben! Foglalás: {id}", e);
-            throw new WarningException("Hiba aláírás mentése közben!", WarningExceptionLevel.Warning);
+            throw;
         }
     }
 
@@ -148,7 +148,7 @@ public class HttpRequestService : IHttpRequestService
         catch (Exception e)
         {
             Log.Error($"Hiba fizetés CRM küldése közben! Foglalás: {id}", e);
-            throw new WarningException("Hiba fizetés CRM küldése közben!", WarningExceptionLevel.Warning);
+            throw new WarningException("Hiba fizetés CRM küldése közben!", WarningExceptionLevel.Warning);            
         }
     }
 
