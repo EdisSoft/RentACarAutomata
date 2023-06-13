@@ -45,6 +45,7 @@ public class BookingFunctions : IBookingFunctions
             return;
         }
 
+        Log.Info($"BookingFunctions.UjCsomag: {csomag.Id}");
         deliveryQueue.Add(csomag);
     }
 
@@ -227,7 +228,7 @@ public class BookingFunctions : IBookingFunctions
             throw new WarningException("Nincs meg a foglalás!", WarningExceptionLevel.Warning);
         }
         foglalas.UtolsoVarazsloLepes = varazsloLepes;
-        UjFoglalas(foglalas);
+        UjFoglalasVagyModositas(foglalas);
     }
 
     public static void UpdateFoglalas(int foglalasId, string nyelv)
@@ -247,13 +248,14 @@ public class BookingFunctions : IBookingFunctions
                 }
 
                 foglalasMemory.IdeiglenesFl = false;
-                foglalasMemory.UtolsoVarazsloLepes = 3;
+                foglalasMemory.UtolsoVarazsloLepes = 4; //3+1
+                UjFoglalasVagyModositas(foglalasMemory);
 
                 var itemKeysToRemove = FoglalasokMemory.Where(w => w.Value.IdeiglenesFl == true).Select(s => s.Key).ToList();
 
                 foreach (var itemKey in itemKeysToRemove)
                 {
-                    BookingFunctions.FoglalasTorles(itemKey);
+                    FoglalasTorles(itemKey);
                 }
 
                 Log.Debug("Foglalas frissítése sikeres volt! FoglalasId: " + foglalasId);
@@ -275,11 +277,11 @@ public class BookingFunctions : IBookingFunctions
     {
         foreach (var foglalas in foglalasok)
         {
-            UjFoglalas(foglalas);
+            UjFoglalasVagyModositas(foglalas);
         }
     }
 
-    public static FoglalasModel UjFoglalas(FoglalasModel foglalas)
+    public static FoglalasModel UjFoglalasVagyModositas(FoglalasModel foglalas)
     {
         Log.Debug("Új adat érkezett! Foglalás: " + foglalas.Id);
 
@@ -335,6 +337,8 @@ public class BookingFunctions : IBookingFunctions
 
     private void UploadImage(string id, byte[] picture, string pictureName)
     {
+        Log.Info($"BookingFunctions.UploadImage({id},{pictureName})");
+
         var path = $"{options.Address}/{id}/";
 
         if (DoesFtpDirectoryExist(path) == false)

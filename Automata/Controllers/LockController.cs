@@ -21,7 +21,7 @@ namespace Automata.Controllers
         public JsonResult OpenLock(int rekeszId)
         {
             KerongLockFunctions.OpenLock((byte)rekeszId);
-            return Json(new ResultModel() { Id = 0, Text = "Opening lock " + rekeszId });
+            return Json(new ResultModel() { Id = 0, Text = rekeszId.ToString() });
         }
 
         [HttpPost]

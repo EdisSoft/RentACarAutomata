@@ -184,7 +184,8 @@ public class HttpRequestService : IHttpRequestService
         {
             Log.Info($"HttpRequestService.KulcsLeadas({id})");
             var taxiInt = taxiFl ? 1 : 0;
-            var responseString = await httpClient.GetStringAsync(options.RequestBase + $"?action=finished&id={id}&locknumber={rekeszId}&taxi={taxiInt}");
+            string query = options.RequestBase + $"?action=finished&id={id}&locknumber={rekeszId}&taxi={taxiInt}";
+            var responseString = await httpClient.GetStringAsync(query);
             return true;
         }
         catch (Exception e)

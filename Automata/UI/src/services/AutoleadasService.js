@@ -20,7 +20,9 @@ class AutoleadasService {
   }
   async KulcsLeadas(id, taxiFl) {
     let params = { id, taxiFl };
-    let result = await httpContext.post(`Foglalas/KulcsLeadas`, null, params);
+    let result = await httpContext.post(`Foglalas/KulcsLeadas`, null, {
+      params,
+    });
     return result.data;
   }
   async UresRekeszNyitas(id) {

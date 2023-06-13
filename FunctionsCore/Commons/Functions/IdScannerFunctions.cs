@@ -172,6 +172,15 @@ namespace FunctionsCore.Commons.Functions
 
         public IdScannerModel ScanCard()
         {
+#if DEBUG
+            return new IdScannerModel()
+            {
+                Nev = "Kovács Gábor",
+                ErvenyessegVege = DateTime.Now.AddYears(2),
+                OkmanyTipus = "IdCard",
+                Kep = new byte[] { 0xFF, 0xD8, 0xFF, 0xE0, 0x00, 0x10, 0x4A, 0x46 }
+            };
+#endif
             //Devices can be manipulated only after opening.
             if (Open() != 0)
             {
@@ -232,7 +241,6 @@ namespace FunctionsCore.Commons.Functions
                 Nev = "Kovács Gábor",
                 ErvenyessegVege = DateTime.Now.AddYears(2),
                 OkmanyTipus = "IdCard",
-                //Kep = page.Select(Pr22.Imaging.Light.White).GetImage().Save(Pr22.Imaging.RawImage.FileFormat.Png).ToByteArray()
                 Kep = page.Select(Pr22.Imaging.Light.White).GetImage().Save(Pr22.Imaging.RawImage.FileFormat.Jpeg).ToByteArray()
             };
 

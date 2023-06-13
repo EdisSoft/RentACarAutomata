@@ -13,14 +13,14 @@ public class FoglalasController : BaseController
 {
     private ICrmFunctions CrmFunctions { get; set; }
 
-    private IBookingFunctions BookingFunctions { get; set; }
+    private IBookingFunctions BookingFunctionsInst { get; set; }
 
     private IIdScannerFunctions IdScannerFunctions { get; set; }
 
     public FoglalasController(ICrmFunctions crmFunctions, IBookingFunctions bookingFunctions, IIdScannerFunctions idScannerFunctions)
     {
         CrmFunctions = crmFunctions;
-        BookingFunctions = bookingFunctions;
+        BookingFunctionsInst = bookingFunctions;
         IdScannerFunctions = idScannerFunctions;
     }
 
@@ -28,7 +28,7 @@ public class FoglalasController : BaseController
     public async Task<JsonResult> GetFoglalasok(string nev)
     {
         var result = await CrmFunctions.GetFoglalasokByNev(nev);
-        FunctionsCore.Commons.Functions.BookingFunctions.UjFoglalas(result);
+        BookingFunctions.UjFoglalas(result);
 
         return Json(result);
     }
@@ -38,7 +38,7 @@ public class FoglalasController : BaseController
         var result = await CrmFunctions.GetFoglalasByQrCode();
         if (result != null)
         {
-            FunctionsCore.Commons.Functions.BookingFunctions.UjFoglalas(result);
+            BookingFunctions.UjFoglalasVagyModositas(result);
         }
 
         return Json(result);
@@ -47,11 +47,11 @@ public class FoglalasController : BaseController
     [HttpPost]
     public JsonResult SaveEmail(int id, string email)
     {
-        BookingFunctions.UjCsomag(new DeliveryModel()
+        BookingFunctionsInst.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
             ValueStr = email,
-            Type = FunctionsCore.Enums.DeliveryTypes.Email
+            Type = DeliveryTypes.Email
         });
 
         return Json(new ResultModel() { Id = 0, Text = "" });
@@ -60,16 +60,16 @@ public class FoglalasController : BaseController
     [HttpPost]
     public JsonResult SaveAlairas([FromBody] AlairasModel model)
     {
-        BookingFunctions.UjCsomag(new DeliveryModel()
+        BookingFunctionsInst.UjCsomag(new DeliveryModel()
         {
             OrderId = model.Id,
             ValueStr = model.Pic,
-            Type = FunctionsCore.Enums.DeliveryTypes.Signature
+            Type = DeliveryTypes.Signature
         });
 
         var nyelv = Request.Headers["Accept-Language"];
 
-        FunctionsCore.Commons.Functions.BookingFunctions.UpdateFoglalas(model.Id, nyelv);
+        BookingFunctions.UpdateFoglalas(model.Id, nyelv);
 
         return Json(new ResultModel() { Id = 0, Text = "" });
     }
@@ -79,14 +79,14 @@ public class FoglalasController : BaseController
     {
         var model = IdScannerFunctions.ScanCard();
         
-        BookingFunctions.UjCsomag(new DeliveryModel()
+        BookingFunctionsInst.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
             ValueBytes = model.Kep,
-            Type = FunctionsCore.Enums.DeliveryTypes.ScanLicenceFront
+            Type = DeliveryTypes.ScanLicenceFront
         });
 
-        FunctionsCore.Commons.Functions.BookingFunctions.UpdateUtolsoVarazsloLepes(id, 5);
+        BookingFunctions.UpdateUtolsoVarazsloLepes(id, 6); // 5+1
 
         return Json(new ResultModel() { Id = 0, Text = "" });
     }
@@ -96,11 +96,11 @@ public class FoglalasController : BaseController
     {
         var model = IdScannerFunctions.ScanCard();
 
-        BookingFunctions.UjCsomag(new DeliveryModel()
+        BookingFunctionsInst.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
             ValueBytes = model.Kep,
-            Type = FunctionsCore.Enums.DeliveryTypes.ScanLicenceBack
+            Type = DeliveryTypes.ScanLicenceBack
         });
 
         return Json(new ResultModel() { Id = 0, Text = "" });
@@ -111,14 +111,14 @@ public class FoglalasController : BaseController
     {
         var model = IdScannerFunctions.ScanCard();
 
-        BookingFunctions.UjCsomag(new DeliveryModel()
+        BookingFunctionsInst.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
             ValueBytes = model.Kep,
-            Type = FunctionsCore.Enums.DeliveryTypes.ScanIdCardFrontOrPassport
+            Type = DeliveryTypes.ScanIdCardFrontOrPassport
         });
 
-        FunctionsCore.Commons.Functions.BookingFunctions.UpdateUtolsoVarazsloLepes(id, 6);
+        BookingFunctions.UpdateUtolsoVarazsloLepes(id, 7); //6+1
 
         return Json(new ResultModel() { Id = 0, Text = "" });
     }
@@ -128,11 +128,11 @@ public class FoglalasController : BaseController
     {
         var model = IdScannerFunctions.ScanCard();
 
-        BookingFunctions.UjCsomag(new DeliveryModel()
+        BookingFunctionsInst.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
             ValueBytes = model.Kep,
-            Type = FunctionsCore.Enums.DeliveryTypes.ScanIdCardBack
+            Type = DeliveryTypes.ScanIdCardBack
         });
 
         return Json(new ResultModel() { Id = 0, Text = "" });
@@ -143,14 +143,14 @@ public class FoglalasController : BaseController
     {
         var model = IdScannerFunctions.ScanCard();
 
-        BookingFunctions.UjCsomag(new DeliveryModel()
+        BookingFunctionsInst.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
             ValueBytes = model.Kep,
-            Type = FunctionsCore.Enums.DeliveryTypes.ScanCreditCardFront
+            Type = DeliveryTypes.ScanCreditCardFront
         });
 
-        FunctionsCore.Commons.Functions.BookingFunctions.UpdateUtolsoVarazsloLepes(id, 7);
+        BookingFunctions.UpdateUtolsoVarazsloLepes(id, 8); // 7+1
 
         return Json(new ResultModel() { Id = 0, Text = "" });
     }
@@ -160,22 +160,22 @@ public class FoglalasController : BaseController
     {
         var model = IdScannerFunctions.ScanCard();
 
-        BookingFunctions.UjCsomag(new DeliveryModel()
+        BookingFunctionsInst.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
             ValueBytes = model.Kep,
-            Type = FunctionsCore.Enums.DeliveryTypes.ScanCreditCardBack
+            Type = DeliveryTypes.ScanCreditCardBack
         });
 
         //FoglalasModel foglalas = null;
-        if (!FunctionsCore.Commons.Functions.BookingFunctions.FoglalasokMemory.TryGetValue(id, out FoglalasModel foglalas))
+        if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out FoglalasModel foglalas))
         {
             throw new Exception($"ScanCreditCardBack: No such reservation: {id}");
         }
 
         if (foglalas.Zarolando == 0)
         {
-            BookingFunctions.UjCsomag(new DeliveryModel()  // Ha nem kell deposit
+            BookingFunctionsInst.UjCsomag(new DeliveryModel()  // Ha nem kell deposit
             {
                 OrderId = foglalas.Id,
                 ValueInt = 0,
@@ -186,7 +186,7 @@ public class FoglalasController : BaseController
 
             if (foglalas.Fizetendo == 0)  // Ha a fizetés is már rendezve lett – különben a deposit részen figyeljük
             {
-                BookingFunctions.UjCsomag(new DeliveryModel()
+                BookingFunctionsInst.UjCsomag(new DeliveryModel()
                 {
                     OrderId = foglalas.Id,
                     ValueInt = 0,
@@ -208,7 +208,7 @@ public class FoglalasController : BaseController
 
         if (result != null)
         {
-            int? rekeszId = BookingFunctions.SetTempValues(result.Id, result.RekeszIds);
+            int? rekeszId = BookingFunctionsInst.SetTempValues(result.Id, result.RekeszIds);
 
             if (rekeszId == null)
                 throw new WarningException("There is no free slot.", WarningExceptionLevel.Warning);
@@ -221,7 +221,7 @@ public class FoglalasController : BaseController
     [HttpPost]
     public JsonResult KulcsLeadas(int id, bool taxiFl)
     {
-        var rekeszIdOriginal = BookingFunctions.GetRekeszId(id);        
+        var rekeszIdOriginal = BookingFunctionsInst.GetRekeszId(id);        
 
         var result = CrmFunctions.KulcsLeadas(id, rekeszIdOriginal, taxiFl);
 

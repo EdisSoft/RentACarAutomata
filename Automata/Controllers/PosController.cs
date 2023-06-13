@@ -14,13 +14,13 @@ namespace Automata.Controllers
     {
         private MoneraTerminalFunctions MoneraTerminal { get; set; }
         private IPrinterFunctions PrinterFunctions { get; set; }
-        private IBookingFunctions BookingFunctions { get; set; }
+        private IBookingFunctions BookingFunctionsInst { get; set; }
         private IKerongLockFunctions KerongLockFunctions { get; set; }
 
         public PosController(IPrinterFunctions printerFunctions, IBookingFunctions bookingFunctions, IKerongLockFunctions kerongLockFunctions)
         {
             PrinterFunctions = printerFunctions;
-            BookingFunctions = bookingFunctions;
+            BookingFunctionsInst = bookingFunctions;
             KerongLockFunctions = kerongLockFunctions;
         }
 
@@ -48,7 +48,7 @@ namespace Automata.Controllers
                 PrinterFunctions.PrintOtpResult(moneraReceipt);
                 return Json(new ResultModel() { Id = 0, Text = "Test printing" });
             }*/
-            if (!FunctionsCore.Commons.Functions.BookingFunctions.FoglalasokMemory.TryGetValue(id, out FoglalasModel model))
+            if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out FoglalasModel model))
             {
                 throw new Exception("No such reservation");
             }
@@ -61,6 +61,7 @@ namespace Automata.Controllers
         public JsonResult FizetesFolyamat(FoglalasModel model)
         {
             model.FizetesMegszakadtFl = false;
+            model = BookingFunctions.UjFoglalasVagyModositas(model);
 
             string ctid = $"PAID_{DateTime.Now:MMddHHmm}{model.Id:D8}"; //{ TranzakcioId: D4} max 24 chars
 
@@ -71,6 +72,7 @@ namespace Automata.Controllers
             if (res == 0)
             {
                 model.FizetveFl = true;
+                model = BookingFunctions.UjFoglalasVagyModositas(model);
 
                 MoneraReceiptModel moneraReceipt = new MoneraReceiptModel();
 
@@ -85,12 +87,12 @@ namespace Automata.Controllers
                 Log.Debug("Printing payment receipt");
                 PrinterFunctions.PrintOtpResult(moneraReceipt);
 
-                FunctionsCore.Commons.Functions.BookingFunctions.UpdateUtolsoVarazsloLepes(model.Id, 9);
+                BookingFunctions.UpdateUtolsoVarazsloLepes(model.Id, 10); // 9+1
 
                 int authCode;
                 int.TryParse(Regex.Replace(moneraReceipt.AuthCode, @"[^\d]", ""), out authCode); // Csak számokat tartalmazzon
 
-                BookingFunctions.UjCsomag(new DeliveryModel()
+                BookingFunctionsInst.UjCsomag(new DeliveryModel()
                 {
                     OrderId = model.Id,
                     ValueInt = authCode,
@@ -102,6 +104,7 @@ namespace Automata.Controllers
             else
             {
                 model.FizetesMegszakadtFl = true;
+                BookingFunctions.UjFoglalasVagyModositas(model);
             }
 
             //return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
@@ -131,7 +134,7 @@ namespace Automata.Controllers
 
         public JsonResult LetetZarolas(int id)
         {
-            if (!FunctionsCore.Commons.Functions.BookingFunctions.FoglalasokMemory.TryGetValue(id, out FoglalasModel model))
+            if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out FoglalasModel model))
             {
                 throw new Exception("No such reservation");
             }
@@ -144,6 +147,8 @@ namespace Automata.Controllers
         public JsonResult LetetZarolasFolyamat(FoglalasModel model)
         {
             model.ZarolasMegszakadtFl = false;
+            model = BookingFunctions.UjFoglalasVagyModositas(model);
+
             string ctid = $"DEID_{DateTime.Now:MMddHHmm}{model.Id:D8}"; //{ TranzakcioId: D4} max 24 chars
 
             MoneraTerminal = new MoneraTerminalFunctions();
@@ -153,6 +158,7 @@ namespace Automata.Controllers
             if (res == 0)
             {
                 model.ZarolvaFl = true;
+                model = BookingFunctions.UjFoglalasVagyModositas(model);
 
                 MoneraReceiptModel moneraReceipt = new MoneraReceiptModel();
                 string printLn = MoneraTerminal.GetReceipt();
@@ -174,12 +180,12 @@ namespace Automata.Controllers
                     PrinterFunctions.PrintReceiptEng(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
                 }
 
-                FunctionsCore.Commons.Functions.BookingFunctions.UpdateUtolsoVarazsloLepes(model.Id, 8);
+                BookingFunctions.UpdateUtolsoVarazsloLepes(model.Id, 9); // 8+1
 
                 int authCode;
                 int.TryParse(Regex.Replace(moneraReceipt.AuthCode, @"[^\d]", ""), out authCode); // Csak számokat tartalmazzon
 
-                BookingFunctions.UjCsomag(new DeliveryModel()
+                BookingFunctionsInst.UjCsomag(new DeliveryModel()
                 {
                     OrderId = model.Id,
                     ValueInt = authCode,
@@ -190,7 +196,7 @@ namespace Automata.Controllers
 
                 if (model.Fizetendo == 0) // Ha a fizetés már rendezve lett
                 {
-                    BookingFunctions.UjCsomag(new DeliveryModel()
+                    BookingFunctionsInst.UjCsomag(new DeliveryModel()
                     {
                         OrderId = model.Id,
                         ValueInt = 0,
@@ -204,6 +210,7 @@ namespace Automata.Controllers
             else
             {
                 model.ZarolasMegszakadtFl = true;
+                BookingFunctions.UjFoglalasVagyModositas(model);
             }
 
             //return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
@@ -231,7 +238,7 @@ namespace Automata.Controllers
         [HttpPost]
         public JsonResult FizetesRendben(int id)
         {
-            if (!FunctionsCore.Commons.Functions.BookingFunctions.FoglalasokMemory.TryGetValue(id, out FoglalasModel model))
+            if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out FoglalasModel model))
             {
                 throw new Exception("No such reservation");
             }
@@ -256,7 +263,7 @@ namespace Automata.Controllers
         [HttpPost]
         public JsonResult LetetZarolasRendben(int id)
         {
-            if (!FunctionsCore.Commons.Functions.BookingFunctions.FoglalasokMemory.TryGetValue(id, out FoglalasModel model))
+            if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out FoglalasModel model))
             {
                 throw new Exception("No such reservation");
             }
