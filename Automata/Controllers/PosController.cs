@@ -65,6 +65,10 @@ namespace Automata.Controllers
 
             string ctid = $"PAID_{DateTime.Now:MMddHHmm}{model.Id:D8}"; //{ TranzakcioId: D4} max 24 chars
 
+#if DEBUG
+            return Json(new ResultModel() { Id = 0, Text = "" });
+#endif
+
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
             int res = MoneraTerminal.NormalPayment(model.Fizetendo, ctid); //TODO: Mi a második paraméter, honnan fogjuk tudni?
@@ -150,6 +154,10 @@ namespace Automata.Controllers
             model = BookingFunctions.UjFoglalasVagyModositas(model);
 
             string ctid = $"DEID_{DateTime.Now:MMddHHmm}{model.Id:D8}"; //{ TranzakcioId: D4} max 24 chars
+
+#if DEBUG
+            return Json(new ResultModel() { Id = 0, Text = "" });
+#endif
 
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
@@ -243,6 +251,10 @@ namespace Automata.Controllers
                 throw new Exception("No such reservation");
             }
 
+#if DEBUG
+            model.FizetveFl = true;
+#endif
+
             if (model.FizetesMegszakadtFl)
             {
                 Log.Info($"FizetesRendben action: FizetesMegszakadtFl miatt pos újraindítás ({model.Id}).");
@@ -267,6 +279,10 @@ namespace Automata.Controllers
             {
                 throw new Exception("No such reservation");
             }
+
+#if DEBUG
+            return Json(new ResultModel() { Id = 0, Text = "" });
+#endif
 
             if (model.ZarolasMegszakadtFl)
             {

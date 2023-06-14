@@ -90,7 +90,7 @@ public class BookingFunctions : IBookingFunctions
                                 requestService.SaveSignature(csomag.OrderId, csomag.ValueStr);
                             }
                             catch (Exception e)
-                            {                                
+                            {
                                 UjCsomag(csomag);
                                 throw new WarningException("Hiba történt aláírás mentése közben!", WarningExceptionLevel.Warning);
                             }

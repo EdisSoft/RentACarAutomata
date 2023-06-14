@@ -33,9 +33,11 @@ public class CrmFunctions : ICrmFunctions
 
             return result;
         }
-        catch
+        catch (Exception e)
         {
-            throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
+            if (e is WarningException)
+                throw new WarningException("No such reservation.", WarningExceptionLevel.Warning); // Nincs foglalás!
+            throw new WarningException("An error occurred during processing.", WarningExceptionLevel.Warning);
         }
     }
 

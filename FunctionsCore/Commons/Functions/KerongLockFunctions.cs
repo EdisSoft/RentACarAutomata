@@ -220,6 +220,9 @@ namespace FunctionsCore.Commons.Functions
             {
                 throw new ArgumentOutOfRangeException(nameof(lockno), "value must be between 1 and 16");
             }
+#if DEBUG
+            return;
+#endif
             Open();
             Log.Debug("Opening lock " + lockno);
             SendCommand((byte)((cuBaseAddress << 4) + (lockno - 1)), CMD_OPEN_LOCK);

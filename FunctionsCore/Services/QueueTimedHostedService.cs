@@ -27,6 +27,9 @@ public class QueueTimedHostedService : IHostedService, IDisposable
     private void DoWork(object state)
     {
         //func.UjCsomag(new DeliveryModel() { OrderId = 5654, Type = DeliveryTypes.Email });
+#if DEBUG
+        return;
+#endif
         bookingFunctions.Kuldes();
     }
 
