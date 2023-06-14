@@ -71,6 +71,9 @@ public class BookingFunctions : IBookingFunctions
             {
                 if (!csomag.SendedFl)
                 {
+#if DEBUG
+                    continue;
+#endif
                     switch (csomag.Type)
                     {
                         case DeliveryTypes.Email:
@@ -289,8 +292,8 @@ public class BookingFunctions : IBookingFunctions
 
         try
         {
-            foglalas.ZarolvaFl = foglalas.Zarolando == 0; // Zárolás kész
-            foglalas.FizetveFl = foglalas.Fizetendo == 0; // Fizetés kész
+            foglalas.ZarolvaFl = foglalas.ZarolvaFl || foglalas.Zarolando == 0; // Zárolás kész
+            foglalas.FizetveFl = foglalas.FizetveFl || foglalas.Fizetendo == 0; // Fizetés kész
             var result = FoglalasokMemory.AddOrUpdate(foglalas.Id, foglalas, (k, v) => foglalas);
             if (result != null)
             {

@@ -66,6 +66,17 @@ namespace Automata.Controllers
             string ctid = $"PAID_{DateTime.Now:MMddHHmm}{model.Id:D8}"; //{ TranzakcioId: D4} max 24 chars
 
 #if DEBUG
+            model.FizetveFl = true;
+            model = BookingFunctions.UjFoglalasVagyModositas(model);
+            BookingFunctions.UpdateUtolsoVarazsloLepes(model.Id, 10); // 9+1
+            BookingFunctionsInst.UjCsomag(new DeliveryModel()
+            {
+                OrderId = model.Id,
+                ValueInt = 1,
+                ValueStr = "Split szöveg",
+                ValueNyelv = model.Nyelv,
+                Type = DeliveryTypes.Payment
+            });
             return Json(new ResultModel() { Id = 0, Text = "" });
 #endif
 
@@ -77,6 +88,7 @@ namespace Automata.Controllers
             {
                 model.FizetveFl = true;
                 model = BookingFunctions.UjFoglalasVagyModositas(model);
+                BookingFunctions.UpdateUtolsoVarazsloLepes(model.Id, 10); // 9+1
 
                 MoneraReceiptModel moneraReceipt = new MoneraReceiptModel();
 
@@ -90,8 +102,6 @@ namespace Automata.Controllers
 
                 Log.Debug("Printing payment receipt");
                 PrinterFunctions.PrintOtpResult(moneraReceipt);
-
-                BookingFunctions.UpdateUtolsoVarazsloLepes(model.Id, 10); // 9+1
 
                 int authCode;
                 int.TryParse(Regex.Replace(moneraReceipt.AuthCode, @"[^\d]", ""), out authCode); // Csak számokat tartalmazzon
@@ -156,6 +166,9 @@ namespace Automata.Controllers
             string ctid = $"DEID_{DateTime.Now:MMddHHmm}{model.Id:D8}"; //{ TranzakcioId: D4} max 24 chars
 
 #if DEBUG
+            model.ZarolvaFl = true;
+            model = BookingFunctions.UjFoglalasVagyModositas(model);
+            BookingFunctions.UpdateUtolsoVarazsloLepes(model.Id, 9); // 8+1
             return Json(new ResultModel() { Id = 0, Text = "" });
 #endif
 
@@ -167,6 +180,7 @@ namespace Automata.Controllers
             {
                 model.ZarolvaFl = true;
                 model = BookingFunctions.UjFoglalasVagyModositas(model);
+                BookingFunctions.UpdateUtolsoVarazsloLepes(model.Id, 9); // 8+1
 
                 MoneraReceiptModel moneraReceipt = new MoneraReceiptModel();
                 string printLn = MoneraTerminal.GetReceipt();
@@ -187,8 +201,6 @@ namespace Automata.Controllers
                 {
                     PrinterFunctions.PrintReceiptEng(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
                 }
-
-                BookingFunctions.UpdateUtolsoVarazsloLepes(model.Id, 9); // 8+1
 
                 int authCode;
                 int.TryParse(Regex.Replace(moneraReceipt.AuthCode, @"[^\d]", ""), out authCode); // Csak számokat tartalmazzon
@@ -251,10 +263,6 @@ namespace Automata.Controllers
                 throw new Exception("No such reservation");
             }
 
-#if DEBUG
-            model.FizetveFl = true;
-#endif
-
             if (model.FizetesMegszakadtFl)
             {
                 Log.Info($"FizetesRendben action: FizetesMegszakadtFl miatt pos újraindítás ({model.Id}).");
@@ -279,10 +287,6 @@ namespace Automata.Controllers
             {
                 throw new Exception("No such reservation");
             }
-
-#if DEBUG
-            return Json(new ResultModel() { Id = 0, Text = "" });
-#endif
 
             if (model.ZarolasMegszakadtFl)
             {

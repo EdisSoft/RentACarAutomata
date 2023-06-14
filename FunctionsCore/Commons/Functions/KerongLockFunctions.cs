@@ -254,11 +254,10 @@ namespace FunctionsCore.Commons.Functions
 
         public void OpenCompartment(byte compNo)
         {
-            int lockNo = 0;
             var lockerAddresses = AppSettingsBase.GetLockerAddresses();
 
             Log.Debug($"Opening Compartment: {compNo}");
-            lockNo = lockerAddresses.GetLockNumber(compNo);
+            int lockNo = lockerAddresses.GetLockNumber(compNo);
             OpenLock((byte)lockNo);
         }
 
