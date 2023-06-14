@@ -1,10 +1,11 @@
-﻿using System;
+﻿using FunctionsCore.Enums;
+using System;
 
 namespace FunctionsCore.Models
 {
     public class IdScannerModel
     {
-        public string OkmanyTipus { get; set; }
+        public DocumentTypes OkmanyTipus { get; set; }
         public int EredetisegValoszinusege { get; set; }
         public string Nev { get; set; }
         public DateTime? ErvenyessegVege { get; set; }
