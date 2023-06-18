@@ -96,59 +96,63 @@ public class HttpRequestService : IHttpRequestService
         };
     }
 
-    public async void SaveEmail(int id, string email)
+    public async Task<bool> SaveEmail(int id, string email)
     {
         try
         {
             Log.Info($"HttpRequestService.SaveEmail({id})");
             await httpClient.GetStringAsync(options.RequestBase + $"?action=addEmail&id={id}&email={email}");
+            return true;
         }
         catch (Exception e)
         {
             Log.Error($"Hiba email mentése közben! Foglalás: {id}", e);
-            throw;
+            return false;
         }
     }
 
-    public async void SaveSignature(int id, string signature)
+    public async Task<bool> SaveSignature(int id, string signature)
     {
         try
         {
             Log.Info($"HttpRequestService.SaveSignature({id})");
             await httpClient.GetStringAsync(options.RequestBase + $"?action=addsigno&id={id}&base64={signature}");
+            return true;
         }
         catch (Exception e)
         {
             Log.Error($"Hiba aláírás mentése közben! Foglalás: {id}", e);
-            throw;
+            return false;
         }
     }
 
-    public async void SendDeposit(int id, string language, int deposittrid, string slip)
+    public async Task<bool> SendDeposit(int id, string language, int deposittrid, string slip)
     {
         try
         {
             Log.Info($"HttpRequestService.SendDeposit({id},{language},{deposittrid})");
             await httpClient.GetStringAsync(options.RequestBase + $"?action=deposit&id={id}&lang={language}&deposittrid={deposittrid}&slip={slip}");
+            return true;
         }
         catch (Exception e)
         {
             Log.Error($"Hiba deposit CRM küldése közben! Foglalás: {id}", e);
-            throw new WarningException("Hiba deposit CRM küldése közben!", WarningExceptionLevel.Warning);
+            return false;
         }
     }
 
-    public async void SendPayment(int id, string language, int paymenttrid, string slip)
+    public async Task<bool> SendPayment(int id, string language, int paymenttrid, string slip)
     {
         try
         {
             Log.Info($"HttpRequestService.SendPayment({id},{language},{paymenttrid})");
             await httpClient.GetStringAsync(options.RequestBase + $"?action=payment&id={id}&lang={language}&paymenttrid={paymenttrid}&slip={slip}");
+            return true;
         }
         catch (Exception e)
         {
             Log.Error($"Hiba fizetés CRM küldése közben! Foglalás: {id}", e);
-            throw new WarningException("Hiba fizetés CRM küldése közben!", WarningExceptionLevel.Warning);            
+            return false;
         }
     }
 
