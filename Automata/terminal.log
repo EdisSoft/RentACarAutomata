@@ -500,3 +500,79 @@
 2023.05.30 22:56:50 [db44,638c] | disconnect 
 2023.05.30 22:56:50 [db44,c3e0] | thread exit 
 2023.05.30 22:56:50 [db44,638c] | portclose 
+2023.06.12 13:24:24 [f450,bbbc] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.12 13:24:24 [f450,bbbc] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.12 13:24:24 [f450,bbbc] | protocol ctor 
+2023.06.12 13:24:24 [f450,bbbc] | disconnect 
+2023.06.12 13:24:24 [f450,bbbc] | is stopped 
+2023.06.12 13:24:24 [f450,bbbc] | SSL connect: 192.168.2.12:4050 
+2023.06.12 13:24:25 [f450,bbbc] | start thread 
+2023.06.12 13:24:25 [f450,bbbc] | payment 1000 
+2023.06.12 13:24:25 [f450,bbbc] | displayevent 0 
+2023.06.12 13:24:25 [f450,bbbc] | displayevent 1 
+2023.06.12 13:24:46 [f450,bbbc] | displayevent 0 
+2023.06.12 13:24:50 [f450,bbbc] | printer event 
+2023.06.12 13:25:01 [f450,bbbc] | disconnect 
+2023.06.12 13:25:01 [f450,9944] | thread exit 
+2023.06.12 13:25:01 [f450,bbbc] | portclose 
+2023.06.12 13:38:25 [f450,642c] | protocol ctor 
+2023.06.12 13:38:26 [f450,642c] | disconnect 
+2023.06.12 13:38:26 [f450,642c] | is stopped 
+2023.06.12 13:38:26 [f450,642c] | SSL connect: 192.168.2.12:4050 
+2023.06.12 13:38:26 [f450,642c] | start thread 
+2023.06.12 13:38:26 [f450,642c] | payment 1000 
+2023.06.12 13:38:27 [f450,642c] | displayevent 0 
+2023.06.12 13:38:27 [f450,642c] | displayevent 1 
+2023.06.12 13:39:01 [f450,642c] | disconnect 
+2023.06.12 13:39:01 [f450,c68c] | thread exit 
+2023.06.12 13:39:01 [f450,642c] | portclose 
+2023.06.12 13:39:01 [f450,ea80] | protocol ctor 
+2023.06.12 13:39:01 [f450,ea80] | disconnect 
+2023.06.12 13:39:01 [f450,ea80] | is stopped 
+2023.06.12 13:39:01 [f450,ea80] | SSL connect: 192.168.2.12:4050 
+2023.06.12 13:39:01 [f450,ea80] | start thread 
+2023.06.12 13:39:01 [f450,ea80] | payment 1200 
+2023.06.12 13:39:02 [f450,ea80] | displayevent 0 
+2023.06.12 13:39:02 [f450,ea80] | displayevent 1 
+2023.06.12 13:39:33 [f450,ea80] | disconnect 
+2023.06.12 13:39:33 [f450,e3b4] | thread exit 
+2023.06.12 13:39:33 [f450,ea80] | portclose 
+2023.06.12 13:39:55 [f450,642c] | protocol ctor 
+2023.06.12 13:39:55 [f450,642c] | disconnect 
+2023.06.12 13:39:55 [f450,642c] | is stopped 
+2023.06.12 13:39:55 [f450,642c] | SSL connect: 192.168.2.12:4050 
+2023.06.12 13:39:55 [f450,642c] | start thread 
+2023.06.12 13:39:55 [f450,642c] | payment 1200 
+2023.06.12 13:39:56 [f450,642c] | displayevent 0 
+2023.06.12 13:39:56 [f450,642c] | displayevent 1 
+2023.06.12 13:40:28 [f450,642c] | disconnect 
+2023.06.12 13:40:28 [f450,4688] | thread exit 
+2023.06.12 13:40:28 [f450,642c] | portclose 
+2023.06.12 13:40:43 [f450,642c] | protocol ctor 
+2023.06.12 13:40:43 [f450,642c] | disconnect 
+2023.06.12 13:40:43 [f450,642c] | is stopped 
+2023.06.12 13:40:43 [f450,642c] | SSL connect: 192.168.2.12:4050 
+2023.06.12 13:40:44 [f450,642c] | start thread 
+2023.06.12 13:40:44 [f450,642c] | payment 1200 
+2023.06.12 13:40:44 [f450,642c] | displayevent 0 
+2023.06.12 13:40:45 [f450,642c] | displayevent 1 
+2023.06.12 13:40:52 [f450,642c] | displayevent 0 
+2023.06.12 13:40:57 [f450,642c] | printer event 
+2023.06.12 13:40:57 [f450,642c] | disconnect 
+2023.06.12 13:40:57 [f450,c9d4] | thread exit 
+2023.06.12 13:40:58 [f450,642c] | portclose 
+2023.06.14 20:18:14 [e370,ec20] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.14 20:18:14 [e370,ec20] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.14 20:18:14 [e370,ec20] | protocol ctor 
+2023.06.14 20:18:55 [e370,ec20] | disconnect 
+2023.06.14 20:18:55 [e370,ec20] | is stopped 
+2023.06.14 20:18:55 [e370,ec20] | SSL connect: 192.168.2.12:4050 
+2023.06.14 20:18:56 [e370,ec20] | start thread 
+2023.06.14 20:18:56 [e370,ec20] | payment 2100 
+2023.06.14 20:18:56 [e370,ec20] | displayevent 0 
+2023.06.14 20:18:57 [e370,ec20] | displayevent 1 
+2023.06.14 20:19:09 [e370,ec20] | displayevent 0 
+2023.06.14 20:19:14 [e370,ec20] | printer event 
+2023.06.14 20:19:15 [e370,ec20] | disconnect 
+2023.06.14 20:19:15 [e370,10374] | thread exit 
+2023.06.14 20:19:15 [e370,ec20] | portclose 
