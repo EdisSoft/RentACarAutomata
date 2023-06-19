@@ -111,16 +111,24 @@ public class FoglalasController : BaseController
     {
         var model = IdScannerFunctions.ScanCard();
 
-        BookingFunctionsInst.UjCsomag(new DeliveryModel()
-        {
-            OrderId = id,
-            ValueBytes = model.Kep,
-            Type = DeliveryTypes.ScanIdCardFrontOrPassport
-        });
+        if (model.OkmanyTipus != DocumentTypes.IdCardFront || model.OkmanyTipus != DocumentTypes.Passport)
+        { 
 
-        BookingFunctions.UpdateUtolsoVarazsloLepes(id, 7); //6+1
+            BookingFunctionsInst.UjCsomag(new DeliveryModel()
+            {
+                OrderId = id,
+                ValueBytes = model.Kep,
+                Type = DeliveryTypes.ScanIdCardFrontOrPassport
+            });
 
-        return Json(new ResultModel() { Id = 0, Text = "" });
+
+            BookingFunctions.UpdateUtolsoVarazsloLepes(id, 7); //6+1
+
+            bool passportFl = model.OkmanyTipus == DocumentTypes.Passport;
+            return Json(new ResultModel() { Id = passportFl.GetHashCode(), Text = model.OkmanyTipus.ToString() }); //Az útlevél egy oldalas, így a UI továbblép
+        }
+
+        throw new WarningException("Please scan your passport or the front page of identity card.<br/>Your document may be expired or not valid.", WarningExceptionLevel.Warning);
     }
 
     [HttpPost]
