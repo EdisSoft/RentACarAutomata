@@ -25,6 +25,8 @@ namespace FunctionsCore.Commons.Functions
         const byte CMD_GET_LOCKS_STATUS = 0x30;
         const byte CMD_OPEN_LOCK = 0x31;
         const byte CMD_OPEN_ALL_LOCKS = 0x33;
+        const byte TRY_COUNT_OPEN_LOCK = 3;
+        const byte TRY_COUNT_CMD_SEND = 5;
 
         public static void Init()
         {
@@ -62,12 +64,52 @@ namespace FunctionsCore.Commons.Functions
             return txt;
         }
 
+        void Open()
+        {
+            try
+            {
+                Log.Debug("Opening TCP connection");
+                // Connect to the LockDriver server
+                client = new TcpClient(locksTcpAddress, locksTcpPort);
+            }
+            catch (Exception e)
+            {
+                Log.Error("Error: " + e);
+                throw;
+            }
+            Thread.Sleep(10);
+        }
+
+        void Close()
+        {
+            try
+            {
+                Log.Debug("Closing TCP connection");
+
+                // Get a network stream for reading and writing data
+                NetworkStream stream = client.GetStream();
+                Log.Debug("Stream: " + stream.GetHashCode().ToString("X8"));
+                stream.Close();
+
+                // Disconnect to the LockDriver server
+                client.Close();
+                client.Dispose();
+                client = null;
+                Thread.Sleep(10);
+            }
+            catch (Exception e)
+            {
+                Log.Error("Error: " + e);
+                throw;
+            }
+        }
+
         int SendCommand(byte[] command)
         {
             Log.Debug("LockFunctions: Sending Command: " + FrameToString(command));
 
             bool bSucceed = false;
-            int iTryCount = 5;
+            int iTryCount = TRY_COUNT_CMD_SEND;
 
             while(!bSucceed && (iTryCount > 0))
             {
@@ -168,7 +210,7 @@ namespace FunctionsCore.Commons.Functions
             Log.Debug("LockFunctions: Sending Command: " + FrameToString(command));
 
             bool bSucceed = false;
-            int iTryCount = 5;
+            int iTryCount = TRY_COUNT_CMD_SEND;
 
             while(!bSucceed && (iTryCount > 0))
             {
@@ -386,20 +428,31 @@ namespace FunctionsCore.Commons.Functions
             return 0xFFFF;
         }
 
-        public void OpenLock(byte lockno)
+        public bool OpenLock(byte lockno)
         {
             if ((lockno < 1) || (lockno > 16))
             {
                 throw new ArgumentOutOfRangeException(nameof(lockno), "value must be between 1 and 16");
             }
-#if DEBUG
+#if DEBUG1
             return;
 #endif
             Log.Debug("Opening lock " + lockno);
+
+            bool bSucceed = false;
+            int iTryCount = TRY_COUNT_OPEN_LOCK;
             byte[] command = BuildCommand((byte)((cuBaseAddress << 4) + (lockno - 1)), CMD_OPEN_LOCK);
-            SendCommand(command);
-            // wait some time till opening lock (maybe unnecessary)
-            Thread.Sleep(500);
+
+            while (!bSucceed && (iTryCount > 0))
+            {
+                iTryCount--;
+
+                SendCommand(command);
+                // wait some time till opening lock (maybe unnecessary)
+                Thread.Sleep(500);
+                bSucceed = !IsLockClosed(lockno);
+            }
+            return bSucceed;
         }
 
         public bool IsLockClosed(byte lockno)
@@ -422,13 +475,13 @@ namespace FunctionsCore.Commons.Functions
             Thread.Sleep(1000);
         }
 
-        public void OpenCompartment(byte compNo)
+        public bool OpenCompartment(byte compNo)
         {
             var lockerAddresses = AppSettingsBase.GetLockerAddresses();
 
             Log.Debug($"Opening Compartment: {compNo}");
             int lockNo = lockerAddresses.GetLockNumber(compNo);
-            OpenLock((byte)lockNo);
+            return OpenLock((byte)lockNo);
         }
 
         public bool IsCompartmentClosed(byte compNo)

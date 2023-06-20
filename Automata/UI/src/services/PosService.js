@@ -30,13 +30,13 @@ class PosService {
   }
   async Cancel() {
     await timeout(500);
-    console.log('Pos/Cancel');
+    console.log('Pos/StopPayment');
     return {
       Id: 0,
       Text: 'Ok',
     };
 
-    let result = await httpContext.post(`Pos/Cancel`);
+    let result = await httpContext.post(`Pos/StopPayment`);
     return result.data;
   }
 }

@@ -7,6 +7,7 @@ namespace Automata.Functions
 	{
 		string comPort = AppSettingsBase.GetAppSetting("MoneraComPort");
 		EcrWrapperDotNetMlib.EftTerminalZVT Terminal;
+		static volatile EcrWrapperDotNetMlib.EftTerminalZVT PayingTerminal = null;
 		string LatestReceipt;
 
 		public void Init()
@@ -104,6 +105,11 @@ namespace Automata.Functions
 			return rc;
 		}
 
+		public static int BreakPayment()
+        {
+			return SendBreak();
+        }
+
 		public int DailyClose()
 		{
 			int rc;
@@ -151,14 +157,20 @@ namespace Automata.Functions
 			return Terminal.disconnect();
 		}
 
-		public string GetErrorName(int rc)
+		public static string GetErrorName(int rc)
 		{
 			return System.Enum.GetName(typeof(EcrWrapperDotNetMlib.ErrorCodes), rc);
 		}
 
-		public void SendBreak()
+		public static int SendBreak()
 		{
-			Terminal.sendBreak();
+			if (PayingTerminal != null)
+			{
+				PayingTerminal.sendBreak();
+				return (int)EcrWrapperDotNetMlib.ErrorCodes.VMC_break;
+			}
+			// TODO: ide mas ertek kene, de nem talaltam jobbat a listaban
+			return (int)EcrWrapperDotNetMlib.ErrorCodes.VMC_ok;
 		}
 
 		public int Diagnosis(ref uint ext_result)
@@ -189,7 +201,12 @@ namespace Automata.Functions
 			// clean receipt
 			LatestReceipt = "";
 			Log.Debug("MoneraTerminal Payment: " + cent_amount + ", " + tran_id + ", " + paymentType);
-			return Terminal.payment(cent_amount, tran_id, paymentType);
+			// Store actual terminal to able to interrupt payment
+			PayingTerminal = Terminal;
+			int rc = Terminal.payment(cent_amount, tran_id, paymentType);
+			// After payment clear value
+			PayingTerminal = null;
+			return rc;
 		}
 
 		int Payment(string cent_amount, string tran_id)

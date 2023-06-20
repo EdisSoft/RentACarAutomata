@@ -65,7 +65,7 @@ namespace Automata.Controllers
 
             string ctid = $"PAID_{DateTime.Now:MMddHHmm}{model.Id:D8}"; //{ TranzakcioId: D4} max 24 chars
 
-#if DEBUG
+#if DEBUG1
             model.FizetveFl = true;
             model = BookingFunctions.UjFoglalasVagyModositas(model);
             BookingFunctions.UpdateUtolsoVarazsloLepes(model.Id, 10); // 9+1
@@ -142,7 +142,7 @@ namespace Automata.Controllers
                 PrinterFunctions.PrintReceiptHun("aggreeNum", "plateNum", System.DateTime.Today, ((int)Double.Parse(moneraReceipt.Amount)), moneraReceipt.AuthCode);
             }
 
-            return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
+            return Json(new ResultModel() { Id = res, Text = MoneraTerminalFunctions.GetErrorName(res) });
             //return Json(new ResultModel() { Id = 0, Text = "" });
         }
 
@@ -165,7 +165,7 @@ namespace Automata.Controllers
 
             string ctid = $"DEID_{DateTime.Now:MMddHHmm}{model.Id:D8}"; //{ TranzakcioId: D4} max 24 chars
 
-#if DEBUG
+#if DEBUG1
             model.ZarolvaFl = true;
             model = BookingFunctions.UjFoglalasVagyModositas(model);
             BookingFunctions.UpdateUtolsoVarazsloLepes(model.Id, 9); // 8+1
@@ -251,7 +251,7 @@ namespace Automata.Controllers
                 MoneraTerminal.GetReceipt();
             }
 
-            return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
+            return Json(new ResultModel() { Id = res, Text = MoneraTerminalFunctions.GetErrorName(res) });
             //return Json(new ResultModel() { Id = 0, Text = "" });
         }
 
@@ -299,13 +299,21 @@ namespace Automata.Controllers
         }
 
         [HttpPost]
-        public JsonResult Cancel()
+        public JsonResult RevertPayment()
         {
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
             int res = MoneraTerminal.CancelPayment();
 
-            return Json(new ResultModel() { Id = res, Text = MoneraTerminal.GetErrorName(res) });
+            return Json(new ResultModel() { Id = res, Text = MoneraTerminalFunctions.GetErrorName(res) });
+        }
+
+        [HttpPost]
+        public JsonResult StopPayment()
+        {
+            int res = MoneraTerminalFunctions.BreakPayment();
+
+            return Json(new ResultModel() { Id = res, Text = MoneraTerminalFunctions.GetErrorName(res) });
         }
     }
 }

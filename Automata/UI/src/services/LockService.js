@@ -9,7 +9,7 @@ class LockService {
     //   Text: 'Ok',
     // };
     let params = { rekeszId };
-    let result = await httpContext.post(`Lock/OpenLock`, null, {
+    let result = await httpContext.post(`Lock/OpenCompartment`, null, {
       params,
     });
     return result.data;
