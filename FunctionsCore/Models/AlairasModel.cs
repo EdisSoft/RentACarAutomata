@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace FunctionsCore.Models
+﻿namespace FunctionsCore.Models
 {
     public class AlairasModel
     {

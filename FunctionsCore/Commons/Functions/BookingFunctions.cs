@@ -20,10 +20,6 @@ public class BookingFunctions : IBookingFunctions
     private IHttpRequestService requestService;
     private FTPConnectionOptions FTPConnectionOptions;
     private FileNameOptions fileNameOptions;
-    private static int tempFoglalasId { get; set; }
-    private static List<int> tempRekeszIds { get; set; }
-    private static int tempRekeszId { get; set; }
-
 
     public static ConcurrentDictionary<int, FoglalasModel> FoglalasokMemory = new ConcurrentDictionary<int, FoglalasModel>();
 
@@ -67,9 +63,9 @@ public class BookingFunctions : IBookingFunctions
 
     private void KeszFoglalasokTorlese()
     {
-        var fizetettFoglalasok = FoglalasokMemory.Where(w => w.Value.FizetveFl);
+        var torolhetoFoglalasok = FoglalasokMemory.Where(w => w.Value.TorolhetoFl);
 
-        foreach (var foglalas in fizetettFoglalasok)
+        foreach (var foglalas in torolhetoFoglalasok)
         {
             var foglalasId = foglalas.Key;
             if (!deliveryQueue.Any(w => w.OrderId == foglalasId))
@@ -235,6 +231,10 @@ public class BookingFunctions : IBookingFunctions
                             UjCsomag(csomag);
                         }
                     }
+                    else
+                    {
+                        UpdateFoglalasTorolheto(csomag.OrderId);
+                    }
                     break;
             }
         }
@@ -255,7 +255,7 @@ public class BookingFunctions : IBookingFunctions
         }
         catch (Exception e)
         {
-            Log.Error($"Hiba történt a foglalás frissítése közben! FoglalasId: {id}", e);
+            Log.Error($"Hiba történt a foglalás frissítése közben (FindFoglalasById)! FoglalasId: {id}", e);
             throw;
         }
         return null;
@@ -273,7 +273,7 @@ public class BookingFunctions : IBookingFunctions
         UjFoglalasVagyModositas(foglalas);
     }
 
-    public static void UpdateFoglalas(int foglalasId, string nyelv)
+    public static void UpdateFoglalasNyelv(int foglalasId, string nyelv)
     {
         try
         {
@@ -310,8 +310,30 @@ public class BookingFunctions : IBookingFunctions
         }
         catch (Exception e)
         {
-            Log.Error("Hiba történt a foglalás frissítése közben! FoglalasId: " + foglalasId, e);
+            Log.Error("Hiba történt a foglalás frissítése közben (UpdateFoglalasNyelv)! FoglalasId: " + foglalasId, e);
             throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
+        }
+    }
+
+    public static void UpdateFoglalasTorolheto(int foglalasId)
+    {
+        try
+        {
+            if (FoglalasokMemory.TryGetValue(foglalasId, out var foglalasMemory))
+            {
+                foglalasMemory.TorolhetoFl = true;
+                UjFoglalasVagyModositas(foglalasMemory);
+                Log.Info("Foglalas TorolhetFl=true: " + foglalasId);
+            }
+            else
+            {
+                throw new WarningException("Nincs foglalás (UpdateFoglalasTorolheto)!", WarningExceptionLevel.Warning);
+            }
+
+        }
+        catch (Exception e)
+        {
+            Log.Error("Hiba történt a foglalás frissítése közben (UpdateFoglalasTorolheto)! FoglalasId: " + foglalasId, e);
         }
     }
 
@@ -333,6 +355,7 @@ public class BookingFunctions : IBookingFunctions
         {
             foglalas.ZarolvaFl = foglalas.ZarolvaFl || foglalas.Zarolando == 0; // Zárolás kész
             foglalas.FizetveFl = foglalas.FizetveFl || foglalas.Fizetendo == 0; // Fizetés kész
+            foglalas.UtolsoModositas = DateTime.Now;
             var result = FoglalasokMemory.AddOrUpdate(foglalas.Id, foglalas, (k, v) => foglalas);
             if (result != null)
             {
@@ -356,7 +379,7 @@ public class BookingFunctions : IBookingFunctions
 
     public static void FoglalasTorles(int foglalasId)
     {
-        Log.Debug("Foglalás törlés: " + foglalasId);
+        Log.Info("Foglalás törlés: " + foglalasId);
         try
         {
             FoglalasModel resultModel;
@@ -505,16 +528,18 @@ public class BookingFunctions : IBookingFunctions
         return result;
     }
 
-    public int SetTempValues(int foglalasId, List<int> rekeszIds)
+    public int? SetTempValues(int foglalasId, List<int> rekeszIds)
     {
-        tempFoglalasId = foglalasId;
-        tempRekeszIds = rekeszIds;
-        tempRekeszId = rekeszIds.FirstOrDefault();
-        return tempRekeszId;
+        FoglalasKucsLeadasModel.Id = foglalasId;
+        FoglalasKucsLeadasModel.RekeszIds = rekeszIds;
+        FoglalasKucsLeadasModel.RekeszId = rekeszIds.FirstOrDefault();
+        return FoglalasKucsLeadasModel.RekeszId;
     }
 
-    public int GetRekeszId(int foglalasId)
+    public int? GetRekeszId(int foglalasId)
     {
-        return tempRekeszId;
+        if (FoglalasKucsLeadasModel.Id == foglalasId)
+            return FoglalasKucsLeadasModel.RekeszId;
+        return null;
     }
 }
