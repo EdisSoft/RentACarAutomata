@@ -3,6 +3,48 @@ using System.Threading;
 
 namespace FunctionsCore.Utilities
 {
+    public class OncePerDayTimer : IDisposable
+    {
+        private DateTime? LastRunDate;
+        private readonly TimeSpan Time;
+        private Timer Timer;
+        private readonly Action Callback;
+
+        public OncePerDayTimer(TimeSpan time, Action callback, string callbackString = "")
+        {
+            if (DateTime.Now.TimeOfDay > time)
+            {
+                LastRunDate = DateTime.Today;
+            }
+            Time = time;
+            Timer = new Timer(CheckTime, null, TimeSpan.FromMinutes(1), TimeSpan.FromMinutes(1));
+            Callback = callback;
+
+            Log.Info(string.Format("Ütemezett feladat bekötés sikeres. Minden nap: Idő: {0}, Feladat: {1}", time.ToString(), callbackString));
+        }
+
+        private void CheckTime(object state)
+        {
+            if (LastRunDate == DateTime.Today)
+                return;
+
+            if (DateTime.Now.TimeOfDay < Time)
+                return;
+
+            LastRunDate = DateTime.Today;
+            Callback();
+        }
+
+        public void Dispose()
+        {
+            if (Timer == null)
+                return;
+
+            Timer.Dispose();
+            Timer = null;
+        }
+    }
+
     public class OncePerWeekTimer : IDisposable
     {
         private DateTime? LastRunDate;

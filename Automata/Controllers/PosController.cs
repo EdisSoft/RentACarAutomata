@@ -315,5 +315,24 @@ namespace Automata.Controllers
 
             return Json(new ResultModel() { Id = res, Text = MoneraTerminalFunctions.GetErrorName(res) });
         }
+
+        [HttpPost]
+        public JsonResult DailyClose()
+        {
+            int res = 0;
+
+            Log.Debug("DailyClose started");
+            if (BookingFunctions.FoglalasokMemory.IsEmpty)
+            {
+                MoneraTerminal = new MoneraTerminalFunctions();
+                MoneraTerminal.Init();
+                //res = MoneraTerminal.DailyClose();
+                //res = MoneraTerminal.TMSCall();
+                Log.Debug("DailyClose finished");
+               return Json(new ResultModel() { Id = res, Text = MoneraTerminalFunctions.GetErrorName(res) });
+            }
+            Log.Debug("System might busy, FoglalasokMemory not empty");
+            return Json(new ResultModel() { Id = -1, Text = "System might busy, FoglalasokMemory not empty" });
+        }
     }
 }
