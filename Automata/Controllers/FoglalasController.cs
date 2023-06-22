@@ -186,7 +186,7 @@ public class FoglalasController : BaseController
             BookingFunctionsInst.UjCsomag(new DeliveryModel()  // Ha nem kell deposit
             {
                 OrderId = foglalas.Id,
-                ValueInt = 0,
+                ValueInt = 1,
                 ValueStr = "",
                 ValueNyelv = foglalas.Nyelv,
                 Type = DeliveryTypes.Deposit
@@ -197,7 +197,7 @@ public class FoglalasController : BaseController
                 BookingFunctionsInst.UjCsomag(new DeliveryModel()
                 {
                     OrderId = foglalas.Id,
-                    ValueInt = 0,
+                    ValueInt = 1,
                     ValueStr = "",
                     ValueNyelv = foglalas.Nyelv,
                     Type = DeliveryTypes.Payment

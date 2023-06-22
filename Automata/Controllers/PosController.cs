@@ -219,7 +219,7 @@ namespace Automata.Controllers
                     BookingFunctionsInst.UjCsomag(new DeliveryModel()
                     {
                         OrderId = model.Id,
-                        ValueInt = 0,
+                        ValueInt = 1,
                         ValueStr = "",
                         ValueNyelv = model.Nyelv,
                         Type = DeliveryTypes.Payment
