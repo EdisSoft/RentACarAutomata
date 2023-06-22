@@ -36,6 +36,15 @@ public class BookingFunctions : IBookingFunctions
         return deliveryQueue.Count;
     }
 
+    public static bool VanAktivUgyfel()
+    {
+        bool bVanUgyfel = false;
+
+        var aktivFoglalasok = FoglalasokMemory.Where(w => w.Value.AktivUgyfelFl);
+        bVanUgyfel = (aktivFoglalasok.Count() > 0);
+        return bVanUgyfel;
+    }
+
     public void UjCsomag(DeliveryModel csomag)
     {
         if (csomag == null)

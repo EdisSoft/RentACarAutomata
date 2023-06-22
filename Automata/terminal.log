@@ -671,3 +671,29 @@
 2023.06.21 04:33:14 [1130,e490] | MONERA ZVT Terminal Library LAN 02.00 
 2023.06.21 04:33:14 [1130,e490] | OpenSSL 1.1.1l  24 Aug 2021 
 2023.06.21 04:33:14 [1130,e490] | protocol ctor 
+2023.06.21 12:12:36 [5ad4,137c] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.21 12:12:36 [5ad4,137c] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.21 12:12:37 [5ad4,137c] | protocol ctor 
+2023.06.21 12:24:31 [5ad4,60e8] | protocol ctor 
+2023.06.21 12:25:21 [5ad4,60e8] | protocol ctor 
+2023.06.21 12:25:39 [5ad4,ec74] | protocol ctor 
+2023.06.21 16:12:11 [c5a4,592c] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.21 16:12:11 [c5a4,592c] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.21 16:12:11 [c5a4,592c] | protocol ctor 
+2023.06.21 16:12:42 [c5a4,592c] | protocol ctor 
+2023.06.21 16:13:05 [c5a4,a158] | protocol ctor 
+2023.06.21 16:14:16 [c5a4,a158] | protocol ctor 
+2023.06.21 16:15:00 [c5a4,a158] | protocol ctor 
+2023.06.21 16:15:42 [c5a4,104a4] | protocol ctor 
+2023.06.21 16:17:10 [c5a4,104a4] | protocol ctor 
+2023.06.21 16:35:37 [c5a4,e9c0] | protocol ctor 
+2023.06.21 16:36:29 [c5a4,f748] | protocol ctor 
+2023.06.21 16:47:13 [c5a4,324c] | protocol ctor 
+2023.06.21 17:56:16 [c5a4,f748] | protocol ctor 
+2023.06.21 17:56:22 [c5a4,9bc0] | protocol ctor 
+2023.06.21 22:15:02 [1106c,36f4] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.21 22:15:02 [1106c,36f4] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.21 22:15:02 [1106c,36f4] | protocol ctor 
+2023.06.21 23:59:39 [106b4,e95c] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.21 23:59:39 [106b4,e95c] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.21 23:59:39 [106b4,e95c] | protocol ctor 

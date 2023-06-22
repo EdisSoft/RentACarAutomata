@@ -1,5 +1,8 @@
 ﻿using FunctionsCore;
+using FunctionsCore.Commons.Functions;
 using FunctionsCore.Contexts;
+using FunctionsCore.Utilities;
+using System;
 
 namespace Automata.Functions
 {
@@ -9,6 +12,9 @@ namespace Automata.Functions
 		EcrWrapperDotNetMlib.EftTerminalZVT Terminal;
 		static volatile EcrWrapperDotNetMlib.EftTerminalZVT PayingTerminal = null;
 		string LatestReceipt;
+
+		const string DAILY_TASK_DEFAULT_START_AT = "01:00";
+
 
 		public void Init()
 		{
@@ -267,6 +273,43 @@ namespace Automata.Functions
 		public string GetReceipt()
 		{
 			return LatestReceipt;
+		}
+
+		public static void InitDailyTask()
+        {
+			TimeSpan startAt;
+			string str = AppSettingsBase.GetAppSetting("PosTerminalDailyTaskStartAt");
+
+			if (String.IsNullOrEmpty(str) || !TimeSpan.TryParse(str, out startAt))
+            {
+				startAt = TimeSpan.Parse(DAILY_TASK_DEFAULT_START_AT);
+            }
+
+			// Start timer
+			new OncePerDayTimer(startAt, DailyTask, "PosTerminal daily task");
+
+		}
+
+		public static bool DailyTask()
+        {
+			MoneraTerminalFunctions MoneraTerminal;
+
+			Log.Debug("DailyClose started");
+			if (!BookingFunctions.VanAktivUgyfel())
+			{
+				int rc;
+
+				MoneraTerminal = new MoneraTerminalFunctions();
+				MoneraTerminal.Init();
+				rc = MoneraTerminal.DailyClose();
+				Log.Debug($"Daily close results {rc} {GetErrorName(rc)}");
+				rc = MoneraTerminal.TMSCall();
+				Log.Debug($"TMS call results {rc} {GetErrorName(rc)}");
+				Log.Debug("DailyClose finished");
+				return true;
+			}
+			Log.Debug("System might busy, VanAktivUgyfel");
+			return false;
 		}
 	}
 }

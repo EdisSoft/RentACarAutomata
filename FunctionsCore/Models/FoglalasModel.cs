@@ -37,7 +37,7 @@ namespace FunctionsCore.Models
         {
             get
             {
-                return UtolsoModositas < DateTime.Now.AddMinutes(-10);
+                return UtolsoModositas > DateTime.Now.AddMinutes(-10);
             }
         }
     }
