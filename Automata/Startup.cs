@@ -163,6 +163,7 @@ namespace Automata
             //services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueueTimedHostedService>();
             services.AddHostedService<ComHostedService>();
+            MoneraTerminalFunctions.InitDailyTask();
         }
 
         public static DateTime? StartTime;
