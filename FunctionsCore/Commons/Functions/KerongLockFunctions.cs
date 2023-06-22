@@ -435,7 +435,7 @@ namespace FunctionsCore.Commons.Functions
                 throw new ArgumentOutOfRangeException(nameof(lockno), "value must be between 1 and 16");
             }
 #if DEBUG1
-            return;
+            return true;
 #endif
             Log.Debug("Opening lock " + lockno);
 

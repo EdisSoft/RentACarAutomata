@@ -270,12 +270,12 @@ namespace Automata.Controllers
                 return Json(new ResultModel() { Id = -1, Text = "Pos újraindítása" });
             }
 
-            if (model.FizetveFl)
-            {
-                // Opening compartment
-                Log.Debug($"Opening Compartment: {model.RekeszId}");
-                KerongLockFunctions.OpenCompartment((byte)model.RekeszId);
-            }
+            //if (model.FizetveFl)
+            //{
+            //    // Opening compartment
+            //    Log.Debug($"Opening Compartment: {model.RekeszId}");
+            //    KerongLockFunctions.OpenCompartment((byte)model.RekeszId);
+            //}
 
             return Json(new ResultModel() { Id = (!model.FizetveFl).GetHashCode(), Text = "" });
         }

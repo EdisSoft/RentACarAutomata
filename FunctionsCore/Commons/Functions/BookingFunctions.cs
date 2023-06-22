@@ -80,7 +80,7 @@ public class BookingFunctions : IBookingFunctions
         KeszFoglalasokTorlese();
         while (deliveryQueue.TryTake(out var csomag))
         {
-#if DEBUG
+#if DEBUG1
             continue;
 #endif
 
