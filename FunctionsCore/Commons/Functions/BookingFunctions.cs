@@ -10,6 +10,9 @@ using System.Linq;
 using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using System.Net.Http.Headers;
+using System.Net.Http;
+using System.Security.Authentication;
 
 namespace FunctionsCore.Commons.Functions;
 
@@ -124,7 +127,7 @@ public class BookingFunctions : IBookingFunctions
                     break;
 
                 case DeliveryTypes.ScanLicenceFront:
-                    if (!UploadImage(csomag.Id, csomag.ValueBytes, fileNameOptions.LicenseFront))
+                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.LicenseFront))
                     {
                         if (++csomag.NumberOfSending > 5)
                         {
@@ -138,7 +141,7 @@ public class BookingFunctions : IBookingFunctions
                     break;
 
                 case DeliveryTypes.ScanLicenceBack:
-                    if (!UploadImage(csomag.Id, csomag.ValueBytes, fileNameOptions.LicenseBack))
+                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.LicenseBack))
                     {
                         if (++csomag.NumberOfSending > 5)
                         {
@@ -153,7 +156,7 @@ public class BookingFunctions : IBookingFunctions
                     break;
 
                 case DeliveryTypes.ScanIdCardFrontOrPassport:
-                    if (!UploadImage(csomag.Id, csomag.ValueBytes, fileNameOptions.IdCardFrontOrPassport))
+                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.IdCardFrontOrPassport))
                     {
                         csomag.NumberOfSending++;
 
@@ -170,7 +173,7 @@ public class BookingFunctions : IBookingFunctions
                     break;
 
                 case DeliveryTypes.ScanIdCardBack:
-                    if (!UploadImage(csomag.Id, csomag.ValueBytes, fileNameOptions.IdCardBack))
+                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.IdCardBack))
                     {
                         if (++csomag.NumberOfSending > 5)
                         {
@@ -185,7 +188,7 @@ public class BookingFunctions : IBookingFunctions
                     break;
 
                 case DeliveryTypes.ScanCreditCardFront:
-                    if (!UploadImage(csomag.Id, csomag.ValueBytes, fileNameOptions.CreditCardFront))
+                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.CreditCardFront))
                     {
                         if (++csomag.NumberOfSending > 5)
                         {
@@ -200,7 +203,7 @@ public class BookingFunctions : IBookingFunctions
                     break;
 
                 case DeliveryTypes.ScanCreditCardBack:
-                    if (!UploadImage(csomag.Id, csomag.ValueBytes, fileNameOptions.CreditCardBack))
+                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.CreditCardBack))
                     {
                         if (++csomag.NumberOfSending > 5)
                         {
@@ -409,7 +412,7 @@ public class BookingFunctions : IBookingFunctions
         }
     }
 
-    private bool UploadImage(string id, byte[] picture, string pictureName)
+    private bool UploadImage(int id, byte[] picture, string pictureName)
     {
         Log.Info($"BookingFunctions.UploadImage({id},{pictureName})");
 
@@ -425,7 +428,7 @@ public class BookingFunctions : IBookingFunctions
         WebResponse response = null;
         try
         {
-            req = (FtpWebRequest)WebRequest.Create(path + "\\" + pictureName);
+            req = (FtpWebRequest)WebRequest.Create(path + "\\" + pictureName); //$"{path}/{pictureName}"
 
             req.Credentials = new NetworkCredential(FTPConnectionOptions.UserName, FTPConnectionOptions.Password);
             req.Method = WebRequestMethods.Ftp.UploadFile;
@@ -455,6 +458,59 @@ public class BookingFunctions : IBookingFunctions
             }
         }
         return true;
+    }
+
+    private bool UploadImageWithHttpClient(int id, byte[] picture, string pictureName)
+    {
+        Log.Info($"BookingFunctions.UploadImage({id},{pictureName})");
+
+        var path = $"{FTPConnectionOptions.Address}/{id}/";
+
+        if (DoesFtpDirectoryExist(path) == false)
+        {
+            Log.Error("Hiba történt FTP mappa létrehozása közben! FoglalasId: " + id);
+            return false;
+        }
+
+        HttpClient client = null;
+        ByteArrayContent content = null;
+        try
+        {
+            using (client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.ConnectionClose = false;
+                client.DefaultRequestHeaders.Connection.Add("keep-alive");
+                client.DefaultRequestHeaders.TransferEncodingChunked = false;
+                client.DefaultRequestHeaders.ExpectContinue = false;
+                using (content = new ByteArrayContent(picture))
+                {
+                    content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                    var handler = new HttpClientHandler
+                    {
+                        Credentials = new NetworkCredential(FTPConnectionOptions.UserName, FTPConnectionOptions.Password),
+                        SslProtocols = SslProtocols.Tls12
+                    };
+                    ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
+                    using (var clientWithCredentials = new HttpClient(handler))
+                    {
+                        var response = clientWithCredentials.PutAsync($"{path}/{pictureName}", content);
+                        return response.Status != TaskStatus.Faulted && response.Status != TaskStatus.Canceled;
+                    }
+                }
+            }
+        }
+        catch (WebException ex)
+        {
+            Log.Error("Hiba történt fájl feltöltése közben! FoglalasId: " + id, ex);
+            return false;
+        }
+        finally
+        {
+            if (content != null)
+                content.Dispose();
+            if (client != null)
+                content.Dispose();
+        }
     }
 
     public async void SavePictureInLocalFolder(string id, byte[] picture, string pictureName)
