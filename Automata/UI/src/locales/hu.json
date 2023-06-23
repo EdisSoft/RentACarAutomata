@@ -84,7 +84,8 @@
   "buttons": {
     "continue": "Tovább",
     "back": "Vissza",
-    "finish": "Kész"
+    "finish": "Kész",
+    "refresh": "Frissít"
   },
   "confirms": {
     "goToHome": {
