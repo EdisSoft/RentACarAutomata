@@ -52,7 +52,7 @@ namespace Automata.Controllers
                 Log.Debug($"Compartment opening failed");
                 // TODO: email sending about failure
             }
-            return Json(new ResultModel() { Id = 0, Text = $"Opening compartment {rekeszId} {txt}" });
+            return Json(new ResultModel() { Id = 0, Text = rekeszId.ToString() });
         }
 
         [HttpPost]
@@ -75,7 +75,7 @@ namespace Automata.Controllers
         [HttpPost]
         public JsonResult OpenLockByBookingId(int id)
         {
-            Log.Debug($"Lock/OpenLockByBookingId({id})");
+            Log.Info($"Lock/OpenLockByBookingId({id})");
 
             if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out FoglalasModel model))
             {
