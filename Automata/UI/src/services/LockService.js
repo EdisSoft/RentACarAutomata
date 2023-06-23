@@ -9,7 +9,7 @@ class LockService {
     //   Text: 'Ok',
     // };
     let params = { rekeszId };
-    let result = await httpContext.post(`Lock/OpenLock`, null, {
+    let result = await httpContext.post(`Lock/OpenCompartment`, null, {
       params,
     });
     return result.data;
@@ -26,12 +26,12 @@ class LockService {
     return result.data;
   }
   async OpenLockByBookingId(id) {
-    await timeout(500);
-    console.log({ id });
-    return {
-      Id: 0,
-      Text: '5',
-    };
+    // await timeout(500);
+    // console.log({ id });
+    // return {
+    //   Id: 0,
+    //   Text: '5',
+    // };
     let params = { id };
     let result = await httpContext.post(`Lock/OpenLockByBookingId`, null, {
       params,

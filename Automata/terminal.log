@@ -500,3 +500,200 @@
 2023.05.30 22:56:50 [db44,638c] | disconnect 
 2023.05.30 22:56:50 [db44,c3e0] | thread exit 
 2023.05.30 22:56:50 [db44,638c] | portclose 
+2023.06.12 13:24:24 [f450,bbbc] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.12 13:24:24 [f450,bbbc] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.12 13:24:24 [f450,bbbc] | protocol ctor 
+2023.06.12 13:24:24 [f450,bbbc] | disconnect 
+2023.06.12 13:24:24 [f450,bbbc] | is stopped 
+2023.06.12 13:24:24 [f450,bbbc] | SSL connect: 192.168.2.12:4050 
+2023.06.12 13:24:25 [f450,bbbc] | start thread 
+2023.06.12 13:24:25 [f450,bbbc] | payment 1000 
+2023.06.12 13:24:25 [f450,bbbc] | displayevent 0 
+2023.06.12 13:24:25 [f450,bbbc] | displayevent 1 
+2023.06.12 13:24:46 [f450,bbbc] | displayevent 0 
+2023.06.12 13:24:50 [f450,bbbc] | printer event 
+2023.06.12 13:25:01 [f450,bbbc] | disconnect 
+2023.06.12 13:25:01 [f450,9944] | thread exit 
+2023.06.12 13:25:01 [f450,bbbc] | portclose 
+2023.06.12 13:38:25 [f450,642c] | protocol ctor 
+2023.06.12 13:38:26 [f450,642c] | disconnect 
+2023.06.12 13:38:26 [f450,642c] | is stopped 
+2023.06.12 13:38:26 [f450,642c] | SSL connect: 192.168.2.12:4050 
+2023.06.12 13:38:26 [f450,642c] | start thread 
+2023.06.12 13:38:26 [f450,642c] | payment 1000 
+2023.06.12 13:38:27 [f450,642c] | displayevent 0 
+2023.06.12 13:38:27 [f450,642c] | displayevent 1 
+2023.06.12 13:39:01 [f450,642c] | disconnect 
+2023.06.12 13:39:01 [f450,c68c] | thread exit 
+2023.06.12 13:39:01 [f450,642c] | portclose 
+2023.06.12 13:39:01 [f450,ea80] | protocol ctor 
+2023.06.12 13:39:01 [f450,ea80] | disconnect 
+2023.06.12 13:39:01 [f450,ea80] | is stopped 
+2023.06.12 13:39:01 [f450,ea80] | SSL connect: 192.168.2.12:4050 
+2023.06.12 13:39:01 [f450,ea80] | start thread 
+2023.06.12 13:39:01 [f450,ea80] | payment 1200 
+2023.06.12 13:39:02 [f450,ea80] | displayevent 0 
+2023.06.12 13:39:02 [f450,ea80] | displayevent 1 
+2023.06.12 13:39:33 [f450,ea80] | disconnect 
+2023.06.12 13:39:33 [f450,e3b4] | thread exit 
+2023.06.12 13:39:33 [f450,ea80] | portclose 
+2023.06.12 13:39:55 [f450,642c] | protocol ctor 
+2023.06.12 13:39:55 [f450,642c] | disconnect 
+2023.06.12 13:39:55 [f450,642c] | is stopped 
+2023.06.12 13:39:55 [f450,642c] | SSL connect: 192.168.2.12:4050 
+2023.06.12 13:39:55 [f450,642c] | start thread 
+2023.06.12 13:39:55 [f450,642c] | payment 1200 
+2023.06.12 13:39:56 [f450,642c] | displayevent 0 
+2023.06.12 13:39:56 [f450,642c] | displayevent 1 
+2023.06.12 13:40:28 [f450,642c] | disconnect 
+2023.06.12 13:40:28 [f450,4688] | thread exit 
+2023.06.12 13:40:28 [f450,642c] | portclose 
+2023.06.12 13:40:43 [f450,642c] | protocol ctor 
+2023.06.12 13:40:43 [f450,642c] | disconnect 
+2023.06.12 13:40:43 [f450,642c] | is stopped 
+2023.06.12 13:40:43 [f450,642c] | SSL connect: 192.168.2.12:4050 
+2023.06.12 13:40:44 [f450,642c] | start thread 
+2023.06.12 13:40:44 [f450,642c] | payment 1200 
+2023.06.12 13:40:44 [f450,642c] | displayevent 0 
+2023.06.12 13:40:45 [f450,642c] | displayevent 1 
+2023.06.12 13:40:52 [f450,642c] | displayevent 0 
+2023.06.12 13:40:57 [f450,642c] | printer event 
+2023.06.12 13:40:57 [f450,642c] | disconnect 
+2023.06.12 13:40:57 [f450,c9d4] | thread exit 
+2023.06.12 13:40:58 [f450,642c] | portclose 
+2023.06.14 20:18:14 [e370,ec20] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.14 20:18:14 [e370,ec20] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.14 20:18:14 [e370,ec20] | protocol ctor 
+2023.06.14 20:18:55 [e370,ec20] | disconnect 
+2023.06.14 20:18:55 [e370,ec20] | is stopped 
+2023.06.14 20:18:55 [e370,ec20] | SSL connect: 192.168.2.12:4050 
+2023.06.14 20:18:56 [e370,ec20] | start thread 
+2023.06.14 20:18:56 [e370,ec20] | payment 2100 
+2023.06.14 20:18:56 [e370,ec20] | displayevent 0 
+2023.06.14 20:18:57 [e370,ec20] | displayevent 1 
+2023.06.14 20:19:09 [e370,ec20] | displayevent 0 
+2023.06.14 20:19:14 [e370,ec20] | printer event 
+2023.06.14 20:19:15 [e370,ec20] | disconnect 
+2023.06.14 20:19:15 [e370,10374] | thread exit 
+2023.06.14 20:19:15 [e370,ec20] | portclose 
+2023.06.16 13:36:23 [995c,ffb4] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.16 13:36:23 [995c,ffb4] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.16 13:36:23 [995c,ffb4] | protocol ctor 
+2023.06.16 13:36:23 [995c,ffb4] | disconnect 
+2023.06.16 13:36:23 [995c,ffb4] | is stopped 
+2023.06.16 13:36:23 [995c,ffb4] | SSL connect: 192.168.2.12:4050 
+2023.06.16 13:36:24 [995c,ffb4] | start thread 
+2023.06.16 13:36:24 [995c,ffb4] | payment 700 
+2023.06.16 13:36:24 [995c,ffb4] | displayevent 0 
+2023.06.16 13:36:25 [995c,ffb4] | displayevent 1 
+2023.06.16 13:36:31 [995c,ffb4] | displayevent 0 
+2023.06.16 13:36:36 [995c,ffb4] | printer event 
+2023.06.16 13:36:37 [995c,ffb4] | disconnect 
+2023.06.16 13:36:37 [995c,fb98] | thread exit 
+2023.06.16 13:36:37 [995c,ffb4] | portclose 
+2023.06.19 03:49:47 [f9ec,10458] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.19 03:49:47 [f9ec,10458] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.19 03:57:16 [f79c,f0e4] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.19 03:57:17 [f79c,f0e4] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.19 04:09:00 [10168,e5fc] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.19 04:09:00 [10168,e5fc] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.19 04:12:46 [109e4,f588] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.19 04:12:46 [109e4,f588] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.19 04:13:26 [109e4,f588] | protocol ctor 
+2023.06.19 04:13:28 [109e4,f588] | disconnect 
+2023.06.19 04:13:28 [109e4,f588] | is stopped 
+2023.06.19 04:13:28 [109e4,f588] | SSL connect: 192.168.2.12:4050 
+2023.06.19 04:13:29 [109e4,f588] | start thread 
+2023.06.19 04:13:29 [109e4,f588] | payment 1000 
+2023.06.19 04:13:29 [109e4,f588] | displayevent 0 
+2023.06.19 04:13:30 [109e4,f588] | displayevent 1 
+2023.06.19 04:13:38 [109e4,bce0] | send break 
+2023.06.19 04:13:47 [109e4,f588] | disconnect 
+2023.06.19 04:13:47 [109e4,f1c4] | thread exit 
+2023.06.19 04:13:47 [109e4,f588] | portclose 
+2023.06.19 04:14:48 [109e4,f588] | protocol ctor 
+2023.06.19 04:14:54 [109e4,f588] | disconnect 
+2023.06.19 04:14:54 [109e4,f588] | is stopped 
+2023.06.19 04:14:54 [109e4,f588] | SSL connect: 192.168.2.12:4050 
+2023.06.19 04:14:54 [109e4,f588] | start thread 
+2023.06.19 04:14:54 [109e4,f588] | payment 1000 
+2023.06.19 04:14:55 [109e4,f588] | displayevent 0 
+2023.06.19 04:14:55 [109e4,f588] | displayevent 1 
+2023.06.19 04:15:04 [109e4,64a0] | send break 
+2023.06.19 04:16:18 [109e4,f588] | disconnect 
+2023.06.19 04:16:18 [109e4,557c] | thread exit 
+2023.06.19 04:16:18 [109e4,f588] | portclose 
+2023.06.19 04:32:30 [718,d5f8] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.19 04:32:30 [718,d5f8] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.19 04:32:48 [718,bcc8] | protocol ctor 
+2023.06.19 04:32:48 [718,bcc8] | disconnect 
+2023.06.19 04:32:48 [718,bcc8] | is stopped 
+2023.06.19 04:32:49 [718,bcc8] | SSL connect: 192.168.2.12:4050 
+2023.06.19 04:32:49 [718,bcc8] | start thread 
+2023.06.19 04:32:49 [718,bcc8] | payment 1000 
+2023.06.19 04:32:49 [718,bcc8] | displayevent 0 
+2023.06.19 04:32:50 [718,bcc8] | displayevent 1 
+2023.06.19 04:32:59 [718,d5f8] | send break 
+2023.06.19 04:33:06 [718,bcc8] | disconnect 
+2023.06.19 04:33:06 [718,7564] | thread exit 
+2023.06.19 04:33:06 [718,bcc8] | portclose 
+2023.06.21 02:58:50 [7f08,88b4] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.21 02:58:50 [7f08,88b4] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.21 02:58:50 [7f08,88b4] | protocol ctor 
+2023.06.21 02:58:50 [7f08,88b4] | disconnect 
+2023.06.21 02:58:50 [7f08,88b4] | is stopped 
+2023.06.21 02:58:50 [7f08,88b4] | SSL connect: 192.168.2.12:4050 
+2023.06.21 02:58:51 [7f08,88b4] | start thread 
+2023.06.21 02:58:51 [7f08,88b4] | tmsCall  
+2023.06.21 02:59:40 [7f08,88b4] | disconnect 
+2023.06.21 02:59:40 [7f08,e468] | thread exit 
+2023.06.21 02:59:40 [7f08,88b4] | portclose 
+2023.06.21 03:01:50 [7f08,df9c] | protocol ctor 
+2023.06.21 03:01:50 [7f08,df9c] | disconnect 
+2023.06.21 03:01:50 [7f08,df9c] | is stopped 
+2023.06.21 03:01:50 [7f08,df9c] | SSL connect: 192.168.2.12:4050 
+2023.06.21 03:01:51 [7f08,df9c] | start thread 
+2023.06.21 03:01:51 [7f08,df9c] | tmsCall  
+2023.06.21 03:02:40 [7f08,df9c] | disconnect 
+2023.06.21 03:02:40 [7f08,e20c] | thread exit 
+2023.06.21 03:02:40 [7f08,df9c] | portclose 
+2023.06.21 03:03:32 [7f08,a024] | protocol ctor 
+2023.06.21 03:03:32 [7f08,a024] | disconnect 
+2023.06.21 03:03:32 [7f08,a024] | is stopped 
+2023.06.21 03:03:32 [7f08,a024] | SSL connect: 192.168.2.12:4050 
+2023.06.21 03:03:33 [7f08,a024] | start thread 
+2023.06.21 03:03:33 [7f08,a024] | tmsCall  
+2023.06.21 03:04:22 [7f08,a024] | disconnect 
+2023.06.21 03:04:22 [7f08,10f78] | thread exit 
+2023.06.21 03:04:22 [7f08,a024] | portclose 
+2023.06.21 03:04:48 [7f08,a024] | protocol ctor 
+2023.06.21 03:04:54 [7f08,a024] | protocol ctor 
+2023.06.21 04:33:14 [1130,e490] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.21 04:33:14 [1130,e490] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.21 04:33:14 [1130,e490] | protocol ctor 
+2023.06.21 12:12:36 [5ad4,137c] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.21 12:12:36 [5ad4,137c] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.21 12:12:37 [5ad4,137c] | protocol ctor 
+2023.06.21 12:24:31 [5ad4,60e8] | protocol ctor 
+2023.06.21 12:25:21 [5ad4,60e8] | protocol ctor 
+2023.06.21 12:25:39 [5ad4,ec74] | protocol ctor 
+2023.06.21 16:12:11 [c5a4,592c] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.21 16:12:11 [c5a4,592c] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.21 16:12:11 [c5a4,592c] | protocol ctor 
+2023.06.21 16:12:42 [c5a4,592c] | protocol ctor 
+2023.06.21 16:13:05 [c5a4,a158] | protocol ctor 
+2023.06.21 16:14:16 [c5a4,a158] | protocol ctor 
+2023.06.21 16:15:00 [c5a4,a158] | protocol ctor 
+2023.06.21 16:15:42 [c5a4,104a4] | protocol ctor 
+2023.06.21 16:17:10 [c5a4,104a4] | protocol ctor 
+2023.06.21 16:35:37 [c5a4,e9c0] | protocol ctor 
+2023.06.21 16:36:29 [c5a4,f748] | protocol ctor 
+2023.06.21 16:47:13 [c5a4,324c] | protocol ctor 
+2023.06.21 17:56:16 [c5a4,f748] | protocol ctor 
+2023.06.21 17:56:22 [c5a4,9bc0] | protocol ctor 
+2023.06.21 22:15:02 [1106c,36f4] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.21 22:15:02 [1106c,36f4] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.21 22:15:02 [1106c,36f4] | protocol ctor 
+2023.06.21 23:59:39 [106b4,e95c] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.21 23:59:39 [106b4,e95c] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.21 23:59:39 [106b4,e95c] | protocol ctor 

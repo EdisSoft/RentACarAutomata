@@ -35,12 +35,24 @@ namespace Automata.Controllers
         }
 
         [HttpPost]
-        public JsonResult OpenCompartment(int compNo)
+        public JsonResult OpenCompartment(int rekeszId)
         {
-            Log.Debug($"Lock/OpenCompartment({compNo})");
+            string txt = "";
 
-            KerongLockFunctions.OpenCompartment((byte)compNo);
-            return Json(new ResultModel() { Id = 0, Text = "Opening compartment " + compNo });
+            Log.Debug($"Lock/OpenCompartment({rekeszId})");
+
+            if (KerongLockFunctions.OpenCompartment((byte)rekeszId))
+            {
+                txt = "succedded";
+                Log.Debug($"Compartment opened successfully");
+            }
+            else
+            {
+                txt = "failed";
+                Log.Debug($"Compartment opening failed");
+                // TODO: email sending about failure
+            }
+            return Json(new ResultModel() { Id = 0, Text = rekeszId.ToString() });
         }
 
         [HttpPost]
@@ -63,7 +75,7 @@ namespace Automata.Controllers
         [HttpPost]
         public JsonResult OpenLockByBookingId(int id)
         {
-            Log.Debug($"Lock/OpenLockByBookingId({id})");
+            Log.Info($"Lock/OpenLockByBookingId({id})");
 
             if (!BookingFunctions.FoglalasokMemory.TryGetValue(id, out FoglalasModel model))
             {

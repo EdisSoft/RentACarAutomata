@@ -1,11 +1,6 @@
-﻿using FunctionsCore.Commons.Entities;
-using FunctionsCore.Contexts;
-using FunctionsCore.Services;
+﻿using FunctionsCore.Services;
 using FunctionsCore.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using FunctionsCore.Enums;
 using System;
 using Microsoft.Extensions.Configuration;
@@ -21,9 +16,12 @@ namespace FunctionsCore.Commons.Functions
         private DocumentReaderDevice docReader = null;
         private bool DocPresent = false;
         private IHttpRequestService requestService;
+        private FileNameOptions fileNameOptions;
 
         public IdScannerFunctions(IHttpRequestService requestService, IConfiguration configuration)
         {
+            fileNameOptions = configuration.GetSection(nameof(fileNameOptions)).Get<FileNameOptions>();
+
             this.requestService = requestService;
         }
 
@@ -35,10 +33,9 @@ namespace FunctionsCore.Commons.Functions
         private int Open()
         {
             Log.Debug("Opening a scanner device");
-            docReader = new DocumentReaderDevice();
             try
             {
-                docReader = new Pr22.DocumentReaderDevice();
+                docReader = new DocumentReaderDevice();
             }
             catch (Exception ex)
             {
@@ -146,6 +143,7 @@ namespace FunctionsCore.Commons.Functions
         {
             if (doc_page == "F") return "front";
             else if (doc_page == "B") return "back";
+            else if (doc_page == "D") return "data";
             return "";
         }
 
@@ -260,7 +258,7 @@ namespace FunctionsCore.Commons.Functions
             Log.Debug("Image scanned. Page: " + e.Page + " Light: " + e.Light);
             Pr22.Imaging.RawImage img = ((DocumentReaderDevice)a).Scanner.GetPage(e.Page).Select(e.Light).GetImage();
             // Saving scanned image to jpeg 
-            img.Save(Pr22.Imaging.RawImage.FileFormat.Jpeg).Save($"IMG_{ DateTime.Now:yyyyMMddHHmmss}_" + e.Light + ".jpg");
+            img.Save(Pr22.Imaging.RawImage.FileFormat.Jpeg).Save($"{fileNameOptions.ScannedImageDir}\\IMG_{DateTime.Now:yyyyMMddHHmmss}_{e.Light}.jpg");
         }
         //----------------------------------------------------------------------
 
@@ -419,131 +417,138 @@ namespace FunctionsCore.Commons.Functions
 
         public IdScannerModel ScanCard()
         {
-#if DEBUG
+#if DEBUG1
+            byte[] fileBytes = System.IO.File.ReadAllBytes("Media\\Pixel.jpg");
             return new IdScannerModel()
             {
                 Nev = "Kovács Gábor",
                 ErvenyessegVege = DateTime.Now.AddYears(2),
                 OkmanyTipus = DocumentTypes.IdCardFront,
-                Kep = new byte[] { 0xFF, 0xD8, 0xFF, 0xE0, 0x00, 0x10, 0x4A, 0x46 }
+                Kep = fileBytes // new byte[] { 0xFF, 0xD8, 0xFF, 0xE0, 0x00, 0x10, 0x4A, 0x46 }
             };
 #endif
-            //Devices can be manipulated only after opening.
-            if (Open() != 0)
+            try
             {
-                throw new Exception("IdScanner.NoCard");
-            }
+                //Devices can be manipulated only after opening.
+                if (Open() != 0)
+                {
+                    throw new Exception("IdScanner.NoCard");
+                }
 
-            DocScanner Scanner = docReader.Scanner;
-            Engine OcrEngine = docReader.Engine;
-            string fileName = $"{DateTime.Now:yyyyMMddHHmmss}";
+                DocScanner Scanner = docReader.Scanner;
+                Engine OcrEngine = docReader.Engine;
+                string fileName = $"{DateTime.Now:yyyyMMddHHmmss}";
 
-            // Start detection task, for automatic starting scanning
-            //TaskControl LiveTask = Scanner.StartTask(FreerunTask.Detection());
+                // Start detection task, for automatic starting scanning
+                //TaskControl LiveTask = Scanner.StartTask(FreerunTask.Detection());
 
-            DocScannerTask ScanningTask = new DocScannerTask();
-            // Scanning using all type of lights
-            ScanningTask.Add(Pr22.Imaging.Light.All);
+                DocScannerTask ScanningTask = new DocScannerTask();
+                // Scanning using all type of lights
+                ScanningTask.Add(Pr22.Imaging.Light.All);
 
-            //DocPresent = false;
-            //System.Console.WriteLine("At this point, the user has to change the document on the reader.");
-            //while (DocPresent == false)
-            //{
-            //    System.Threading.Thread.Sleep(100);
-            //}
+                //DocPresent = false;
+                //System.Console.WriteLine("At this point, the user has to change the document on the reader.");
+                //while (DocPresent == false)
+                //{
+                //    System.Threading.Thread.Sleep(100);
+                //}
 
-            Log.Debug("Scanning the images.");
-            Page page = Scanner.Scan(ScanningTask, Pr22.Imaging.PagePosition.First);
+                Log.Debug("Scanning the images.");
+                Page page = Scanner.Scan(ScanningTask, Pr22.Imaging.PagePosition.First);
 
-            // MRZ
-            Log.Debug("Reading all the field data of the Machine Readable Zone.");
-            EngineTask MrzReadingTask = new EngineTask();
-            //Specify the fields we would like to receive.
-            MrzReadingTask.Add(FieldSource.Mrz, FieldId.All);
-            Document MrzDoc = OcrEngine.Analyze(page, MrzReadingTask);
+                // MRZ
+                Log.Debug("Reading all the field data of the Machine Readable Zone.");
+                EngineTask MrzReadingTask = new EngineTask();
+                //Specify the fields we would like to receive.
+                MrzReadingTask.Add(FieldSource.Mrz, FieldId.All);
+                Document MrzDoc = OcrEngine.Analyze(page, MrzReadingTask);
 
-            //PrintDocFields(MrzDoc);
-            //Returned fields by the Analyze function can be saved to an XML file:
-            MrzDoc.Save(Document.FileFormat.Xml).Save($"DOC_{fileName}_MRZ.xml");
+                //PrintDocFields(MrzDoc);
+                //Returned fields by the Analyze function can be saved to an XML file:
+                MrzDoc.Save(Document.FileFormat.Xml).Save($"{fileNameOptions.ScannedDocDir}\\DOC_{fileName}_MRZ.xml");
 
-            // VIZ
-            Log.Debug("Reading all the textual and graphical field data as well as " +
-                "authentication result from the Visual Inspection Zone.");
-            EngineTask VIZReadingTask = new EngineTask();
-            VIZReadingTask.Add(FieldSource.Viz, FieldId.All);
-            Document VizDoc = OcrEngine.Analyze(page, VIZReadingTask);
+                // VIZ
+                Log.Debug("Reading all the textual and graphical field data as well as " +
+                    "authentication result from the Visual Inspection Zone.");
+                EngineTask VIZReadingTask = new EngineTask();
+                VIZReadingTask.Add(FieldSource.Viz, FieldId.All);
+                Document VizDoc = OcrEngine.Analyze(page, VIZReadingTask);
 
-            //PrintDocFields(VizDoc);
-            //Returned fields by the Analyze function can be saved to an XML file:
-            VizDoc.Save(Document.FileFormat.Xml).Save($"DOC_{fileName}_VIZ.xml");
+                //PrintDocFields(VizDoc);
+                //Returned fields by the Analyze function can be saved to an XML file:
+                VizDoc.Save(Document.FileFormat.Xml).Save($"{fileNameOptions.ScannedDocDir}\\DOC_{fileName}_VIZ.xml");
 
-            Log.Debug("Saving whole document.");
-            docReader.Engine.GetRootDocument().Save(Document.FileFormat.Zipped).Save($"DOC_{fileName}.zip");
+                Log.Debug("Saving whole document.");
+                docReader.Engine.GetRootDocument().Save(Document.FileFormat.Zipped).Save($"{fileNameOptions.ScannedDocDir}\\DOC_{fileName}.zip");
 
-            // Stop detection task
-            //LiveTask.Stop();
+                // Stop detection task
+                //LiveTask.Stop();
 
-            Log.Debug("MRZ_Name: " + GetFieldValue(MrzDoc, FieldId.Name));
-            Log.Debug("VIZ_Name: " + GetFieldValue(VizDoc, FieldId.Name));
-            Log.Debug("MRZ_Surname: " + GetFieldValue(MrzDoc, FieldId.Surname));
-            Log.Debug("VIZ_Surname: " + GetFieldValue(VizDoc, FieldId.Surname));
-            Log.Debug("MRZ_Givenname: " + GetFieldValue(MrzDoc, FieldId.Givenname));
-            Log.Debug("VIZ_Givenname: " + GetFieldValue(VizDoc, FieldId.Givenname));
-            Log.Debug("MRZ_ExpiryDate: " + GetFieldValue(MrzDoc, FieldId.ExpiryDate));
-            Log.Debug("VIZ_ExpiryDate: " + GetFieldValue(VizDoc, FieldId.ExpiryDate));
-            Log.Debug("MRZ_ExpiryDate_Std: " + GetFieldStdValue(MrzDoc, FieldId.ExpiryDate));
-            Log.Debug("VIZ_ExpiryDate_Std: " + GetFieldStdValue(VizDoc, FieldId.ExpiryDate));
-            Log.Debug("MRZ_DocType: " + GetFieldValue(MrzDoc, FieldId.DocType));
-            Log.Debug("VIZ_DocType: " + GetFieldValue(VizDoc, FieldId.DocType));
-            Log.Debug("MRZ_DocPage: " + GetFieldValue(MrzDoc, FieldId.DocPage));
-            Log.Debug("VIZ_DocPage: " + GetFieldValue(VizDoc, FieldId.DocPage));
-            Log.Debug("MRZ_B900: " + GetFieldValue(MrzDoc, FieldId.B900));
-            Log.Debug("VIZ_B900: " + GetFieldValue(VizDoc, FieldId.B900));
-            Log.Debug("MRZ_DullCheck: " + GetFieldValue(MrzDoc, FieldId.DullCheck));
-            Log.Debug("VIZ_DullCheck: " + GetFieldValue(VizDoc, FieldId.DullCheck));
+                Log.Debug("MRZ_Name: " + GetFieldValue(MrzDoc, FieldId.Name));
+                Log.Debug("VIZ_Name: " + GetFieldValue(VizDoc, FieldId.Name));
+                Log.Debug("MRZ_Surname: " + GetFieldValue(MrzDoc, FieldId.Surname));
+                Log.Debug("VIZ_Surname: " + GetFieldValue(VizDoc, FieldId.Surname));
+                Log.Debug("MRZ_Givenname: " + GetFieldValue(MrzDoc, FieldId.Givenname));
+                Log.Debug("VIZ_Givenname: " + GetFieldValue(VizDoc, FieldId.Givenname));
+                Log.Debug("MRZ_ExpiryDate: " + GetFieldValue(MrzDoc, FieldId.ExpiryDate));
+                Log.Debug("VIZ_ExpiryDate: " + GetFieldValue(VizDoc, FieldId.ExpiryDate));
+                Log.Debug("MRZ_ExpiryDate_Std: " + GetFieldStdValue(MrzDoc, FieldId.ExpiryDate));
+                Log.Debug("VIZ_ExpiryDate_Std: " + GetFieldStdValue(VizDoc, FieldId.ExpiryDate));
+                Log.Debug("MRZ_DocType: " + GetFieldValue(MrzDoc, FieldId.DocType));
+                Log.Debug("VIZ_DocType: " + GetFieldValue(VizDoc, FieldId.DocType));
+                Log.Debug("MRZ_DocPage: " + GetFieldValue(MrzDoc, FieldId.DocPage));
+                Log.Debug("VIZ_DocPage: " + GetFieldValue(VizDoc, FieldId.DocPage));
+                Log.Debug("MRZ_B900: " + GetFieldValue(MrzDoc, FieldId.B900));
+                Log.Debug("VIZ_B900: " + GetFieldValue(VizDoc, FieldId.B900));
+                Log.Debug("MRZ_DullCheck: " + GetFieldValue(MrzDoc, FieldId.DullCheck));
+                Log.Debug("VIZ_DullCheck: " + GetFieldValue(VizDoc, FieldId.DullCheck));
 
 
 
-            Log.Debug("MRZ_: " + GetFieldValue(MrzDoc, FieldId.Name));
-            Log.Debug("VIZ_: " + GetFieldValue(VizDoc, FieldId.Name));
+                Log.Debug("MRZ_: " + GetFieldValue(MrzDoc, FieldId.Name));
+                Log.Debug("VIZ_: " + GetFieldValue(VizDoc, FieldId.Name));
 
-            string name = GetName(MrzDoc);
-            if (string.IsNullOrEmpty(name))
-            {
-                name = GetName(VizDoc);
-            }
+                string name = GetName(MrzDoc);
+                if (string.IsNullOrEmpty(name))
+                {
+                    name = GetName(VizDoc);
+                }
 
-            DateTime dtExpiry = GetExpiryDate(MrzDoc);
-            if (dtExpiry.Equals(DateTime.MinValue))
-            {
-                dtExpiry = GetExpiryDate(VizDoc);
-            }
+                DateTime dtExpiry = GetExpiryDate(MrzDoc);
+                if (dtExpiry.Equals(DateTime.MinValue))
+                {
+                    dtExpiry = GetExpiryDate(VizDoc);
+                }
 
-            int iAuth = GetAuthenticity(VizDoc);
+                int iAuth = GetAuthenticity(VizDoc);
 
-            DocumentTypes documentType = GetDocType(MrzDoc);
-            if (documentType == DocumentTypes.Empty)
-            {
-                documentType = GetDocType(VizDoc);
+                DocumentTypes documentType = GetDocType(MrzDoc);
                 if (documentType == DocumentTypes.Empty)
                 {
-                    documentType= DocumentTypes.Unknown;
+                    documentType = GetDocType(VizDoc);
+                    if (documentType == DocumentTypes.Empty)
+                    {
+                        documentType = DocumentTypes.Unknown;
+                    }
                 }
+
+                IdScannerModel model = new IdScannerModel()
+                {
+                    Nev = name,
+                    ErvenyessegVege = dtExpiry,
+                    EredetisegValoszinusege = iAuth,
+                    OkmanyTipus = documentType,
+                    Kep = page.Select(Pr22.Imaging.Light.White).GetImage().Save(Pr22.Imaging.RawImage.FileFormat.Jpeg).ToByteArray()
+                };
+
+                Log.Debug("Scanning processes are finished.");
+                return model;
+            }
+            finally
+            {
+                docReader.Close();
             }
 
-            IdScannerModel model = new IdScannerModel()
-            {
-                Nev = name,
-                ErvenyessegVege = dtExpiry,
-                EredetisegValoszinusege = iAuth,
-                OkmanyTipus = documentType,
-                Kep = page.Select(Pr22.Imaging.Light.White).GetImage().Save(Pr22.Imaging.RawImage.FileFormat.Jpeg).ToByteArray()
-            };
-
-            Log.Debug("Scanning processes are finished.");
-            docReader.Close();
-
-            return model;
         }
     }
 }

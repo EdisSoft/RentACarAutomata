@@ -24,7 +24,6 @@ namespace FunctionsCore.Models
         public int Fizetendo { get; set; }
         public string Tipus { get; set; }
         public Nyelvek Nyelv { get; set; }
-        public bool MindenElkuldveFl { get; set; }
         public int UtolsoVarazsloLepes { get; set; }
         public bool IdeiglenesFl { get; set; } = false;
         public int RekeszId { get; set; }
@@ -32,5 +31,14 @@ namespace FunctionsCore.Models
         public bool FizetveFl { get; set; }
         public bool ZarolasMegszakadtFl { get; set; }
         public bool FizetesMegszakadtFl { get; set; }
+        public bool TorolhetoFl { get; set; }
+        public DateTime UtolsoModositas { get; set; }
+        public bool AktivUgyfelFl
+        {
+            get
+            {
+                return UtolsoModositas > DateTime.Now.AddMinutes(-10);
+            }
+        }
     }
 }

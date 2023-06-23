@@ -21,5 +21,7 @@ namespace FunctionsCore.Models
         public byte[] ValueBytes { get; set; }
         public Nyelvek ValueNyelv { get; set; }
         public bool SendedFl { get; set; } = false;
+
+        public int NumberOfSending { get; set; } = 0;
     }
 }

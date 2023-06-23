@@ -10,6 +10,9 @@ using System.Linq;
 using System.Net;
 using System.IO;
 using Microsoft.Extensions.Configuration;
+using System.Net.Http.Headers;
+using System.Net.Http;
+using System.Security.Authentication;
 
 namespace FunctionsCore.Commons.Functions;
 
@@ -18,17 +21,15 @@ public class BookingFunctions : IBookingFunctions
     private static ConcurrentBag<DeliveryModel> deliveryQueue = new ConcurrentBag<DeliveryModel>();
     private static readonly object lockObject = new object();
     private IHttpRequestService requestService;
-    private FTPConnectionOptions options;
-    private static int tempFoglalasId { get; set; }
-    private static List<int> tempRekeszIds { get; set; }
-    private static int tempRekeszId { get; set; }
-
+    private FTPConnectionOptions FTPConnectionOptions;
+    private FileNameOptions fileNameOptions;
 
     public static ConcurrentDictionary<int, FoglalasModel> FoglalasokMemory = new ConcurrentDictionary<int, FoglalasModel>();
 
     public BookingFunctions(IHttpRequestService requestService, IConfiguration configuration)
     {
-        options = configuration.GetSection(nameof(FTPConnectionOptions)).Get<FTPConnectionOptions>();
+        FTPConnectionOptions = configuration.GetSection(nameof(FTPConnectionOptions)).Get<FTPConnectionOptions>();
+        fileNameOptions = configuration.GetSection(nameof(fileNameOptions)).Get<FileNameOptions>();
 
         this.requestService = requestService;
     }
@@ -36,6 +37,15 @@ public class BookingFunctions : IBookingFunctions
     public static int KezbesitesreVar()
     {
         return deliveryQueue.Count;
+    }
+
+    public static bool VanAktivUgyfel()
+    {
+        bool bVanUgyfel = false;
+
+        var aktivFoglalasok = FoglalasokMemory.Where(w => w.Value.AktivUgyfelFl);
+        bVanUgyfel = (aktivFoglalasok.Count() > 0);
+        return bVanUgyfel;
     }
 
     public void UjCsomag(DeliveryModel csomag)
@@ -63,140 +73,181 @@ public class BookingFunctions : IBookingFunctions
         });
     }
 
-    public void Kuldes()
+    private void KeszFoglalasokTorlese()
     {
-        lock (lockObject)
+        var torolhetoFoglalasok = FoglalasokMemory.Where(w => w.Value.TorolhetoFl);
+
+        foreach (var foglalas in torolhetoFoglalasok)
         {
-            while (deliveryQueue.TryTake(out var csomag))
+            var foglalasId = foglalas.Key;
+            if (!deliveryQueue.Any(w => w.OrderId == foglalasId))
             {
-                if (!csomag.SendedFl)
-                {
-#if DEBUG
-                    continue;
+                FoglalasTorles(foglalasId);
+            }
+        }
+    }
+
+    public async void Kuldes()
+    {
+        KeszFoglalasokTorlese();
+        while (deliveryQueue.TryTake(out var csomag))
+        {
+#if DEBUG1
+            continue;
 #endif
-                    switch (csomag.Type)
+
+            switch (csomag.Type)
+            {
+                case DeliveryTypes.Email:
+                    if (!await requestService.SaveEmail(csomag.OrderId, csomag.ValueStr))
                     {
-                        case DeliveryTypes.Email:
-                            try
-                            {
-                                requestService.SaveEmail(csomag.OrderId, csomag.ValueStr);
-                            }
-                            catch (Exception e)
-                            {                                
-                                UjCsomag(csomag);
-                                throw new WarningException("Hiba történt email küldése közben!", WarningExceptionLevel.Warning);
-                            }
-                            break;
-                        case DeliveryTypes.Signature:
-                            try
-                            {
-                                requestService.SaveSignature(csomag.OrderId, csomag.ValueStr);
-                            }
-                            catch (Exception e)
-                            {
-                                UjCsomag(csomag);
-                                throw new WarningException("Hiba történt aláírás mentése közben!", WarningExceptionLevel.Warning);
-                            }
-                            break;
-                        case DeliveryTypes.ScanLicenceFront:
-                            try
-                            {
-                                UploadImage(csomag.Id, csomag.ValueBytes, "LicenseFront.jpg");
-                            }
-                            catch
-                            {
-                                UjCsomag(csomag);
-                                throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
-                            }
-                            break;
-                        case DeliveryTypes.ScanLicenceBack:
-                            try
-                            {
-                                UploadImage(csomag.Id, csomag.ValueBytes, "LicenseBack.jpg");
-                            }
-                            catch
-                            {
-                                UjCsomag(csomag);
-                                throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
-                            }
-                            break;
-                        case DeliveryTypes.ScanIdCardFrontOrPassport:
-                            try
-                            {
-                                UploadImage(csomag.Id, csomag.ValueBytes, "IdCardFrontOrPassport.jpg");
-                            }
-                            catch
-                            {
-                                UjCsomag(csomag);
-                                throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
-                            }
-                            break;
-                        case DeliveryTypes.ScanIdCardBack:
-                            try
-                            {
-                                UploadImage(csomag.Id, csomag.ValueBytes, "IdCardBack.jpg");
-                            }
-                            catch
-                            {
-                                UjCsomag(csomag);
-                                throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
-                            }
-                            break;
-                        case DeliveryTypes.ScanCreditCardFront:
-                            try
-                            {
-                                UploadImage(csomag.Id, csomag.ValueBytes, "CreditCardFront.jpg");
-                            }
-                            catch
-                            {
-                                UjCsomag(csomag);
-                                throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
-                            }
-                            break;
-                        case DeliveryTypes.ScanCreditCardBack:
-                            try
-                            {
-                                UploadImage(csomag.Id, csomag.ValueBytes, "CreditCardBack.jpg");
-                            }
-                            catch
-                            {
-                                UjCsomag(csomag);
-                                throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
-                            }
-                            break;
-                        case DeliveryTypes.Deposit:
-                            try
-                            {
-                                requestService.SendDeposit(csomag.OrderId, csomag.ValueNyelv.ToString(), csomag.ValueInt, csomag.ValueStr);
-                            }
-                            catch (Exception e)
-                            {
-                                UjCsomag(csomag);
-                                throw new WarningException(e.Message, WarningExceptionLevel.Warning);
-                            }
-                            break;
-                        case DeliveryTypes.Payment:
-                            var paymentSent = false;
-                            try
-                            {
-                                requestService.SendPayment(csomag.OrderId, csomag.ValueNyelv.ToString(), csomag.ValueInt, csomag.ValueStr);
-                                paymentSent = true;
-                                FoglalasTorles(csomag.ValueInt);
-                            }
-                            catch (Exception e)
-                            {
-                                if (!paymentSent)
-                                {
-                                    UjCsomag(csomag);
-                                }
-                                throw new WarningException(e.Message, WarningExceptionLevel.Warning);
-                            }
-                            break;
-                        //case DeliveryTypes.KeyTaken:
-                        //    FoglalasTorles(csomag.ValueInt);
-                        //    break;
+                        if (++csomag.NumberOfSending > 5)
+                        {
+                            SaveTextInLocalFolder(csomag.OrderId.ToString(), csomag.ValueStr, DeliveryTypes.Email.ToString());
+                        }
+                        else
+                        {
+                            UjCsomag(csomag);
+                        }
                     }
-                }
+                    break;
+
+                case DeliveryTypes.Signature:
+                    if (!await requestService.SaveSignature(csomag.OrderId, csomag.ValueStr))
+                    {
+                        if (++csomag.NumberOfSending > 5)
+                        {
+                            SaveTextInLocalFolder(csomag.OrderId.ToString(), csomag.ValueStr, DeliveryTypes.Signature.ToString());
+                        }
+                        else
+                        {
+                            UjCsomag(csomag);
+                        }
+                    }
+                    break;
+
+                case DeliveryTypes.ScanLicenceFront:
+                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.LicenseFront))
+                    {
+                        if (++csomag.NumberOfSending > 5)
+                        {
+                            SavePictureInLocalFolder(csomag.OrderId.ToString(), csomag.ValueBytes, fileNameOptions.LicenseFront);
+                        }
+                        else
+                        {
+                            UjCsomag(csomag);
+                        }
+                    }
+                    break;
+
+                case DeliveryTypes.ScanLicenceBack:
+                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.LicenseBack))
+                    {
+                        if (++csomag.NumberOfSending > 5)
+                        {
+                            SavePictureInLocalFolder(csomag.OrderId.ToString(), csomag.ValueBytes, fileNameOptions.LicenseBack);
+                        }
+                        else
+                        {
+                            UjCsomag(csomag);
+                        }
+                    }
+
+                    break;
+
+                case DeliveryTypes.ScanIdCardFrontOrPassport:
+                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.IdCardFrontOrPassport))
+                    {
+                        csomag.NumberOfSending++;
+
+                        if (csomag.NumberOfSending > 5)
+                        {
+                            SavePictureInLocalFolder(csomag.OrderId.ToString(), csomag.ValueBytes, fileNameOptions.IdCardFrontOrPassport);
+                        }
+                        else
+                        {
+                            UjCsomag(csomag);
+                        }
+                    }
+
+                    break;
+
+                case DeliveryTypes.ScanIdCardBack:
+                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.IdCardBack))
+                    {
+                        if (++csomag.NumberOfSending > 5)
+                        {
+                            SavePictureInLocalFolder(csomag.OrderId.ToString(), csomag.ValueBytes, fileNameOptions.IdCardBack);
+                        }
+                        else
+                        {
+                            UjCsomag(csomag);
+                        }
+                    }
+
+                    break;
+
+                case DeliveryTypes.ScanCreditCardFront:
+                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.CreditCardFront))
+                    {
+                        if (++csomag.NumberOfSending > 5)
+                        {
+                            SavePictureInLocalFolder(csomag.OrderId.ToString(), csomag.ValueBytes, fileNameOptions.CreditCardFront);
+                        }
+                        else
+                        {
+                            UjCsomag(csomag);
+                        }
+                    }
+
+                    break;
+
+                case DeliveryTypes.ScanCreditCardBack:
+                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.CreditCardBack))
+                    {
+                        if (++csomag.NumberOfSending > 5)
+                        {
+                            SavePictureInLocalFolder(csomag.OrderId.ToString(), csomag.ValueBytes, fileNameOptions.CreditCardBack);
+                        }
+                        else
+                        {
+                            UjCsomag(csomag);
+                        }
+                    }
+
+                    break;
+
+                case DeliveryTypes.Deposit:
+                    if (!await requestService.SendDeposit(csomag.OrderId, csomag.ValueNyelv.ToString(), csomag.ValueInt, csomag.ValueStr))
+                    {
+                        if (++csomag.NumberOfSending > 5)
+                        {
+                            SaveTextInLocalFolder(csomag.OrderId.ToString(), csomag.ValueInt.ToString() + " " + csomag.ValueStr, DeliveryTypes.Deposit.ToString());
+                        }
+                        else
+                        {
+                            UjCsomag(csomag);
+                        }
+                    }
+                    break;
+
+                case DeliveryTypes.Payment:
+                    if (!await requestService.SendPayment(csomag.OrderId, csomag.ValueNyelv.ToString(), csomag.ValueInt, csomag.ValueStr))
+                    {
+                        if (++csomag.NumberOfSending > 5)
+                        {
+                            SaveTextInLocalFolder(csomag.OrderId.ToString(), csomag.ValueInt.ToString() + " " + csomag.ValueStr, DeliveryTypes.Payment.ToString());
+                        }
+                        else
+                        {
+                            UjCsomag(csomag);
+                        }
+                    }
+                    else
+                    {
+                        UpdateFoglalasTorolheto(csomag.OrderId);
+                    }
+                    break;
             }
         }
     }
@@ -216,7 +267,7 @@ public class BookingFunctions : IBookingFunctions
         }
         catch (Exception e)
         {
-            Log.Error($"Hiba történt a foglalás frissítése közben! FoglalasId: {id}", e);
+            Log.Error($"Hiba történt a foglalás frissítése közben (FindFoglalasById)! FoglalasId: {id}", e);
             throw;
         }
         return null;
@@ -234,7 +285,7 @@ public class BookingFunctions : IBookingFunctions
         UjFoglalasVagyModositas(foglalas);
     }
 
-    public static void UpdateFoglalas(int foglalasId, string nyelv)
+    public static void UpdateFoglalasNyelv(int foglalasId, string nyelv)
     {
         try
         {
@@ -271,8 +322,30 @@ public class BookingFunctions : IBookingFunctions
         }
         catch (Exception e)
         {
-            Log.Error("Hiba történt a foglalás frissítése közben! FoglalasId: " + foglalasId, e);
+            Log.Error("Hiba történt a foglalás frissítése közben (UpdateFoglalasNyelv)! FoglalasId: " + foglalasId, e);
             throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
+        }
+    }
+
+    public static void UpdateFoglalasTorolheto(int foglalasId)
+    {
+        try
+        {
+            if (FoglalasokMemory.TryGetValue(foglalasId, out var foglalasMemory))
+            {
+                foglalasMemory.TorolhetoFl = true;
+                UjFoglalasVagyModositas(foglalasMemory);
+                Log.Info("Foglalas TorolhetFl=true: " + foglalasId);
+            }
+            else
+            {
+                throw new WarningException("Nincs foglalás (UpdateFoglalasTorolheto)!", WarningExceptionLevel.Warning);
+            }
+
+        }
+        catch (Exception e)
+        {
+            Log.Error("Hiba történt a foglalás frissítése közben (UpdateFoglalasTorolheto)! FoglalasId: " + foglalasId, e);
         }
     }
 
@@ -294,6 +367,7 @@ public class BookingFunctions : IBookingFunctions
         {
             foglalas.ZarolvaFl = foglalas.ZarolvaFl || foglalas.Zarolando == 0; // Zárolás kész
             foglalas.FizetveFl = foglalas.FizetveFl || foglalas.Fizetendo == 0; // Fizetés kész
+            foglalas.UtolsoModositas = DateTime.Now;
             var result = FoglalasokMemory.AddOrUpdate(foglalas.Id, foglalas, (k, v) => foglalas);
             if (result != null)
             {
@@ -317,7 +391,7 @@ public class BookingFunctions : IBookingFunctions
 
     public static void FoglalasTorles(int foglalasId)
     {
-        Log.Debug("Foglalás törlés: " + foglalasId);
+        Log.Info("Foglalás törlés: " + foglalasId);
         try
         {
             FoglalasModel resultModel;
@@ -338,25 +412,25 @@ public class BookingFunctions : IBookingFunctions
         }
     }
 
-    private void UploadImage(string id, byte[] picture, string pictureName)
+    private bool UploadImage(int id, byte[] picture, string pictureName)
     {
         Log.Info($"BookingFunctions.UploadImage({id},{pictureName})");
 
-        var path = $"{options.Address}/{id}/";
+        var path = $"{FTPConnectionOptions.Address}/{id}/";
 
         if (DoesFtpDirectoryExist(path) == false)
         {
             Log.Error("Hiba történt FTP mappa létrehozása közben! FoglalasId: " + id);
-            throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
+            return false;
         }
 
         FtpWebRequest req = null;
         WebResponse response = null;
         try
         {
-            req = (FtpWebRequest)WebRequest.Create(path + "\\" + pictureName);
+            req = (FtpWebRequest)WebRequest.Create(path + "\\" + pictureName); //$"{path}/{pictureName}"
 
-            req.Credentials = new NetworkCredential(options.UserName, options.Password);
+            req.Credentials = new NetworkCredential(FTPConnectionOptions.UserName, FTPConnectionOptions.Password);
             req.Method = WebRequestMethods.Ftp.UploadFile;
             req.ContentLength = picture.Length;
             req.UseBinary = true;
@@ -374,7 +448,7 @@ public class BookingFunctions : IBookingFunctions
         catch (WebException ex)
         {
             Log.Error("Hiba történt fájl feltöltése közben! FoglalasId: " + id, ex);
-            throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
+            return false;
         }
         finally
         {
@@ -382,6 +456,100 @@ public class BookingFunctions : IBookingFunctions
             {
                 response.Close();
             }
+        }
+        return true;
+    }
+
+    private bool UploadImageWithHttpClient(int id, byte[] picture, string pictureName)
+    {
+        Log.Info($"BookingFunctions.UploadImage({id},{pictureName})");
+
+        var path = $"{FTPConnectionOptions.Address}/{id}/";
+
+        if (DoesFtpDirectoryExist(path) == false)
+        {
+            Log.Error("Hiba történt FTP mappa létrehozása közben! FoglalasId: " + id);
+            return false;
+        }
+
+        HttpClient client = null;
+        ByteArrayContent content = null;
+        try
+        {
+            using (client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.ConnectionClose = false;
+                client.DefaultRequestHeaders.Connection.Add("keep-alive");
+                client.DefaultRequestHeaders.TransferEncodingChunked = false;
+                client.DefaultRequestHeaders.ExpectContinue = false;
+                using (content = new ByteArrayContent(picture))
+                {
+                    content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                    var handler = new HttpClientHandler
+                    {
+                        Credentials = new NetworkCredential(FTPConnectionOptions.UserName, FTPConnectionOptions.Password),
+                        SslProtocols = SslProtocols.Tls12
+                    };
+                    ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
+                    using (var clientWithCredentials = new HttpClient(handler))
+                    {
+                        var response = clientWithCredentials.PutAsync($"{path}/{pictureName}", content);
+                        return response.Status != TaskStatus.Faulted && response.Status != TaskStatus.Canceled;
+                    }
+                }
+            }
+        }
+        catch (WebException ex)
+        {
+            Log.Error("Hiba történt fájl feltöltése közben! FoglalasId: " + id, ex);
+            return false;
+        }
+        finally
+        {
+            if (content != null)
+                content.Dispose();
+            if (client != null)
+                content.Dispose();
+        }
+    }
+
+    public async void SavePictureInLocalFolder(string id, byte[] picture, string pictureName)
+    {
+        var path = fileNameOptions.TempPath + id;
+        try
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            await File.WriteAllBytesAsync(Path.Combine(path, pictureName), picture);
+        }
+        catch
+        {
+            Log.Warning("Hiba temp mappába mentés közben");
+        }
+    }
+
+    public async void SaveTextInLocalFolder(string id, string text, string type)
+    {
+        var path = fileNameOptions.TempPath + id;
+        try
+        {
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            string fullPath = path + "\\" + fileNameOptions.Backup;
+
+            string[] lines = { type + ": " + text, "" };
+
+            await File.AppendAllLinesAsync(fullPath, lines);
+        }
+        catch
+        {
+            Log.Warning("Hiba temp mappába mentés közben");
         }
     }
 
@@ -393,7 +561,7 @@ public class BookingFunctions : IBookingFunctions
         try
         {
             FtpWebRequest request = (FtpWebRequest)WebRequest.Create(path);
-            request.Credentials = new NetworkCredential(options.UserName, options.Password);
+            request.Credentials = new NetworkCredential(FTPConnectionOptions.UserName, FTPConnectionOptions.Password);
             request.Method = WebRequestMethods.Ftp.MakeDirectory;
             request.UsePassive = true;
             request.UseBinary = true;
@@ -425,16 +593,18 @@ public class BookingFunctions : IBookingFunctions
         return result;
     }
 
-    public int SetTempValues(int foglalasId, List<int> rekeszIds)
+    public int? SetTempValues(int foglalasId, List<int> rekeszIds)
     {
-        tempFoglalasId = foglalasId;
-        tempRekeszIds = rekeszIds;
-        tempRekeszId = rekeszIds.FirstOrDefault();
-        return tempRekeszId;
+        FoglalasKucsLeadasModel.Id = foglalasId;
+        FoglalasKucsLeadasModel.RekeszIds = rekeszIds;
+        FoglalasKucsLeadasModel.RekeszId = rekeszIds.FirstOrDefault();
+        return FoglalasKucsLeadasModel.RekeszId;
     }
 
-    public int GetRekeszId(int foglalasId)
+    public int? GetRekeszId(int foglalasId)
     {
-        return tempRekeszId;
+        if (FoglalasKucsLeadasModel.Id == foglalasId)
+            return FoglalasKucsLeadasModel.RekeszId;
+        return null;
     }
 }

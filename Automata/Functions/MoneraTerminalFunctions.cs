@@ -1,5 +1,8 @@
 ﻿using FunctionsCore;
+using FunctionsCore.Commons.Functions;
 using FunctionsCore.Contexts;
+using FunctionsCore.Utilities;
+using System;
 
 namespace Automata.Functions
 {
@@ -7,7 +10,11 @@ namespace Automata.Functions
 	{
 		string comPort = AppSettingsBase.GetAppSetting("MoneraComPort");
 		EcrWrapperDotNetMlib.EftTerminalZVT Terminal;
+		static volatile EcrWrapperDotNetMlib.EftTerminalZVT PayingTerminal = null;
 		string LatestReceipt;
+
+		const string DAILY_TASK_DEFAULT_START_AT = "01:00";
+
 
 		public void Init()
 		{
@@ -104,6 +111,11 @@ namespace Automata.Functions
 			return rc;
 		}
 
+		public static int BreakPayment()
+        {
+			return SendBreak();
+        }
+
 		public int DailyClose()
 		{
 			int rc;
@@ -151,14 +163,20 @@ namespace Automata.Functions
 			return Terminal.disconnect();
 		}
 
-		public string GetErrorName(int rc)
+		public static string GetErrorName(int rc)
 		{
 			return System.Enum.GetName(typeof(EcrWrapperDotNetMlib.ErrorCodes), rc);
 		}
 
-		public void SendBreak()
+		public static int SendBreak()
 		{
-			Terminal.sendBreak();
+			if (PayingTerminal != null)
+			{
+				PayingTerminal.sendBreak();
+				return (int)EcrWrapperDotNetMlib.ErrorCodes.VMC_break;
+			}
+			// TODO: ide mas ertek kene, de nem talaltam jobbat a listaban
+			return (int)EcrWrapperDotNetMlib.ErrorCodes.VMC_ok;
 		}
 
 		public int Diagnosis(ref uint ext_result)
@@ -189,7 +207,12 @@ namespace Automata.Functions
 			// clean receipt
 			LatestReceipt = "";
 			Log.Debug("MoneraTerminal Payment: " + cent_amount + ", " + tran_id + ", " + paymentType);
-			return Terminal.payment(cent_amount, tran_id, paymentType);
+			// Store actual terminal to able to interrupt payment
+			PayingTerminal = Terminal;
+			int rc = Terminal.payment(cent_amount, tran_id, paymentType);
+			// After payment clear value
+			PayingTerminal = null;
+			return rc;
 		}
 
 		int Payment(string cent_amount, string tran_id)
@@ -250,6 +273,43 @@ namespace Automata.Functions
 		public string GetReceipt()
 		{
 			return LatestReceipt;
+		}
+
+		public static void InitDailyTask()
+        {
+			TimeSpan startAt;
+			string str = AppSettingsBase.GetAppSetting("PosTerminalDailyTaskStartAt");
+
+			if (String.IsNullOrEmpty(str) || !TimeSpan.TryParse(str, out startAt))
+            {
+				startAt = TimeSpan.Parse(DAILY_TASK_DEFAULT_START_AT);
+            }
+
+			// Start timer
+			new OncePerDayTimer(startAt, DailyTask, "PosTerminal daily task");
+
+		}
+
+		public static bool DailyTask()
+        {
+			MoneraTerminalFunctions MoneraTerminal;
+
+			Log.Debug("DailyClose started");
+			if (!BookingFunctions.VanAktivUgyfel())
+			{
+				int rc;
+
+				MoneraTerminal = new MoneraTerminalFunctions();
+				MoneraTerminal.Init();
+				rc = MoneraTerminal.DailyClose();
+				Log.Debug($"Daily close results {rc} {GetErrorName(rc)}");
+				rc = MoneraTerminal.TMSCall();
+				Log.Debug($"TMS call results {rc} {GetErrorName(rc)}");
+				Log.Debug("DailyClose finished");
+				return true;
+			}
+			Log.Debug("System might busy, VanAktivUgyfel");
+			return false;
 		}
 	}
 }
