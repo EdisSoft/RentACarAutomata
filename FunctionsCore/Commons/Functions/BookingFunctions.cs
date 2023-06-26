@@ -103,7 +103,7 @@ public class BookingFunctions : IBookingFunctions
                     {
                         if (++csomag.NumberOfSending > 5)
                         {
-                            SaveTextInLocalFolder(csomag.OrderId.ToString(), csomag.ValueStr, DeliveryTypes.Email.ToString());
+                            SaveTextInLocalFolder(csomag.OrderId.ToString(), csomag.ValueStr, DeliveryTypes.Email.ToString(), Nyelvek.en);
                         }
                         else
                         {
@@ -117,7 +117,7 @@ public class BookingFunctions : IBookingFunctions
                     {
                         if (++csomag.NumberOfSending > 5)
                         {
-                            SaveTextInLocalFolder(csomag.OrderId.ToString(), csomag.ValueStr, DeliveryTypes.Signature.ToString());
+                            SaveTextInLocalFolder(csomag.OrderId.ToString(), csomag.ValueStr, DeliveryTypes.Signature.ToString(), Nyelvek.en);
                         }
                         else
                         {
@@ -222,7 +222,7 @@ public class BookingFunctions : IBookingFunctions
                     {
                         if (++csomag.NumberOfSending > 5)
                         {
-                            SaveTextInLocalFolder(csomag.OrderId.ToString(), csomag.ValueInt.ToString() + " " + csomag.ValueStr, DeliveryTypes.Deposit.ToString());
+                            SaveTextInLocalFolder(csomag.OrderId.ToString(), csomag.ValueInt.ToString() + " " + csomag.ValueStr, DeliveryTypes.Deposit.ToString(), csomag.ValueNyelv);
                         }
                         else
                         {
@@ -236,7 +236,7 @@ public class BookingFunctions : IBookingFunctions
                     {
                         if (++csomag.NumberOfSending > 5)
                         {
-                            SaveTextInLocalFolder(csomag.OrderId.ToString(), csomag.ValueInt.ToString() + " " + csomag.ValueStr, DeliveryTypes.Payment.ToString());
+                            SaveTextInLocalFolder(csomag.OrderId.ToString(), csomag.ValueInt.ToString() + " " + csomag.ValueStr, DeliveryTypes.Payment.ToString(), csomag.ValueNyelv);
                         }
                         else
                         {
@@ -359,10 +359,9 @@ public class BookingFunctions : IBookingFunctions
 
     public static FoglalasModel UjFoglalasVagyModositas(FoglalasModel foglalas)
     {
-        Log.Debug("Új adat érkezett! Foglalás: " + foglalas.Id);
-
-        int folyamatbanLevoVarazsloLepes = FindFoglalasById(foglalas.Id)?.UtolsoVarazsloLepes ?? 0;
-
+        var foglalasOld = FindFoglalasById(foglalas.Id);
+        int folyamatbanLevoVarazsloLepes = foglalasOld?.UtolsoVarazsloLepes ?? 0;
+        Nyelvek nyelv = foglalasOld?.Nyelv ?? 0;
         try
         {
             foglalas.ZarolvaFl = foglalas.ZarolvaFl || foglalas.Zarolando == 0; // Zárolás kész
@@ -372,14 +371,18 @@ public class BookingFunctions : IBookingFunctions
             if (result != null)
             {
                 if (folyamatbanLevoVarazsloLepes == 0)
-                    Log.Debug("Új foglalas felvétele sikeres volt! FoglalasId: " + foglalas.Id);
+                    Log.Info($"Új foglalas felvétele {foglalas}");
                 else
                 {
-                    Log.Debug("Foglalas frissítése sikeres volt! FoglalasId: " + foglalas.Id);
+                    Log.Info($"Foglalas frissítése {foglalas}");
                     result.UtolsoVarazsloLepes = folyamatbanLevoVarazsloLepes;
+                    if (foglalas.Nyelv == 0) // Ha nincs megadva nyelv, és megszakított folyamat folytatásában vagyunk, akkor az előzőt használjuk
+                        result.Nyelv = nyelv;
                 }
                 return foglalas;
             }
+            else
+                Log.Warning($"BookingFunctions.UjFoglalasVagyModositas: új foglalas jött, de nem lehetett frissítni!");
         }
         catch (Exception e)
         {
@@ -531,7 +534,7 @@ public class BookingFunctions : IBookingFunctions
         }
     }
 
-    public async void SaveTextInLocalFolder(string id, string text, string type)
+    public async void SaveTextInLocalFolder(string id, string text, string type, Nyelvek nyelv)
     {
         var path = fileNameOptions.TempPath + id;
         try
@@ -543,7 +546,7 @@ public class BookingFunctions : IBookingFunctions
 
             string fullPath = path + "\\" + fileNameOptions.Backup;
 
-            string[] lines = { type + ": " + text, "" };
+            string[] lines = { type + $" ({nyelv}): " + text, "" };
 
             await File.AppendAllLinesAsync(fullPath, lines);
         }

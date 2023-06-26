@@ -40,5 +40,10 @@ namespace FunctionsCore.Models
                 return UtolsoModositas > DateTime.Now.AddMinutes(-10);
             }
         }
+
+        public override string ToString()
+        {
+            return $"{{{Id}, {Nev}, Nye: {Nyelv}, Rek: {RekeszId}, Zár: {Zarolando}, Fiz: {Fizetendo}, Tör: {TorolhetoFl}}}";
+        }
     }
 }

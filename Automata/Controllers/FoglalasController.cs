@@ -68,7 +68,6 @@ public class FoglalasController : BaseController
         });
 
         var nyelv = Request.Headers["Accept-Language"];
-
         BookingFunctions.UpdateFoglalasNyelv(model.Id, nyelv);
 
         return Json(new ResultModel() { Id = 0, Text = "" });
