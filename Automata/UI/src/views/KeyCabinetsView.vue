@@ -44,6 +44,9 @@
       </v-row>
     </v-container>
     <wizard-footer :homeConfirm="false" :nextBtn="false" class="footer">
+      <v-btn :loading="lockStatusesLoading" x-large @click="GetLockStatuses">
+        {{ $t('buttons.refresh') }}
+      </v-btn>
     </wizard-footer>
   </div>
 </template>
@@ -79,7 +82,7 @@ export default {
       { silentError: true }
     );
     GetLockStatuses();
-    return { remaingTime, lockStatuses, GetLockStatuses };
+    return { remaingTime, lockStatuses, GetLockStatuses, lockStatusesLoading };
   },
   mounted() {},
   methods: {},

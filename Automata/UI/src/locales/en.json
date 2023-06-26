@@ -84,7 +84,8 @@
   "buttons": {
     "continue": "Continue",
     "back": "Back",
-    "finish": "Finish"
+    "finish": "Finish",
+    "refresh": "Refresh"
   },
   "confirms": {
     "goToHome": {
