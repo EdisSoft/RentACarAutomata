@@ -44,7 +44,7 @@ namespace Automata.Controllers
                     "CNB=478738XXXXXX1811|REFNO=17|ACQ=OTP BANK|CTYP=Visa Card|LOC=VECSE'S FO\" UTCA 195|MERCN=GAME RENTACAR KFT.|" +
                     "OWN=GAME RENTACAR|AID=A0000000031010|TC=B3112CA3096DF044|TRID=PAID_19338";
                 moneraReceipt.Parse(sReceipt);
-                Log.Debug("Printing test payment receipt");
+                Log.Info("Printing test payment receipt");
                 PrinterFunctions.PrintOtpResult(moneraReceipt);
                 return Json(new ResultModel() { Id = 0, Text = "Test printing" });
             }*/
@@ -82,6 +82,15 @@ namespace Automata.Controllers
 
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
+            if (model.Nyelv == Nyelvek.hu)
+            {
+                MoneraTerminal.SetLanguageHun();
+            }
+            else
+            {
+                MoneraTerminal.SetLanguageEng();
+            }
+
             int res = MoneraTerminal.NormalPayment(model.Fizetendo, ctid); //TODO: Mi a második paraméter, honnan fogjuk tudni?
             //int res = 0;
             if (res == 0)
@@ -100,7 +109,7 @@ namespace Automata.Controllers
                 //    "OWN=GAME RENTACAR|AID=A0000000031010|TC=B3112CA3096DF044|TRID=PAID_19338";
                 //moneraReceipt.Parse(sReceipt);
 
-                Log.Debug("Printing payment receipt");
+                Log.Info("Printing payment receipt");
                 PrinterFunctions.PrintOtpResult(moneraReceipt);
 
                 int authCode;
@@ -174,6 +183,15 @@ namespace Automata.Controllers
 
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
+            if (model.Nyelv == Nyelvek.hu)
+            {
+                MoneraTerminal.SetLanguageHun();
+            }
+            else
+            {
+                MoneraTerminal.SetLanguageEng();
+            }
+
             int res = MoneraTerminal.DepositPayment(model.Zarolando, ctid);
             //int res = 0;
             if (res == 0)
@@ -192,7 +210,7 @@ namespace Automata.Controllers
                 //moneraReceipt.Parse(sReceipt);
                 int amount = (int)Double.Parse(moneraReceipt.Amount);
 
-                Log.Debug("Printing deposit receipt");
+                Log.Info("Printing deposit receipt");
                 if (model.Nyelv == Nyelvek.hu)
                 {
                     PrinterFunctions.PrintReceiptHun(model.Id.ToString(), model.Rendszam, model.VegeDatum, amount, moneraReceipt.AuthCode);
@@ -273,7 +291,7 @@ namespace Automata.Controllers
             //if (model.FizetveFl)
             //{
             //    // Opening compartment
-            //    Log.Debug($"Opening Compartment: {model.RekeszId}");
+            //    Log.Info($"Opening Compartment: {model.RekeszId}");
             //    KerongLockFunctions.OpenCompartment((byte)model.RekeszId);
             //}
 
@@ -319,10 +337,10 @@ namespace Automata.Controllers
         [HttpPost]
         public JsonResult DailyClose()
         {
-            Log.Debug("DailyClose started");
+            Log.Info("DailyClose started");
             if (MoneraTerminalFunctions.DailyTask())
             {
-                Log.Debug("DailyClose finished");
+                Log.Info("DailyClose finished");
                 return Json(new ResultModel() { Id = 0, Text = "DailyClose finished" });
             }
             return Json(new ResultModel() { Id = -1, Text = "System might busy, Daily close failed" });

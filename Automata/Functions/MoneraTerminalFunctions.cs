@@ -13,6 +13,9 @@ namespace Automata.Functions
 		static volatile EcrWrapperDotNetMlib.EftTerminalZVT PayingTerminal = null;
 		string LatestReceipt;
 
+		const sbyte LANGUAGE_GER = 0;
+		const sbyte LANGUAGE_ENG = 1;
+		const sbyte LANGUAGE_HUN = 4;
 		const string DAILY_TASK_DEFAULT_START_AT = "01:00";
 
 
@@ -22,9 +25,9 @@ namespace Automata.Functions
 			LatestReceipt = "";
 
 			string libinfo = "";
-			Log.Debug("readlibinfo");
+			Log.Info("Moneraterminal readlibinfo");
 			Terminal.readLibInfo(ref libinfo);
-			Log.Debug(libinfo);
+			Log.Info(libinfo);
 
 			Terminal.setLocalDisplayEvent(displayEvent);
 			Terminal.setLocalPrinterEvent(printEvent);
@@ -37,13 +40,13 @@ namespace Automata.Functions
 
 		void displayEvent(string txt)
 		{
-			Log.Debug("Disp event ** " + txt);
+			Log.Info("Disp event ** " + txt);
 		}
 
 		void printEvent(string txt)
 		{
 			LatestReceipt = txt;
-			Log.Debug("Print event ** " + txt);
+			Log.Info("Print event ** " + txt);
 		}
 
 		public int ReadLibInfo(ref string libInfo)
@@ -55,18 +58,18 @@ namespace Automata.Functions
 		{
 			int rc;
 
-			Log.Debug("NormalPayment " + iAmount + " " + tran_id);
+			Log.Info("NormalPayment " + iAmount + " " + tran_id);
 			rc = Disconnect();
 			rc = Connect();
 			if (rc != (int)EcrWrapperDotNetMlib.ErrorCodes.VMC_ok)
 			{
-				Log.Debug("Connect error " + rc + " " + GetErrorName(rc));
+				Log.Error("Connect error " + rc + " " + GetErrorName(rc));
 				return rc;
 			}
 
 			rc = Payment(iAmount, tran_id);
 
-			Log.Debug("NormalPayment finished " + rc + " " + GetErrorName(rc));
+			Log.Info("NormalPayment finished " + rc + " " + GetErrorName(rc));
 			Disconnect();
 			return rc;
 		}
@@ -75,18 +78,18 @@ namespace Automata.Functions
 		{
 			int rc;
 
-			Log.Debug("DepositPayment " + iAmount + " " + tran_id);
+			Log.Info("DepositPayment " + iAmount + " " + tran_id);
 			rc = Disconnect();
 			rc = Connect();
 			if (rc != (int)EcrWrapperDotNetMlib.ErrorCodes.VMC_ok)
 			{
-				Log.Debug("Connect error " + rc + " " + GetErrorName(rc));
+				Log.Error("Connect error " + rc + " " + GetErrorName(rc));
 				return rc;
 			}
 
 			rc = Deposit(iAmount, tran_id);
 
-			Log.Debug("DepositPayment finished " + rc + " " + GetErrorName(rc));
+			Log.Info("DepositPayment finished " + rc + " " + GetErrorName(rc));
 			Disconnect();
 			return rc;
 		}
@@ -95,18 +98,18 @@ namespace Automata.Functions
 		{
 			int rc;
 
-			Log.Debug("CancelPayment ");
+			Log.Info("CancelPayment ");
 			rc = Disconnect();
 			rc = Connect();
 			if (rc != (int)EcrWrapperDotNetMlib.ErrorCodes.VMC_ok)
 			{
-				Log.Debug("Connect error " + rc + " " + GetErrorName(rc));
+				Log.Error("Connect error " + rc + " " + GetErrorName(rc));
 				return rc;
 			}
 
 			rc = Cancellation();
 
-			Log.Debug("CancelPayment finished " + rc + " " + GetErrorName(rc));
+			Log.Info("CancelPayment finished " + rc + " " + GetErrorName(rc));
 			Disconnect();
 			return rc;
 		}
@@ -120,15 +123,17 @@ namespace Automata.Functions
 		{
 			int rc;
 
+			Log.Info("DailyClose");
 			rc = Disconnect();
 			rc = Connect();
 			if (rc != (int)EcrWrapperDotNetMlib.ErrorCodes.VMC_ok)
 			{
-				Log.Debug("Connect error " + rc + " " + GetErrorName(rc));
+				Log.Error("Connect error " + rc + " " + GetErrorName(rc));
 				return rc;
 			}
 			rc = Settlement();
 
+			Log.Info("DailyClose finished " + rc + " " + GetErrorName(rc));
 			Disconnect();
 			return rc;
 		}
@@ -137,15 +142,17 @@ namespace Automata.Functions
 		{
 			int rc;
 
+			Log.Info("TMSCall");
 			rc = Disconnect();
 			rc = Connect();
 			if (rc != (int)EcrWrapperDotNetMlib.ErrorCodes.VMC_ok)
 			{
-				Log.Debug("Connect error " + rc + " " + GetErrorName(rc));
+				Log.Error("Connect error " + rc + " " + GetErrorName(rc));
 				return rc;
 			}
 			rc = CallTMS();
 
+			Log.Info("TMSCall finished " + rc + " " + GetErrorName(rc));
 			Disconnect();
 			return rc;
 
@@ -206,7 +213,7 @@ namespace Automata.Functions
 		{
 			// clean receipt
 			LatestReceipt = "";
-			Log.Debug("MoneraTerminal Payment: " + cent_amount + ", " + tran_id + ", " + paymentType);
+			Log.Info("MoneraTerminal Payment: " + cent_amount + ", " + tran_id + ", " + paymentType);
 			// Store actual terminal to able to interrupt payment
 			PayingTerminal = Terminal;
 			int rc = Terminal.payment(cent_amount, tran_id, paymentType);
@@ -256,6 +263,24 @@ namespace Automata.Functions
 			return Terminal.cancellation();
 		}
 
+		public void SetLanguageGer()
+		{
+			Log.Info("Set language to GERMAN");
+			SetLanguage(LANGUAGE_GER);
+		}
+
+		public void SetLanguageEng()
+		{
+			Log.Info("Set language to ENGLISH");
+			SetLanguage(LANGUAGE_ENG);
+		}
+
+		public void SetLanguageHun()
+		{
+			Log.Info("Set language to HUNGARIAN");
+			SetLanguage(LANGUAGE_HUN);
+		}
+
 		public void SetLanguage(sbyte iLang)
 		{
 			int rc;
@@ -263,7 +288,7 @@ namespace Automata.Functions
 			rc = Connect();
 			if (rc != (int)EcrWrapperDotNetMlib.ErrorCodes.VMC_ok)
 			{
-				Log.Debug("Connect " + rc + " " + GetErrorName(rc));
+				Log.Error("Connect " + rc + " " + GetErrorName(rc));
 				return;
 			}
 			Terminal.setLanguage(iLang);
@@ -294,7 +319,7 @@ namespace Automata.Functions
         {
 			MoneraTerminalFunctions MoneraTerminal;
 
-			Log.Debug("DailyClose started");
+			Log.Info("DailyClose started");
 			if (!BookingFunctions.VanAktivUgyfel())
 			{
 				int rc;
@@ -302,13 +327,13 @@ namespace Automata.Functions
 				MoneraTerminal = new MoneraTerminalFunctions();
 				MoneraTerminal.Init();
 				rc = MoneraTerminal.DailyClose();
-				Log.Debug($"Daily close results {rc} {GetErrorName(rc)}");
+				Log.Info($"Daily close results {rc} {GetErrorName(rc)}");
 				rc = MoneraTerminal.TMSCall();
-				Log.Debug($"TMS call results {rc} {GetErrorName(rc)}");
-				Log.Debug("DailyClose finished");
+				Log.Info($"TMS call results {rc} {GetErrorName(rc)}");
+				Log.Info("DailyClose finished");
 				return true;
 			}
-			Log.Debug("System might busy, VanAktivUgyfel");
+			Log.Info("System might busy, VanAktivUgyfel");
 			return false;
 		}
 	}

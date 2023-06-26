@@ -20,6 +20,8 @@ namespace Automata.Controllers
         [HttpPost]
         public JsonResult OpenLock(int rekeszId)
         {
+            Log.Info($"Lock/CompartmentStatus({rekeszId})");
+
             KerongLockFunctions.OpenLock((byte)rekeszId);
             return Json(new ResultModel() { Id = 0, Text = rekeszId.ToString() });
         }
@@ -27,11 +29,13 @@ namespace Automata.Controllers
         [HttpPost]
         public JsonResult LockStatus(int lockNo)
         {
+            Log.Info($"Lock/CompartmentStatus({lockNo})");
+
             if (KerongLockFunctions.IsLockClosed((byte)lockNo))
             {
-                return Json(new ResultModel() { Id = 0, Text = "Lock " + lockNo + " is closed" });
+                return Json(new ResultModel() { Id = 0, Text = $"Lock {lockNo} is closed" });
             }
-            return Json(new ResultModel() { Id = 0, Text = "Lock " +lockNo + " is opened" });
+            return Json(new ResultModel() { Id = 0, Text = $"Lock {lockNo} is opened" });
         }
 
         [HttpPost]
@@ -39,11 +43,11 @@ namespace Automata.Controllers
         {
             string txt = "";
 
-            Log.Debug($"Lock/OpenCompartment({rekeszId})");
+            Log.Info($"Lock/OpenCompartment({rekeszId})");
 
             if (KerongLockFunctions.OpenCompartment((byte)rekeszId))
             {
-                txt = "succedded";
+                txt = "succeded";
                 Log.Debug($"Compartment opened successfully");
             }
             else
@@ -58,6 +62,8 @@ namespace Automata.Controllers
         [HttpPost]
         public JsonResult CompartmentStatus(int compNo)
         {
+            Log.Info($"Lock/CompartmentStatus({compNo})");
+
             if (KerongLockFunctions.IsCompartmentClosed((byte)compNo))
             {
                 return Json(new ResultModel() { Id = 0, Text = "Compartment " + compNo + " is closed" });
