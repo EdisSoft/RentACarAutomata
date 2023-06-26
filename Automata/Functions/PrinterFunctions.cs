@@ -1,4 +1,5 @@
 ﻿using FunctionsCore;
+using FunctionsCore.Contexts;
 using FunctionsCore.Models;
 using System;
 using System.Runtime.InteropServices;
@@ -42,8 +43,12 @@ namespace Automata.Functions
 
                 // Blank String to Print out properly
                 //sb.Append("                                                                                                                  \n");
+                sb.Append("\n\n");
                 // Feed and Cut
-                sb.Append(PrinterFeedAndCut);
+                if (AppSettingsBase.GetAppSetting<int>("PosTerminalPrinterUseManualCut") != 0)
+                {
+                    sb.Append(PrinterFeedAndCut);
+                }
 
                 RawPrinterHelper.SendStringToPrinter(PrinterName, sb.ToString());
             }
@@ -86,8 +91,12 @@ namespace Automata.Functions
 
                 // Blank String to Print out properly
                 //sb.Append("                                                                                                                  \n");
+                sb.Append("\n\n");
                 // Feed and Cut
-                sb.Append(PrinterFeedAndCut);
+                if (AppSettingsBase.GetAppSetting<int>("PosTerminalPrinterUseManualCut") != 0)
+                {
+                    sb.Append(PrinterFeedAndCut);
+                }
 
                 RawPrinterHelper.SendStringToPrinter(PrinterName, sb.ToString());
             }
@@ -125,10 +134,15 @@ namespace Automata.Functions
                 sb.Append("VÁLASZ/RESP: " + receipt.RetNum + "\n");
                 sb.Append(AlignToCenter(receipt.RetText) + "\n");
                 sb.Append("ÖSSZEG: " + receipt.Amount + " Ft\n");
-                
+
+                // Blank String to Print out properly
+                sb.Append("\n\n");
                 // Feed and Cut
-                sb.Append(PrinterFeedAndCut);
-                
+                if (AppSettingsBase.GetAppSetting<int>("PosTerminalPrinterUseManualCut") != 0)
+                {
+                    sb.Append(PrinterFeedAndCut);
+                }
+
                 /*sb.Append("TERMINÁL ID: " + TID + "\n");
                 sb.Append("ELSZÁMOLÓ: " + ACQ + "\n");
                 sb.Append("KÁRTYATÍPUS: " + CTYP + "\n");
@@ -163,7 +177,7 @@ namespace Automata.Functions
                 sb.Append(AlignToEdge("ABCDE", "12345") + "\n");
                 sb.Append(AlignToEdge("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "01234567890123456789") + "\n");
                 sb.Append(PrinterFeedAndCut);*/
-                
+
                 //sb.Append("012345678901234567890123456789012345678901\n");
                 //sb.Append("abcdefghijklmnopqrstuvwxyz áéíóöőúüű");
                 //sb.Append("ABCDEFGHIJKLMNOPQRSTUVWXYZ ÁÉÍÓÖŐÚÜŰ\n");
