@@ -319,6 +319,8 @@ namespace Automata.Controllers
         [HttpPost]
         public JsonResult RevertPayment()
         {
+            Log.Info("RevertPayment started");
+
             MoneraTerminal = new MoneraTerminalFunctions();
             MoneraTerminal.Init();
             int res = MoneraTerminal.CancelPayment();
@@ -329,6 +331,7 @@ namespace Automata.Controllers
         [HttpPost]
         public JsonResult StopPayment()
         {
+            Log.Info("StopPayment started");
             int res = MoneraTerminalFunctions.BreakPayment();
 
             return Json(new ResultModel() { Id = res, Text = MoneraTerminalFunctions.GetErrorName(res) });

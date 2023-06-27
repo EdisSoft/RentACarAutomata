@@ -177,9 +177,11 @@ namespace Automata.Functions
 
 		public static int SendBreak()
 		{
+			Log.Info("SendBreak");
 			if (PayingTerminal != null)
 			{
 				PayingTerminal.sendBreak();
+				Log.Info("Break signal sent to active payment process");
 				return (int)EcrWrapperDotNetMlib.ErrorCodes.VMC_break;
 			}
 			// TODO: ide mas ertek kene, de nem talaltam jobbat a listaban
@@ -305,6 +307,7 @@ namespace Automata.Functions
 			TimeSpan startAt;
 			string str = AppSettingsBase.GetAppSetting("PosTerminalDailyTaskStartAt");
 
+			Log.Info("Initializing pos terminal daily task");
 			if (String.IsNullOrEmpty(str) || !TimeSpan.TryParse(str, out startAt))
             {
 				startAt = TimeSpan.Parse(DAILY_TASK_DEFAULT_START_AT);

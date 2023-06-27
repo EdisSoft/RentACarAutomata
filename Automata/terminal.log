@@ -697,3 +697,148 @@
 2023.06.21 23:59:39 [106b4,e95c] | MONERA ZVT Terminal Library LAN 02.00 
 2023.06.21 23:59:39 [106b4,e95c] | OpenSSL 1.1.1l  24 Aug 2021 
 2023.06.21 23:59:39 [106b4,e95c] | protocol ctor 
+2023.06.26 22:56:46 [2cfc,aa5c] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.26 22:56:46 [2cfc,aa5c] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.26 22:59:03 [2cfc,a69c] | protocol ctor 
+2023.06.26 22:59:03 [2cfc,a69c] | disconnect 
+2023.06.26 22:59:03 [2cfc,a69c] | is stopped 
+2023.06.26 22:59:03 [2cfc,a69c] | SSL connect: 192.168.2.12:4050 
+2023.06.26 22:59:04 [2cfc,a69c] | start thread 
+2023.06.26 22:59:04 [2cfc,a69c] | set lang 1 
+2023.06.26 22:59:05 [2cfc,a69c] | disconnect 
+2023.06.26 22:59:05 [2cfc,80f0] | thread exit 
+2023.06.26 22:59:05 [2cfc,a69c] | portclose 
+2023.06.26 22:59:05 [2cfc,a69c] | disconnect 
+2023.06.26 22:59:05 [2cfc,a69c] | is stopped 
+2023.06.26 22:59:05 [2cfc,a69c] | SSL connect: 192.168.2.12:4050 
+2023.06.26 22:59:06 [2cfc,a69c] | start thread 
+2023.06.26 22:59:06 [2cfc,a69c] | payment 1000 
+2023.06.26 22:59:07 [2cfc,a69c] | displayevent 0 
+2023.06.26 22:59:07 [2cfc,a69c] | displayevent 1 
+2023.06.26 22:59:23 [2cfc,3fdc] | send break 
+2023.06.26 22:59:25 [2cfc,a69c] | disconnect 
+2023.06.26 22:59:25 [2cfc,466c] | thread exit 
+2023.06.26 22:59:25 [2cfc,a69c] | portclose 
+2023.06.27 13:15:47 [2cfc,a8c] | protocol ctor 
+2023.06.27 13:15:47 [2cfc,a8c] | disconnect 
+2023.06.27 13:15:47 [2cfc,a8c] | is stopped 
+2023.06.27 13:15:47 [2cfc,a8c] | SSL connect: 192.168.2.12:4050 
+2023.06.27 13:15:47 [2cfc,a8c] | start thread 
+2023.06.27 13:15:47 [2cfc,a8c] | settlement 
+2023.06.27 13:15:53 [2cfc,a8c] | disconnect 
+2023.06.27 13:15:53 [2cfc,f83c] | thread exit 
+2023.06.27 13:15:53 [2cfc,a8c] | portclose 
+2023.06.27 13:15:53 [2cfc,a8c] | disconnect 
+2023.06.27 13:15:53 [2cfc,a8c] | is stopped 
+2023.06.27 13:15:53 [2cfc,a8c] | SSL connect: 192.168.2.12:4050 
+2023.06.27 13:15:53 [2cfc,a8c] | start thread 
+2023.06.27 13:15:53 [2cfc,a8c] | tmsCall  
+2023.06.27 13:16:43 [2cfc,a8c] | disconnect 
+2023.06.27 13:16:43 [2cfc,9288] | thread exit 
+2023.06.27 13:16:43 [2cfc,a8c] | portclose 
+2023.06.27 14:05:46 [ef8c,9524] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.27 14:05:46 [ef8c,9524] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.27 14:05:46 [ef8c,9524] | protocol ctor 
+2023.06.27 14:05:46 [ef8c,9524] | disconnect 
+2023.06.27 14:05:46 [ef8c,9524] | is stopped 
+2023.06.27 14:05:46 [ef8c,9524] | SSL connect: 192.168.2.12:4050 
+2023.06.27 14:05:47 [ef8c,9524] | start thread 
+2023.06.27 14:05:47 [ef8c,9524] | set lang 1 
+2023.06.27 14:05:48 [ef8c,9524] | disconnect 
+2023.06.27 14:05:48 [ef8c,11478] | thread exit 
+2023.06.27 14:05:48 [ef8c,9524] | portclose 
+2023.06.27 14:05:48 [ef8c,9524] | disconnect 
+2023.06.27 14:05:48 [ef8c,9524] | is stopped 
+2023.06.27 14:05:48 [ef8c,9524] | SSL connect: 192.168.2.12:4050 
+2023.06.27 14:05:49 [ef8c,9524] | start thread 
+2023.06.27 14:05:49 [ef8c,9524] | payment 10000 
+2023.06.27 14:05:49 [ef8c,9524] | displayevent 0 
+2023.06.27 14:05:50 [ef8c,9524] | displayevent 1 
+2023.06.27 14:06:05 [ef8c,df8c] | send break 
+2023.06.27 14:06:06 [ef8c,9524] | disconnect 
+2023.06.27 14:06:06 [ef8c,1d34] | thread exit 
+2023.06.27 14:06:06 [ef8c,9524] | portclose 
+2023.06.27 14:06:35 [ef8c,df8c] | protocol ctor 
+2023.06.27 14:06:35 [ef8c,df8c] | disconnect 
+2023.06.27 14:06:35 [ef8c,df8c] | is stopped 
+2023.06.27 14:06:35 [ef8c,df8c] | SSL connect: 192.168.2.12:4050 
+2023.06.27 14:06:35 [ef8c,df8c] | start thread 
+2023.06.27 14:06:35 [ef8c,df8c] | set lang 1 
+2023.06.27 14:06:36 [ef8c,df8c] | disconnect 
+2023.06.27 14:06:36 [ef8c,e1c0] | thread exit 
+2023.06.27 14:06:36 [ef8c,df8c] | portclose 
+2023.06.27 14:06:36 [ef8c,df8c] | disconnect 
+2023.06.27 14:06:36 [ef8c,df8c] | is stopped 
+2023.06.27 14:06:36 [ef8c,df8c] | SSL connect: 192.168.2.12:4050 
+2023.06.27 14:06:37 [ef8c,df8c] | start thread 
+2023.06.27 14:06:37 [ef8c,df8c] | payment 10000 
+2023.06.27 14:06:37 [ef8c,df8c] | displayevent 0 
+2023.06.27 14:06:38 [ef8c,df8c] | displayevent 1 
+2023.06.27 14:06:48 [ef8c,9524] | send break 
+2023.06.27 14:06:49 [ef8c,df8c] | disconnect 
+2023.06.27 14:06:49 [ef8c,10f94] | thread exit 
+2023.06.27 14:06:49 [ef8c,df8c] | portclose 
+2023.06.27 14:10:44 [ef8c,7afc] | protocol ctor 
+2023.06.27 14:10:44 [ef8c,7afc] | disconnect 
+2023.06.27 14:10:44 [ef8c,7afc] | is stopped 
+2023.06.27 14:10:44 [ef8c,7afc] | SSL connect: 192.168.2.12:4050 
+2023.06.27 14:10:45 [ef8c,7afc] | start thread 
+2023.06.27 14:10:45 [ef8c,7afc] | set lang 1 
+2023.06.27 14:10:46 [ef8c,7afc] | disconnect 
+2023.06.27 14:10:46 [ef8c,57a0] | thread exit 
+2023.06.27 14:10:46 [ef8c,7afc] | portclose 
+2023.06.27 14:10:46 [ef8c,7afc] | disconnect 
+2023.06.27 14:10:46 [ef8c,7afc] | is stopped 
+2023.06.27 14:10:46 [ef8c,7afc] | SSL connect: 192.168.2.12:4050 
+2023.06.27 14:10:47 [ef8c,7afc] | start thread 
+2023.06.27 14:10:47 [ef8c,7afc] | payment 10000 
+2023.06.27 14:10:47 [ef8c,7afc] | displayevent 0 
+2023.06.27 14:10:48 [ef8c,7afc] | displayevent 1 
+2023.06.27 14:11:04 [ef8c,6a78] | send break 
+2023.06.27 14:11:05 [ef8c,7afc] | disconnect 
+2023.06.27 14:11:05 [ef8c,159c] | thread exit 
+2023.06.27 14:11:05 [ef8c,7afc] | portclose 
+2023.06.27 14:18:27 [ef8c,134] | protocol ctor 
+2023.06.27 14:18:27 [ef8c,134] | disconnect 
+2023.06.27 14:18:27 [ef8c,134] | is stopped 
+2023.06.27 14:18:27 [ef8c,134] | SSL connect: 192.168.2.12:4050 
+2023.06.27 14:18:28 [ef8c,134] | start thread 
+2023.06.27 14:18:28 [ef8c,134] | set lang 1 
+2023.06.27 14:18:29 [ef8c,134] | disconnect 
+2023.06.27 14:18:29 [ef8c,de68] | thread exit 
+2023.06.27 14:18:29 [ef8c,134] | portclose 
+2023.06.27 14:18:29 [ef8c,134] | disconnect 
+2023.06.27 14:18:29 [ef8c,134] | is stopped 
+2023.06.27 14:18:29 [ef8c,134] | SSL connect: 192.168.2.12:4050 
+2023.06.27 14:18:29 [ef8c,134] | start thread 
+2023.06.27 14:18:29 [ef8c,134] | payment 10000 
+2023.06.27 14:18:30 [ef8c,134] | displayevent 0 
+2023.06.27 14:18:30 [ef8c,134] | displayevent 1 
+2023.06.27 14:18:50 [ef8c,134] | displayevent 0 
+2023.06.27 14:18:54 [ef8c,134] | printer event 
+2023.06.27 14:18:55 [ef8c,134] | disconnect 
+2023.06.27 14:18:55 [ef8c,cd8] | thread exit 
+2023.06.27 14:18:55 [ef8c,134] | portclose 
+2023.06.27 21:20:28 [7670,e880] | MONERA ZVT Terminal Library LAN 02.00 
+2023.06.27 21:20:28 [7670,e880] | OpenSSL 1.1.1l  24 Aug 2021 
+2023.06.27 21:20:28 [7670,e880] | protocol ctor 
+2023.06.27 21:20:28 [7670,e880] | disconnect 
+2023.06.27 21:20:28 [7670,e880] | is stopped 
+2023.06.27 21:20:28 [7670,e880] | SSL connect: 192.168.2.12:4050 
+2023.06.27 21:20:29 [7670,e880] | start thread 
+2023.06.27 21:20:29 [7670,e880] | set lang 1 
+2023.06.27 21:20:30 [7670,e880] | disconnect 
+2023.06.27 21:20:30 [7670,e190] | thread exit 
+2023.06.27 21:20:30 [7670,e880] | portclose 
+2023.06.27 21:20:30 [7670,e880] | disconnect 
+2023.06.27 21:20:30 [7670,e880] | is stopped 
+2023.06.27 21:20:30 [7670,e880] | SSL connect: 192.168.2.12:4050 
+2023.06.27 21:20:31 [7670,e880] | start thread 
+2023.06.27 21:20:31 [7670,e880] | payment 12000 
+2023.06.27 21:20:31 [7670,e880] | displayevent 0 
+2023.06.27 21:20:31 [7670,e880] | displayevent 1 
+2023.06.27 21:20:45 [7670,e880] | displayevent 0 
+2023.06.27 21:20:49 [7670,e880] | printer event 
+2023.06.27 21:20:50 [7670,e880] | disconnect 
+2023.06.27 21:20:50 [7670,514c] | thread exit 
+2023.06.27 21:20:50 [7670,e880] | portclose 
