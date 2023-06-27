@@ -94,10 +94,12 @@ namespace Automata.Controllers.Base
                     {
                         case WarningExceptionLevel.Validation:
                         case WarningExceptionLevel.Warning:
-                            response.Title = "Figyelmeztetés!";
+                            //response.Title = "Figyelmeztetés!";
+                            response.Title = "Warning!";
                             break;
                         case WarningExceptionLevel.Error:
-                            response.Title = "Hiba!";
+                            //response.Title = "Hiba!";
+                            response.Title = "Error!";
                             break;
                     }
 
@@ -105,8 +107,10 @@ namespace Automata.Controllers.Base
                 }
                 else
                 {
-                    response.Title = "Hiba!";
-                    response.Message = "Hiba történt az alkalmazásban!";
+                    //response.Title = "Hiba!";
+                    //response.Message = "Hiba történt az alkalmazásban!";
+                    response.Title = "Error!";
+                    response.Message = "Application error!";
                     response.ErrorLevel = WarningExceptionLevel.Error;
                 }
 
