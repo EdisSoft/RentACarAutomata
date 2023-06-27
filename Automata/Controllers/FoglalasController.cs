@@ -1,6 +1,7 @@
 ﻿using Automata.Functions;
 using FunctionsCore;
 using FunctionsCore.Commons.Functions;
+using FunctionsCore.Contexts;
 using FunctionsCore.Enums;
 using FunctionsCore.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -76,8 +77,25 @@ public class FoglalasController : BaseController
     [HttpPost]
     public JsonResult ScanLicenceFront(int id)
     {
+        Log.Info("ScanLicenseFront started");
         var model = IdScannerFunctions.ScanCard();
-        
+
+        if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentTypeValidation") != 0)
+        {
+            if (model.OkmanyTipus != DocumentTypes.DrivingLicenceFront && model.OkmanyTipus != DocumentTypes.DrivingLicenceBack)
+            {
+                throw new WarningException("Wrong document type!");
+            }
+        }
+
+        if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentAuthenticityCheck") != 0)
+        {
+            if (model.EredetisegValoszinusege <= 0)
+            {
+                throw new WarningException("Document maybe invalid!");
+            }
+        }
+
         BookingFunctionsInst.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
@@ -95,6 +113,22 @@ public class FoglalasController : BaseController
     {
         var model = IdScannerFunctions.ScanCard();
 
+        if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentTypeValidation") != 0)
+        {
+            if (model.OkmanyTipus != DocumentTypes.DrivingLicenceFront && model.OkmanyTipus != DocumentTypes.DrivingLicenceBack)
+            {
+                throw new WarningException("Wrong document type!");
+            }
+        }
+
+        if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentAuthenticityCheck") != 0)
+        {
+            if (model.EredetisegValoszinusege <= 0)
+            {
+                throw new WarningException("Document maybe invalid!");
+            }
+        }
+
         BookingFunctionsInst.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
@@ -110,7 +144,15 @@ public class FoglalasController : BaseController
     {
         var model = IdScannerFunctions.ScanCard();
 
-        if (model.OkmanyTipus != DocumentTypes.IdCardFront || model.OkmanyTipus != DocumentTypes.Passport)
+        if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentAuthenticityCheck") != 0)
+        {
+            if (model.EredetisegValoszinusege <= 0)
+            {
+                throw new WarningException("Document maybe invalid!");
+            }
+        }
+
+        if (model.OkmanyTipus == DocumentTypes.IdCardFront || model.OkmanyTipus == DocumentTypes.Passport)
         { 
 
             BookingFunctionsInst.UjCsomag(new DeliveryModel()
@@ -135,6 +177,22 @@ public class FoglalasController : BaseController
     {
         var model = IdScannerFunctions.ScanCard();
 
+        if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentTypeValidation") != 0)
+        {
+            if (model.OkmanyTipus != DocumentTypes.IdCardFront && model.OkmanyTipus != DocumentTypes.IdCardBack)
+            {
+                throw new WarningException("Wrong document type!");
+            }
+        }
+
+        if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentAuthenticityCheck") != 0)
+        {
+            if (model.EredetisegValoszinusege <= 0)
+            {
+                throw new WarningException("Document maybe invalid!");
+            }
+        }
+
         BookingFunctionsInst.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
@@ -149,6 +207,15 @@ public class FoglalasController : BaseController
     public JsonResult ScanCreditCardFront(int id)
     {
         var model = IdScannerFunctions.ScanCard();
+
+        if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentTypeValidation") != 0)
+        {
+            if (model.OkmanyTipus == DocumentTypes.Passport || model.OkmanyTipus == DocumentTypes.DrivingLicenceFront || model.OkmanyTipus == DocumentTypes.DrivingLicenceBack ||
+                model.OkmanyTipus == DocumentTypes.IdCardFront || model.OkmanyTipus == DocumentTypes.IdCardBack)
+            {
+                throw new WarningException("Wrong document type!");
+            }
+        }
 
         BookingFunctionsInst.UjCsomag(new DeliveryModel()
         {
@@ -166,6 +233,15 @@ public class FoglalasController : BaseController
     public JsonResult ScanCreditCardBack(int id)
     {
         var model = IdScannerFunctions.ScanCard();
+
+        if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentTypeValidation") != 0)
+        {
+            if (model.OkmanyTipus == DocumentTypes.Passport || model.OkmanyTipus == DocumentTypes.DrivingLicenceFront || model.OkmanyTipus == DocumentTypes.DrivingLicenceBack ||
+                model.OkmanyTipus == DocumentTypes.IdCardFront || model.OkmanyTipus == DocumentTypes.IdCardBack)
+            {
+                throw new WarningException("Wrong document type!");
+            }
+        }
 
         BookingFunctionsInst.UjCsomag(new DeliveryModel()
         {

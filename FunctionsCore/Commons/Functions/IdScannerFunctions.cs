@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Pr22;
 using Pr22.Task;
 using Pr22.Processing;
+using FunctionsCore.Contexts;
 
 namespace FunctionsCore.Commons.Functions
 {
@@ -258,7 +259,10 @@ namespace FunctionsCore.Commons.Functions
             Log.Debug("Image scanned. Page: " + e.Page + " Light: " + e.Light);
             Pr22.Imaging.RawImage img = ((DocumentReaderDevice)a).Scanner.GetPage(e.Page).Select(e.Light).GetImage();
             // Saving scanned image to jpeg 
-            img.Save(Pr22.Imaging.RawImage.FileFormat.Jpeg).Save($"{fileNameOptions.ScannedImageDir}\\IMG_{DateTime.Now:yyyyMMddHHmmss}_{e.Light}.jpg");
+            if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentSaveImage") != 0)
+            {
+                img.Save(Pr22.Imaging.RawImage.FileFormat.Jpeg).Save($"{fileNameOptions.ScannedImageDir}\\IMG_{DateTime.Now:yyyyMMddHHmmss}_{e.Light}.jpg");
+            }
         }
         //----------------------------------------------------------------------
 
@@ -465,7 +469,10 @@ namespace FunctionsCore.Commons.Functions
 
                 //PrintDocFields(MrzDoc);
                 //Returned fields by the Analyze function can be saved to an XML file:
-                MrzDoc.Save(Document.FileFormat.Xml).Save($"{fileNameOptions.ScannedDocDir}\\DOC_{fileName}_MRZ.xml");
+                if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentSaveDocument") != 0)
+                {
+                    MrzDoc.Save(Document.FileFormat.Xml).Save($"{fileNameOptions.ScannedDocDir}\\DOC_{fileName}_MRZ.xml");
+                }
 
                 // VIZ
                 Log.Debug("Reading all the textual and graphical field data as well as " +
@@ -476,10 +483,16 @@ namespace FunctionsCore.Commons.Functions
 
                 //PrintDocFields(VizDoc);
                 //Returned fields by the Analyze function can be saved to an XML file:
-                VizDoc.Save(Document.FileFormat.Xml).Save($"{fileNameOptions.ScannedDocDir}\\DOC_{fileName}_VIZ.xml");
+                if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentSaveDocument") != 0)
+                {
+                    VizDoc.Save(Document.FileFormat.Xml).Save($"{fileNameOptions.ScannedDocDir}\\DOC_{fileName}_VIZ.xml");
+                }
 
-                Log.Debug("Saving whole document.");
-                docReader.Engine.GetRootDocument().Save(Document.FileFormat.Zipped).Save($"{fileNameOptions.ScannedDocDir}\\DOC_{fileName}.zip");
+                if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentSaveDocument") != 0)
+                {
+                    Log.Debug("Saving whole document.");
+                    docReader.Engine.GetRootDocument().Save(Document.FileFormat.Zipped).Save($"{fileNameOptions.ScannedDocDir}\\DOC_{fileName}.zip");
+                }
 
                 // Stop detection task
                 //LiveTask.Stop();
