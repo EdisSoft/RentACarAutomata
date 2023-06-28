@@ -14,7 +14,7 @@ namespace FunctionsCore.Commons.Functions
     public class IdScannerFunctions: IIdScannerFunctions
     {
         private static readonly object LockObject = new object();
-        private DocumentReaderDevice docReader = null;
+        private static DocumentReaderDevice docReader = null;
         private bool DocPresent = false;
         private IHttpRequestService requestService;
         private FileNameOptions fileNameOptions;
@@ -36,7 +36,13 @@ namespace FunctionsCore.Commons.Functions
             Log.Debug("Opening a scanner device");
             try
             {
-                docReader = new DocumentReaderDevice();
+                if (docReader == null)
+                {
+                    docReader = new DocumentReaderDevice();
+
+                    docReader.Connection += onDeviceConnected;
+                    docReader.DeviceUpdate += onDeviceUpdate;
+                }
             }
             catch (Exception ex)
             {
@@ -56,9 +62,6 @@ namespace FunctionsCore.Commons.Functions
                 }
                 throw new Exception("IdScanner.DllError");
             }
-
-            docReader.Connection += onDeviceConnected;
-            docReader.DeviceUpdate += onDeviceUpdate;
 
             try
             {

@@ -39,6 +39,7 @@ namespace Automata
             services.AddTransient<IIdScannerFunctions, IdScannerFunctions>();
 
             services.AddSingleton<IKerongLockFunctions, KerongLockFunctions>();
+            services.AddSingleton<IIdScannerFunctions, IdScannerFunctions>();
 
             services.AddControllersWithViews(options =>
             {
