@@ -108,10 +108,13 @@ public class FoglalasController : BaseController
             }
         }
 
-        if (!IdScannerFunctions.NevEgyezikReszbenFl(id, model.Nev, 3))
-        {
-            throw new WarningException("Wrong name on the document");
-        }
+        var booking = BookingFunctions.FindFoglalasById(id);
+        Log.Info($"ScanLicenceFront IdScannerFunctions.NevEgyezikReszbenFl: {IdScannerFunctions.NevEgyezikReszbenFl(id, model.Nev, 3)}, foglalás: {booking.Nev}, ocr: {model.Nev}");
+
+        //if (!IdScannerFunctions.NevEgyezikReszbenFl(id, model.Nev, 3))
+        //{
+        //    throw new WarningException("Wrong name on the document");
+        //}
 
         BookingFunctionsInst.UjCsomag(new DeliveryModel()
         {
@@ -171,10 +174,12 @@ public class FoglalasController : BaseController
 
         if (model.Tipus == DocumentTypes.IdCardFront || model.Tipus == DocumentTypes.Passport)
         {
-            if (!IdScannerFunctions.NevEgyezikReszbenFl(id, model.Nev, 3))
-            {
-                throw new WarningException("Wrong name on the document");
-            }
+            var booking = BookingFunctions.FindFoglalasById(id);
+            Log.Info($"ScanIdCardFrontOrPassport IdScannerFunctions.NevEgyezikReszbenFl: {IdScannerFunctions.NevEgyezikReszbenFl(id, model.Nev, 3)}, foglalás: {booking.Nev}, ocr: {model.Nev}");
+            //if (!IdScannerFunctions.NevEgyezikReszbenFl(id, model.Nev, 3))
+            //{
+            //    throw new WarningException("Wrong name on the document");
+            //}
 
             BookingFunctionsInst.UjCsomag(new DeliveryModel()
             {

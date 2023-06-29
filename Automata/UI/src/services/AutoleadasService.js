@@ -27,7 +27,6 @@ class AutoleadasService {
   }
   async UresRekeszNyitas(id) {
     await timeout(500);
-    debugger;
     return {
       Id: 0,
       Text: '17',
