@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Passport Reader Document File -->
+<document type="Unknown document" code="0" ocr="2.0.8.181" checksum="OK" odata="F000" proctime="2023-06-27 22:49:41.771" procperiod="121" task="ANALYZE">
+   <fieldlist/>
+   <imagelist proctime="2023-06-27 22:49:39.214">
+      <image file="" captime="2023-06-27 22:49:39.554" camera="258" light="INFRA" page="0"/>
+      <image file="" captime="2023-06-27 22:49:40.780" camera="259" light="UV" page="0"/>
+      <image file="" captime="2023-06-27 22:49:41.017" camera="321" light="KINEGRAM" page="0"/>
+      <image file="" captime="2023-06-27 22:49:40.130" camera="257" light="WHITE" page="0"/>
+   </imagelist>
+</document>
