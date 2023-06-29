@@ -1,6 +1,6 @@
 ﻿namespace FunctionsCore.Models
 {
-    public class QueueTimings
+    public class Timings
     {
         public int MainQueueMinutes { get; set; }
     }

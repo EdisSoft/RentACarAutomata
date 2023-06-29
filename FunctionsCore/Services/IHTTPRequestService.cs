@@ -13,6 +13,6 @@ namespace FunctionsCore.Services
         Task<bool>SendDeposit(int id, string language, int deposittrid, string slip);
         Task<bool> SendPayment(int id, string language, int paymenttrid, string slip);
         Task<AutoLeadasModel> KocsiLeadas(string rendszam);
-        Task<bool> KulcsLeadas(int id, int rekeszId, bool taxiFl);
+        Task<bool> KulcsLeadas(int id, byte rekeszId, bool taxiFl);
     }
 }

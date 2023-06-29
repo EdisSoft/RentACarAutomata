@@ -65,7 +65,7 @@ namespace Automata.Controllers
 
             string ctid = $"PAID_{DateTime.Now:MMddHHmm}{model.Id:D8}"; //{ TranzakcioId: D4} max 24 chars
 
-#if DEBUG1
+#if DEBUG
             model.FizetveFl = true;
             model = BookingFunctions.UjFoglalasVagyModositas(model);
             BookingFunctions.UpdateUtolsoVarazsloLepes(model.Id, 10); // 9+1
@@ -174,7 +174,7 @@ namespace Automata.Controllers
 
             string ctid = $"DEID_{DateTime.Now:MMddHHmm}{model.Id:D8}"; //{ TranzakcioId: D4} max 24 chars
 
-#if DEBUG1
+#if DEBUG
             model.ZarolvaFl = true;
             model = BookingFunctions.UjFoglalasVagyModositas(model);
             BookingFunctions.UpdateUtolsoVarazsloLepes(model.Id, 9); // 8+1

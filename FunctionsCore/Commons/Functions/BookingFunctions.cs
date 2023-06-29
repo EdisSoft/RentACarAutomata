@@ -92,7 +92,7 @@ public class BookingFunctions : IBookingFunctions
         KeszFoglalasokTorlese();
         while (deliveryQueue.TryTake(out var csomag))
         {
-#if DEBUG1
+#if DEBUG
             continue;
 #endif
 
@@ -279,7 +279,7 @@ public class BookingFunctions : IBookingFunctions
         if (foglalas is null)
         {
             Log.Error($"Hiba történt a foglalás frissítése közben! FoglalasId: {id}");
-            throw new WarningException("Nincs meg a foglalás!", WarningExceptionLevel.Warning);
+            throw new WarningException("Nincs meg a foglalás");
         }
         foglalas.UtolsoVarazsloLepes = varazsloLepes;
         UjFoglalasVagyModositas(foglalas);
@@ -316,14 +316,14 @@ public class BookingFunctions : IBookingFunctions
             }
             else
             {
-                throw new WarningException("Nincs foglalás!", WarningExceptionLevel.Warning);
+                throw new WarningException("Nincs foglalás");
             }
 
         }
         catch (Exception e)
         {
             Log.Error("Hiba történt a foglalás frissítése közben (UpdateFoglalasNyelv)! FoglalasId: " + foglalasId, e);
-            throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
+            throw new WarningException("Hiba történt");
         }
     }
 
@@ -339,7 +339,7 @@ public class BookingFunctions : IBookingFunctions
             }
             else
             {
-                throw new WarningException("Nincs foglalás (UpdateFoglalasTorolheto)!", WarningExceptionLevel.Warning);
+                throw new WarningException("Nincs foglalás (UpdateFoglalasTorolheto)");
             }
 
         }
@@ -387,7 +387,7 @@ public class BookingFunctions : IBookingFunctions
         catch (Exception e)
         {
             Log.Error("Hiba történt a foglalás frissítése közben! FoglalasId: " + foglalas.Id, e);
-            throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
+            throw new WarningException("Hiba történt");
         }
         return null;
     }
@@ -411,7 +411,7 @@ public class BookingFunctions : IBookingFunctions
         catch (Exception e)
         {
             Log.Error("Hiba történt a foglalás törlése közben! FoglalasId: " + foglalasId, e);
-            throw new WarningException("Hiba történt!", WarningExceptionLevel.Warning);
+            throw new WarningException("Hiba történt");
         }
     }
 
@@ -450,7 +450,12 @@ public class BookingFunctions : IBookingFunctions
         }
         catch (WebException ex)
         {
-            Log.Error("Hiba történt fájl feltöltése közben! FoglalasId: " + id, ex);
+            Log.Error($"BookingFunctions.UploadImage: WebException hiba történt fájl feltöltése közben ({id},{pictureName})", ex);
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"BookingFunctions.UploadImage: Általános hiba történt fájl feltöltése közben ({id},{pictureName})", ex);
             return false;
         }
         finally
@@ -518,6 +523,8 @@ public class BookingFunctions : IBookingFunctions
 
     public async void SavePictureInLocalFolder(string id, byte[] picture, string pictureName)
     {
+        Log.Info($"BookingFunctions.SavePictureInLocalFolder id: {id}, pic: {pictureName}");
+
         var path = fileNameOptions.TempPath + id;
         try
         {
@@ -528,9 +535,9 @@ public class BookingFunctions : IBookingFunctions
 
             await File.WriteAllBytesAsync(Path.Combine(path, pictureName), picture);
         }
-        catch
+        catch (Exception e)
         {
-            Log.Warning("Hiba temp mappába mentés közben");
+            Log.Error($"Hiba temp mappába mentés közben {id}", e.Message);
         }
     }
 
@@ -576,6 +583,8 @@ public class BookingFunctions : IBookingFunctions
         }
         catch (WebException ex)
         {
+            Log.Error($"BookingFunctions.DoesFtpDirectoryExist exc: {ex.Message}");
+
             FtpWebResponse exResponse = (FtpWebResponse)ex.Response;
 
             result = exResponse.StatusCode == FtpStatusCode.ActionNotTakenFileUnavailable;
@@ -596,15 +605,15 @@ public class BookingFunctions : IBookingFunctions
         return result;
     }
 
-    public int? SetTempValues(int foglalasId, List<int> rekeszIds)
+    public byte? SetTempValues(int foglalasId, List<byte> rekeszIds)
     {
         FoglalasKucsLeadasModel.Id = foglalasId;
         FoglalasKucsLeadasModel.RekeszIds = rekeszIds;
-        FoglalasKucsLeadasModel.RekeszId = rekeszIds.FirstOrDefault();
+        FoglalasKucsLeadasModel.SetRekeszId();
         return FoglalasKucsLeadasModel.RekeszId;
     }
 
-    public int? GetRekeszId(int foglalasId)
+    public byte? GetRekeszId(int foglalasId)
     {
         if (FoglalasKucsLeadasModel.Id == foglalasId)
             return FoglalasKucsLeadasModel.RekeszId;

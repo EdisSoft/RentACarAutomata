@@ -23,7 +23,7 @@ public class CrmFunctions : ICrmFunctions
             var result = await requestService.GetFoglalasokByNev(nev);
             if (result is null || result.Count == 0)
             {
-                throw new WarningException("", WarningExceptionLevel.Warning); // Nincs foglalás!
+                throw new WarningException(""); // Nincs foglalás!
             }
 
             if(result.Count == 1)
@@ -36,8 +36,8 @@ public class CrmFunctions : ICrmFunctions
         catch (Exception e)
         {
             if (e is WarningException)
-                throw new WarningException("No such reservation.", WarningExceptionLevel.Warning); // Nincs foglalás!
-            throw new WarningException("An error occurred during processing.", WarningExceptionLevel.Warning);
+                throw new WarningException("No such reservation."); // Nincs foglalás!
+            throw new WarningException("An error occurred during processing.");
         }
     }
 
@@ -58,7 +58,7 @@ public class CrmFunctions : ICrmFunctions
         return await requestService.KocsiLeadas(rendszam);
     }
 
-    public async Task<bool> KulcsLeadas(int id, int rekeszId, bool taxiFl)
+    public async Task<bool> KulcsLeadas(int id, byte rekeszId, bool taxiFl)
     {
        return await requestService.KulcsLeadas(id, rekeszId, taxiFl);
     }   

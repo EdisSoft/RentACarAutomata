@@ -9,7 +9,7 @@ namespace FunctionsCore.Services;
 
 public class QueueTimedHostedService : IHostedService, IDisposable
 {
-    private readonly int refreshTimeMinutes = AppSettingsBase.GetQueueTimings()?.MainQueueMinutes ?? 1;
+    private readonly int refreshTimeMinutes = AppSettingsBase.GetTimings()?.MainQueueMinutes ?? 1;
     private Timer timer;
     private IBookingFunctions bookingFunctions;
 

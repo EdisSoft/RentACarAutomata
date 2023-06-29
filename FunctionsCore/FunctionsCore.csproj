@@ -58,7 +58,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commons\Base\QueueTimings\" />
+    <Folder Include="Commons\Base\Timings\" />
     <Folder Include="Connected Services\" />
     <Folder Include="Contexts\AppContext\AppSpecific\" />
   </ItemGroup>

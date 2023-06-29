@@ -431,7 +431,7 @@ namespace FunctionsCore.Commons.Functions
             {
                 throw new ArgumentOutOfRangeException(nameof(lockno), "value must be between 1 and 16");
             }
-#if DEBUG1
+#if DEBUG
             return true;
 #endif
             Log.Debug("Opening lock " + lockno);
@@ -460,6 +460,10 @@ namespace FunctionsCore.Commons.Functions
             }
 
             Log.Debug("Reading locks status");
+
+#if DEBUG
+            return true;
+#endif
             uint locksStatus = GetLocksStatus();
             return ((locksStatus & (1 << (lockno - 1))) != 0);
         }

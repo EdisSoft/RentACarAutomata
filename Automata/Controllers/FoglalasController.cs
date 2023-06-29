@@ -13,21 +13,26 @@ namespace Automata.Controllers;
 public class FoglalasController : BaseController
 {
     private ICrmFunctions CrmFunctions { get; set; }
-
     private IBookingFunctions BookingFunctionsInst { get; set; }
+    private IIdScannerFunctions IdScannerFunctionsInst { get; set; }
+    private IKerongLockFunctions KerongLockFunctions { get; set; }
 
-    private IIdScannerFunctions IdScannerFunctions { get; set; }
-
-    public FoglalasController(ICrmFunctions crmFunctions, IBookingFunctions bookingFunctions, IIdScannerFunctions idScannerFunctions)
+    public FoglalasController(ICrmFunctions crmFunctions, IBookingFunctions bookingFunctions, IIdScannerFunctions idScannerFunctions, IKerongLockFunctions kerongLockFunctions)
     {
         CrmFunctions = crmFunctions;
         BookingFunctionsInst = bookingFunctions;
-        IdScannerFunctions = idScannerFunctions;
+        IdScannerFunctionsInst = idScannerFunctions;
+        KerongLockFunctions = kerongLockFunctions;
     }
 
     [HttpPost]
     public async Task<JsonResult> GetFoglalasok(string nev)
     {
+        nev = nev.Replace("  ", " ").Trim();
+
+        if (nev.Length < 5)
+            throw new WarningException("Name too short");
+
         var result = await CrmFunctions.GetFoglalasokByNev(nev);
         BookingFunctions.UjFoglalas(result);
 
@@ -78,13 +83,13 @@ public class FoglalasController : BaseController
     public JsonResult ScanLicenceFront(int id)
     {
         Log.Info("ScanLicenseFront started");
-        var model = IdScannerFunctions.ScanCard();
+        var model = IdScannerFunctionsInst.ScanCard();
 
         if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentTypeValidation") != 0)
         {
-            if (model.OkmanyTipus != DocumentTypes.DrivingLicenceFront && model.OkmanyTipus != DocumentTypes.DrivingLicenceBack)
+            if (model.Tipus != DocumentTypes.DrivingLicenceFront && model.Tipus != DocumentTypes.DrivingLicenceBack)
             {
-                throw new WarningException("Wrong document type!");
+                throw new WarningException("Wrong document type");
             }
         }
 
@@ -92,8 +97,13 @@ public class FoglalasController : BaseController
         {
             if (model.EredetisegValoszinusege <= 0)
             {
-                throw new WarningException("Document maybe invalid!");
+                throw new WarningException("Document maybe invalid");
             }
+        }
+
+        if (!IdScannerFunctions.NevEgyezikReszbenFl(id, model.Nev, 3))
+        {
+            throw new WarningException("Wrong name on the document");
         }
 
         BookingFunctionsInst.UjCsomag(new DeliveryModel()
@@ -111,21 +121,21 @@ public class FoglalasController : BaseController
     [HttpPost]
     public JsonResult ScanLicenceBack(int id)
     {
-        var model = IdScannerFunctions.ScanCard();
+        var model = IdScannerFunctionsInst.ScanCard();
 
-        if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentTypeValidation") != 0)
-        {
-            if (model.OkmanyTipus != DocumentTypes.DrivingLicenceFront && model.OkmanyTipus != DocumentTypes.DrivingLicenceBack)
-            {
-                throw new WarningException("Wrong document type!");
-            }
-        }
+        //if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentTypeValidation") != 0)
+        //{
+        //    if (model.Tipus != DocumentTypes.DrivingLicenceFront && model.Tipus != DocumentTypes.DrivingLicenceBack)
+        //    {
+        //        throw new WarningException("Wrong document type");
+        //    }
+        //}
 
         if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentAuthenticityCheck") != 0)
         {
             if (model.EredetisegValoszinusege <= 0)
             {
-                throw new WarningException("Document maybe invalid!");
+                throw new WarningException("Document maybe invalid");
             }
         }
 
@@ -142,18 +152,22 @@ public class FoglalasController : BaseController
     [HttpPost]
     public JsonResult ScanIdCardFrontOrPassport(int id)
     {
-        var model = IdScannerFunctions.ScanCard();
+        var model = IdScannerFunctionsInst.ScanCard();
 
         if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentAuthenticityCheck") != 0)
         {
             if (model.EredetisegValoszinusege <= 0)
             {
-                throw new WarningException("Document maybe invalid!");
+                throw new WarningException("Document maybe invalid");
             }
         }
 
-        if (model.OkmanyTipus == DocumentTypes.IdCardFront || model.OkmanyTipus == DocumentTypes.Passport)
-        { 
+        if (model.Tipus == DocumentTypes.IdCardFront || model.Tipus == DocumentTypes.Passport)
+        {
+            if (!IdScannerFunctions.NevEgyezikReszbenFl(id, model.Nev, 3))
+            {
+                throw new WarningException("Wrong name on the document");
+            }
 
             BookingFunctionsInst.UjCsomag(new DeliveryModel()
             {
@@ -162,26 +176,25 @@ public class FoglalasController : BaseController
                 Type = DeliveryTypes.ScanIdCardFrontOrPassport
             });
 
-
             BookingFunctions.UpdateUtolsoVarazsloLepes(id, 7); //6+1
 
-            bool passportFl = model.OkmanyTipus == DocumentTypes.Passport;
-            return Json(new ResultModel() { Id = passportFl.GetHashCode(), Text = model.OkmanyTipus.ToString() }); //Az útlevél egy oldalas, így a UI továbblép
+            bool passportFl = model.Tipus == DocumentTypes.Passport;
+            return Json(new ResultModel() { Id = passportFl.GetHashCode(), Text = model.Tipus.ToString() }); //Az útlevél egy oldalas, így a UI továbblép
         }
 
-        throw new WarningException("Please scan your passport or the front page of identity card.<br/>Your document may be expired or not valid.", WarningExceptionLevel.Warning);
+        throw new WarningException("Please scan your passport or the front page of identity card.<br/>Your document may be expired or not valid.");
     }
 
     [HttpPost]
     public JsonResult ScanIdCardBack(int id)
     {
-        var model = IdScannerFunctions.ScanCard();
+        var model = IdScannerFunctionsInst.ScanCard();
 
         if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentTypeValidation") != 0)
         {
-            if (model.OkmanyTipus != DocumentTypes.IdCardFront && model.OkmanyTipus != DocumentTypes.IdCardBack)
+            if (model.Tipus != DocumentTypes.IdCardFront && model.Tipus != DocumentTypes.IdCardBack)
             {
-                throw new WarningException("Wrong document type!");
+                throw new WarningException("Wrong document type");
             }
         }
 
@@ -189,7 +202,7 @@ public class FoglalasController : BaseController
         {
             if (model.EredetisegValoszinusege <= 0)
             {
-                throw new WarningException("Document maybe invalid!");
+                throw new WarningException("Document maybe invalid");
             }
         }
 
@@ -206,14 +219,14 @@ public class FoglalasController : BaseController
     [HttpPost]
     public JsonResult ScanCreditCardFront(int id)
     {
-        var model = IdScannerFunctions.ScanCard();
+        var model = IdScannerFunctionsInst.ScanCard();
 
         if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentTypeValidation") != 0)
         {
-            if (model.OkmanyTipus == DocumentTypes.Passport || model.OkmanyTipus == DocumentTypes.DrivingLicenceFront || model.OkmanyTipus == DocumentTypes.DrivingLicenceBack ||
-                model.OkmanyTipus == DocumentTypes.IdCardFront || model.OkmanyTipus == DocumentTypes.IdCardBack)
+            if (model.Tipus == DocumentTypes.Passport || model.Tipus == DocumentTypes.DrivingLicenceFront || model.Tipus == DocumentTypes.DrivingLicenceBack ||
+                model.Tipus == DocumentTypes.IdCardFront || model.Tipus == DocumentTypes.IdCardBack)
             {
-                throw new WarningException("Wrong document type!");
+                throw new WarningException("Wrong document type");
             }
         }
 
@@ -232,14 +245,14 @@ public class FoglalasController : BaseController
     [HttpPost]
     public JsonResult ScanCreditCardBack(int id)
     {
-        var model = IdScannerFunctions.ScanCard();
+        var model = IdScannerFunctionsInst.ScanCard();
 
         if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentTypeValidation") != 0)
         {
-            if (model.OkmanyTipus == DocumentTypes.Passport || model.OkmanyTipus == DocumentTypes.DrivingLicenceFront || model.OkmanyTipus == DocumentTypes.DrivingLicenceBack ||
-                model.OkmanyTipus == DocumentTypes.IdCardFront || model.OkmanyTipus == DocumentTypes.IdCardBack)
+            if (model.Tipus == DocumentTypes.Passport || model.Tipus == DocumentTypes.DrivingLicenceFront || model.Tipus == DocumentTypes.DrivingLicenceBack ||
+                model.Tipus == DocumentTypes.IdCardFront || model.Tipus == DocumentTypes.IdCardBack)
             {
-                throw new WarningException("Wrong document type!");
+                throw new WarningException("Wrong document type");
             }
         }
 
@@ -291,23 +304,28 @@ public class FoglalasController : BaseController
 
         if (result != null)
         {
-            int? rekeszId = BookingFunctionsInst.SetTempValues(result.Id, result.RekeszIds);
+            var rekeszId = BookingFunctionsInst.SetTempValues(result.Id, result.RekeszIds);
 
             if (rekeszId == null)
-                throw new WarningException("There is no free slot.", WarningExceptionLevel.Warning);
+                throw new WarningException("There is no free slot.");
 
             return Json(new { Id = result.Id, RekeszId = rekeszId });
         }
-        throw new WarningException("No car with this license plate has been issued.", WarningExceptionLevel.Warning);
+        throw new WarningException("No car with this license plate has been issued.");
     }
 
     [HttpPost]
     public JsonResult KulcsLeadas(int id, bool taxiFl)
     {
-        var rekeszIdOriginal = BookingFunctionsInst.GetRekeszId(id);        
+        byte rekeszId = BookingFunctionsInst.GetRekeszId(id) ?? 0;
 
-        var result = CrmFunctions.KulcsLeadas(id, rekeszIdOriginal ?? 0, taxiFl);
+        var result = CrmFunctions.KulcsLeadas(id, rekeszId, taxiFl);
 
         return Json(new ResultModel() { Id = (!result.Result).GetHashCode(), Text = "" });
+
+        if (!KerongLockFunctions.IsLockClosed(rekeszId))
+            throw new WarningException("Please close the compartment.");
+
+        return Json(new ResultModel() { Id = 0, Text = "" });
     }
 }

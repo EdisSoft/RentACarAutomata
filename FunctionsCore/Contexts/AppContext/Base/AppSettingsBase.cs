@@ -80,9 +80,9 @@ namespace FunctionsCore.Contexts
             return result;
         }
 
-        public static QueueTimings GetQueueTimings()
+        public static Timings GetTimings()
         {
-            return GetObjectResultSetting<QueueTimings>();
+            return GetObjectResultSetting<Timings>();
         }
 
         public static LockerAddresses GetLockerAddresses()

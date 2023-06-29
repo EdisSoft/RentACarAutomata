@@ -3,9 +3,9 @@ using System;
 
 namespace FunctionsCore.Models
 {
-    public class IdScannerModel
+    public class OkmanyModel
     {
-        public DocumentTypes OkmanyTipus { get; set; }
+        public DocumentTypes Tipus { get; set; }
         public int EredetisegValoszinusege { get; set; }
         public string Nev { get; set; }
         public DateTime? ErvenyessegVege { get; set; }

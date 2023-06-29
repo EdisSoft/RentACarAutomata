@@ -8,7 +8,7 @@ namespace FunctionsCore.Commons.Functions
         void UjCsomag(DeliveryModel csomag);
         void KuldesAsync();
         void Kuldes();
-        int? SetTempValues(int foglalasId, List<int> rekeszIds);
-        int? GetRekeszId(int foglalasId);
+        byte? SetTempValues(int foglalasId, List<byte> rekeszIds);
+        byte? GetRekeszId(int foglalasId);
     }
 }

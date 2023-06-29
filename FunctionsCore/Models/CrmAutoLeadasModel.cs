@@ -7,6 +7,6 @@ namespace FunctionsCore.Models
         public int Id { get; set; }
         public string Rendszam { get; set; }
         public string Keyid { get; set; }
-        public List<int> LockNumbers  { get; set; }
+        public List<byte> LockNumbers  { get; set; }
     }
 }

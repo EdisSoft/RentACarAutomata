@@ -7,6 +7,6 @@ namespace FunctionsCore.Models
         public int Id { get; set; }
         public string Rendszam { get; set; }
         public string RfId { get; set; }
-        public List<int> RekeszIds { get; set; }
+        public List<byte> RekeszIds { get; set; }
     }
 }

@@ -422,15 +422,15 @@ namespace FunctionsCore.Commons.Functions
 
         //----------------------------------------------------------------------
 
-        public IdScannerModel ScanCard()
+        public OkmanyModel ScanCard()
         {
-#if DEBUG1
+#if DEBUG
             byte[] fileBytes = System.IO.File.ReadAllBytes("Media\\Pixel.jpg");
-            return new IdScannerModel()
+            return new OkmanyModel()
             {
                 Nev = "Kovács Gábor",
                 ErvenyessegVege = DateTime.Now.AddYears(2),
-                OkmanyTipus = DocumentTypes.IdCardFront,
+                Tipus = DocumentTypes.IdCardFront,
                 Kep = fileBytes // new byte[] { 0xFF, 0xD8, 0xFF, 0xE0, 0x00, 0x10, 0x4A, 0x46 }
             };
 #endif
@@ -548,12 +548,12 @@ namespace FunctionsCore.Commons.Functions
                     }
                 }
 
-                IdScannerModel model = new IdScannerModel()
+                OkmanyModel model = new OkmanyModel()
                 {
                     Nev = name,
                     ErvenyessegVege = dtExpiry,
                     EredetisegValoszinusege = iAuth,
-                    OkmanyTipus = documentType,
+                    Tipus = documentType,
                     Kep = page.Select(Pr22.Imaging.Light.White).GetImage().Save(Pr22.Imaging.RawImage.FileFormat.Jpeg).ToByteArray()
                 };
 
@@ -566,5 +566,32 @@ namespace FunctionsCore.Commons.Functions
             }
 
         }
+
+        public static bool NevEgyezikReszbenFl(int id, string scannedName, byte hossz)
+        {
+            var booking = BookingFunctions.FindFoglalasById(id);
+
+            string bookingName = booking.Nev;
+
+            if (bookingName.Length >= hossz && scannedName.Length >= hossz)
+            {
+                for (int bnIdx = 0; bnIdx <= bookingName.Length - hossz; bnIdx++)
+                {
+                    for (int snIdx = 0; snIdx <= scannedName.Length - hossz; snIdx++)
+                    {
+                        string bookingNamePart = "";
+                        string scannedNamePart = "";
+                        for (int i = 0; i < hossz; i++)
+                        {
+                            bookingNamePart += bookingName[bnIdx + i].ToString();
+                            scannedNamePart += scannedName[snIdx + i].ToString();
+                        }
+                        if (bookingNamePart == scannedNamePart) return true;
+                    }
+                }
+            }
+            return false;
+        }
+
     }
 }
