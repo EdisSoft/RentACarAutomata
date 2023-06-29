@@ -178,11 +178,11 @@ public class HttpRequestService : IHttpRequestService
         catch (Exception e)
         {
             Log.Error($"Hiba auto leadása közben! Rendszám: {rendszam}", e);
-            throw new WarningException($"Hiba auto leadása közben! Rendszám: {rendszam}", WarningExceptionLevel.Warning);
+            throw new WarningException($"Hiba auto leadása közben! Rendszám: {rendszam}");
         }
     }
 
-    public async Task<bool> KulcsLeadas(int id, int rekeszId, bool taxiFl)
+    public async Task<bool> KulcsLeadas(int id, byte rekeszId, bool taxiFl)
     {
         try
         {
@@ -195,7 +195,7 @@ public class HttpRequestService : IHttpRequestService
         catch (Exception e)
         {
             Log.Error($"Hiba kulcs leadása közben! Foglalás: {id}", e);
-            throw new WarningException($"Hiba kulcs leadása közben! Foglalás: {id}", WarningExceptionLevel.Warning);
+            throw new WarningException($"Hiba kulcs leadása közben! Foglalás: {id}");
         }
     }
 }
