@@ -40,8 +40,15 @@ namespace FunctionsCore.Commons.Functions
                 {
                     docReader = new DocumentReaderDevice();
 
+                    //Subscribing to scan events
                     docReader.Connection += onDeviceConnected;
                     docReader.DeviceUpdate += onDeviceUpdate;
+
+                    docReader.ScanStarted += ScanStarted;
+                    docReader.ImageScanned += ImageScanned;
+                    docReader.ScanFinished += ScanFinished;
+                    docReader.DocFrameFound += DocFrameFound;
+                    docReader.PresenceStateChanged += PresentStateChanged;
                 }
             }
             catch (Exception ex)
@@ -72,13 +79,6 @@ namespace FunctionsCore.Commons.Functions
                 Log.Error("No device found!");
                 throw new Exception("IdScanner.NoDevice");
             }
-
-            //Subscribing to scan events
-            docReader.ScanStarted += ScanStarted;
-            docReader.ImageScanned += ImageScanned;
-            docReader.ScanFinished += ScanFinished;
-            docReader.DocFrameFound += DocFrameFound;
-            docReader.PresenceStateChanged += PresentStateChanged;
 
             Log.Debug("The device " + docReader.DeviceName + " is opened.");
             return 0;

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Passport Reader Document File -->
+<document type="Hungarian driving license - front" code="122" ocr="2.0.8.181" checksum="OK" windowframe="17525,35636,103085,35668,103066,89668,17535,89636" odata="0F00" proctime="2023-06-27 22:27:45.963" procperiod="1690" task="ANALYZE">
+   <fieldlist>
+      <field id="VIZ_AUTH_DOCAREA" formattedvalue="930" standardizedvalue="930" amid="(UV,BR,FU)" light="UV" checksum="OK" windowframe="17525,35636,103085,35668,103066,89668,17535,89636"/>
+      <field id="VIZ_SURNAME" fieldvalue="LAKLIA" valuetype="unicode" light="WHITE" checksum="NO" windowfullframe="42507,49053,102755,49076,102755,55197,42503,55175" windowframe="43843,49863,50417,49866,50414,51793,43840,51790"/>
+      <field id="VIZ_GIVENNAME" fieldvalue="ISTVÁN" valuetype="unicode" light="WHITE" checksum="NO" windowfullframe="42678,55010,102584,55032,102581,58559,42678,58537" windowframe="43840,55184,50801,55187,50798,57823,43837,57820"/>
+      <field id="VIZ_BIRTH_DATE" fieldvalue="1948.07.01." valuetype="unicode" standardizedvalue="1948-07-01" light="WHITE" checksum="NO" chkdetails="FORMAT_OK" windowfullframe="43050,58505,58883,58512,58883,61398,43046,61391" windowframe="44028,59124,55964,59128,55961,60798,44025,60795"/>
+      <field id="VIZ_BIRTH_PLACE" fieldvalue="BABÓCSA" valuetype="unicode" light="WHITE" checksum="NO" windowfullframe="58121,58340,102552,58356,102552,61360,58121,61344" windowframe="59896,58715,70997,58718,70994,60712,59892,60709"/>
+      <field id="VIZ_ISSUE_DATE" fieldvalue="2016.09.15." valuetype="unicode" standardizedvalue="2016-09-15" light="WHITE" checksum="NO" chkdetails="FORMAT_OK" windowfullframe="45612,61347,61560,61353,61560,64325,45612,64319" windowframe="46952,62080,59280,62084,59276,63671,46949,63668"/>
+      <field id="VIZ_EXPIRY_DATE" fieldvalue="2066.09.15." valuetype="unicode" standardizedvalue="2066-09-15" light="WHITE" checksum="NO" chkdetails="FORMAT_OK" windowfullframe="45650,64347,61620,64354,61620,67313,45647,67306" windowframe="46914,65065,59305,65068,59305,66643,46911,66643"/>
+      <field id="VIZ_DOCUMENT_NUMBER" fieldvalue="CS240736" valuetype="unicode" light="WHITE" checksum="NO" windowfullframe="43256,66722,62442,66729,62439,70358,43253,70351" windowframe="44028,67567,57590,67567,57587,69586,44025,69583"/>
+      <field id="VIZ_ISSUE_ORG" fieldvalue="KEKKH" valuetype="unicode" light="WHITE" checksum="NO" windowfullframe="70438,61299,102533,61312,102530,64243,70438,64230" windowframe="71820,62039,78783,62042,78780,63646,71816,63643"/>
+      <field id="VIZ1" fieldvalue="AM B" valuetype="unicode" light="WHITE" checksum="NO" windowfullframe="43621,80394,88040,80410,88037,85252,43618,85236" windowframe="44907,81499,55882,81502,55879,84134,44904,84131"/>
+      <field id="VIZ_FACE" light="WHITE" checksum="NO" windowframe="20104,48860,40982,48866,40982,74631,20110,74625"/>
+      <field id="VIZ_SIGNATURE" light="WHITE" checksum="NO" windowframe="43666,70396,102368,70418,102365,80432,43666,80410"/>
+      <field id="VIZ_DOCTYPE" formattedvalue="DL" standardizedvalue="DL" checksum="NO"/>
+      <field id="VIZ_ISSUE_COUNTRY" formattedvalue="HUN" standardizedvalue="HUN" checksum="NO"/>
+      <field id="VIZ_DTDATA" formattedvalue="2013" checksum="NO"/>
+      <field id="VIZ_PAGE" formattedvalue="F" standardizedvalue="F" checksum="NO"/>
+   </fieldlist>
+   <imagelist proctime="2023-06-27 22:27:42.940">
+      <image file="" captime="2023-06-27 22:27:43.283" camera="258" light="INFRA" page="0"/>
+      <image file="" captime="2023-06-27 22:27:44.448" camera="259" light="UV" page="0"/>
+      <image file="" captime="2023-06-27 22:27:44.686" camera="321" light="KINEGRAM" page="0"/>
+      <image file="" captime="2023-06-27 22:27:43.856" camera="257" light="WHITE" page="0"/>
+   </imagelist>
+</document>
