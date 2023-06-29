@@ -67,12 +67,12 @@
       "taxiService": {
         "stepName": "Taxi service",
         "title": "Would you like a free taxi transfer to the airport? Please indicate with the radio button. The Főtaxi car will arrive for you within 10-15 minutes.",
-        "succesText": "Success ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae.",
+        "succesText": "The Főtaxi car will arrive for you within 10-15 minutes.",
         "errorText": "Fail ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae."
       },
       "insertCarKey": {
         "stepName": "Insert key",
-        "title": "Please put the car key in the opening compartment (cabinet {num}.) and then carefully close the cabinet door!",
+        "title": "Please put the car key in the opening compartment ({num}.) and then carefully close the cabinet door!",
         "errorText": "A rekesz nyitása nem sikerült, hívja a call center telefonszámát."
       },
       "final": {

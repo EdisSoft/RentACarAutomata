@@ -67,12 +67,12 @@
       "taxiService": {
         "stepName": "Taxi szolgáltatás",
         "title": "Szeretne ingyenes taxi traszfert a reptérig? Kérem a választógombbal jelezze. A Főtaxi autója 10-15 percen belül megérkezik Önért.",
-        "succesText": "Success ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae.",
+        "succesText": "A Főtaxi autóját megrendeltük 10-15 percen belül megérkezik Önért.",
         "errorText": "Fail ipsum, dolor sit amet consectetur adipisicing elit. Ipsam necessitatibus unde possimus aliquam laboriosam beatae."
       },
       "insertCarKey": {
         "stepName": "kulcsleadás",
-        "title": "Kérem tegye a kinyiló rekeszbe ({num}. rekesz) a gépjármű kulcsát majd gondosan zárja be a szekrény ajtaját!",
+        "title": "Kérem tegye a kinyiló {num}. rekeszbe a gépjármű kulcsát majd gondosan zárja be a szekrény ajtaját!",
         "errorText": "A rekesz nyitása nem sikerült, hívja a call center telefonszámát."
       },
       "final": {
