@@ -41,13 +41,16 @@ public class FoglalasController : BaseController
 
     public async Task<JsonResult> ReadQr()
     {
-        var result = await CrmFunctions.GetFoglalasByQrCode();
-        if (result != null)
+        var booking = await CrmFunctions.GetFoglalasByQrCode();
+        if (booking != null && booking.Tipus != "admin")
         {
-            BookingFunctions.UjFoglalasVagyModositas(result);
+            if (booking.RekeszId == 0)
+                throw new WarningException("Sorry, the car key is not in the locker yet");
+
+            BookingFunctions.UjFoglalasVagyModositas(booking);
         }
 
-        return Json(result);
+        return Json(booking);
     }
 
     [HttpPost]
@@ -66,6 +69,10 @@ public class FoglalasController : BaseController
     [HttpPost]
     public JsonResult SaveAlairas([FromBody] AlairasModel model)
     {
+        var booking = BookingFunctions.FindFoglalasById(model.Id);
+        if (booking.RekeszId == 0)
+            throw new WarningException("Sorry, the car key is not in the locker yet. Go to the home screen");
+
         BookingFunctionsInst.UjCsomag(new DeliveryModel()
         {
             OrderId = model.Id,
