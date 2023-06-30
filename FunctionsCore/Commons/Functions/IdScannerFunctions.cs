@@ -570,8 +570,8 @@ namespace FunctionsCore.Commons.Functions
         public static bool NevEgyezikReszbenFl(int id, string scannedName, byte hossz)
         {
             var booking = BookingFunctions.FindFoglalasById(id);
-
-            string bookingName = booking.Nev;
+            string bookingName = booking.Nev.ToUpper();
+            scannedName = scannedName.ToUpper();
 
             if (bookingName.Length >= hossz && scannedName.Length >= hossz)
             {

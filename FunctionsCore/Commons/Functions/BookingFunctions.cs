@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Security.Authentication;
+using System.Threading;
 
 namespace FunctionsCore.Commons.Functions;
 
@@ -108,6 +109,7 @@ public class BookingFunctions : IBookingFunctions
                         else
                         {
                             UjCsomag(csomag);
+                            Thread.Sleep(5000);
                         }
                     }
                     break;
@@ -122,6 +124,7 @@ public class BookingFunctions : IBookingFunctions
                         else
                         {
                             UjCsomag(csomag);
+                            Thread.Sleep(5000);
                         }
                     }
                     break;
@@ -136,6 +139,7 @@ public class BookingFunctions : IBookingFunctions
                         else
                         {
                             UjCsomag(csomag);
+                            Thread.Sleep(5000);
                         }
                     }
                     break;
@@ -150,6 +154,7 @@ public class BookingFunctions : IBookingFunctions
                         else
                         {
                             UjCsomag(csomag);
+                            Thread.Sleep(5000);
                         }
                     }
 
@@ -167,6 +172,7 @@ public class BookingFunctions : IBookingFunctions
                         else
                         {
                             UjCsomag(csomag);
+                            Thread.Sleep(5000);
                         }
                     }
 
@@ -182,6 +188,7 @@ public class BookingFunctions : IBookingFunctions
                         else
                         {
                             UjCsomag(csomag);
+                            Thread.Sleep(5000);
                         }
                     }
 
@@ -197,6 +204,7 @@ public class BookingFunctions : IBookingFunctions
                         else
                         {
                             UjCsomag(csomag);
+                            Thread.Sleep(5000);
                         }
                     }
 
@@ -212,6 +220,7 @@ public class BookingFunctions : IBookingFunctions
                         else
                         {
                             UjCsomag(csomag);
+                            Thread.Sleep(5000);
                         }
                     }
 
@@ -227,6 +236,7 @@ public class BookingFunctions : IBookingFunctions
                         else
                         {
                             UjCsomag(csomag);
+                            Thread.Sleep(5000);
                         }
                     }
                     break;
@@ -237,10 +247,12 @@ public class BookingFunctions : IBookingFunctions
                         if (++csomag.NumberOfSending > 5)
                         {
                             SaveTextInLocalFolder(csomag.OrderId.ToString(), csomag.ValueInt.ToString() + " " + csomag.ValueStr, DeliveryTypes.Payment.ToString(), csomag.ValueNyelv);
+                            UpdateFoglalasTorolheto(csomag.OrderId);
                         }
                         else
                         {
                             UjCsomag(csomag);
+                            Thread.Sleep(5000);
                         }
                     }
                     else
@@ -261,7 +273,6 @@ public class BookingFunctions : IBookingFunctions
             var foglalasFound = FoglalasokMemory.TryGetValue(id, out var resultModel);
             if (foglalasFound)
             {
-                Log.Debug($"Foglalas kikeresése sikeres volt! FoglalasId: {resultModel.Id}");
                 return resultModel;
             }
         }
@@ -335,17 +346,16 @@ public class BookingFunctions : IBookingFunctions
             {
                 foglalasMemory.TorolhetoFl = true;
                 UjFoglalasVagyModositas(foglalasMemory);
-                Log.Info("Foglalas TorolhetFl=true: " + foglalasId);
             }
             else
             {
-                throw new WarningException("Nincs foglalás (UpdateFoglalasTorolheto)");
+                throw new WarningException($"BookingFunctions.UpdateFoglalasTorolheto: Nincs foglalás ({foglalasId})");
             }
 
         }
         catch (Exception e)
         {
-            Log.Error("Hiba történt a foglalás frissítése közben (UpdateFoglalasTorolheto)! FoglalasId: " + foglalasId, e);
+            Log.Error($"BookingFunctions.UpdateFoglalasTorolheto: Hiba történt a foglalás frissítése közben ({foglalasId})", e);
         }
     }
 

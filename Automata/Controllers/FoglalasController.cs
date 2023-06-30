@@ -96,6 +96,7 @@ public class FoglalasController : BaseController
         {
             if (model.Tipus != DocumentTypes.DrivingLicenceFront && model.Tipus != DocumentTypes.DrivingLicenceBack)
             {
+                Log.Warning($"Foglalas/ScanLicenceFront rossz típus: {model.Tipus}");
                 throw new WarningException("Wrong document type");
             }
         }
@@ -133,13 +134,14 @@ public class FoglalasController : BaseController
     {
         var model = IdScannerFunctionsInst.ScanCard();
 
-        //if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentTypeValidation") != 0)
-        //{
-        //    if (model.Tipus != DocumentTypes.DrivingLicenceFront && model.Tipus != DocumentTypes.DrivingLicenceBack)
-        //    {
-        //        throw new WarningException("Wrong document type");
-        //    }
-        //}
+        if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentTypeValidation") != 0)
+        {
+            if (model.Tipus != DocumentTypes.DrivingLicenceFront && model.Tipus != DocumentTypes.DrivingLicenceBack)
+            {
+                Log.Info($"Foglalas/ScanLicenceBack rossz típus: {model.Tipus}");
+                //throw new WarningException("Wrong document type");
+            }
+        }
 
         if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentAuthenticityCheck") != 0)
         {
@@ -194,6 +196,7 @@ public class FoglalasController : BaseController
             return Json(new ResultModel() { Id = passportFl.GetHashCode(), Text = model.Tipus.ToString() }); //Az útlevél egy oldalas, így a UI továbblép
         }
 
+        Log.Warning($"Foglalas/ScanIdCardFrontOrPassport rossz típus: {model.Tipus}");
         throw new WarningException("Please scan your passport or the front page of identity card.<br/>Your document may be expired or not valid.");
     }
 
@@ -206,6 +209,7 @@ public class FoglalasController : BaseController
         {
             if (model.Tipus != DocumentTypes.IdCardFront && model.Tipus != DocumentTypes.IdCardBack)
             {
+                Log.Warning($"Foglalas/ScanIdCardBack rossz típus: {model.Tipus}");
                 throw new WarningException("Wrong document type");
             }
         }
@@ -238,7 +242,10 @@ public class FoglalasController : BaseController
             if (model.Tipus == DocumentTypes.Passport || model.Tipus == DocumentTypes.DrivingLicenceFront || model.Tipus == DocumentTypes.DrivingLicenceBack ||
                 model.Tipus == DocumentTypes.IdCardFront || model.Tipus == DocumentTypes.IdCardBack)
             {
-                throw new WarningException("Wrong document type");
+                Log.Warning($"Foglalas/ScanCreditCardFront rossz típus: {model.Tipus}");
+
+                if (model.Tipus != DocumentTypes.DrivingLicenceBack) // Ha ennek ismertük fel, akkor elnézőek vagyunk az ocr tévesztés miatt
+                    throw new WarningException("Wrong document type");
             }
         }
 
@@ -264,6 +271,7 @@ public class FoglalasController : BaseController
             if (model.Tipus == DocumentTypes.Passport || model.Tipus == DocumentTypes.DrivingLicenceFront || model.Tipus == DocumentTypes.DrivingLicenceBack ||
                 model.Tipus == DocumentTypes.IdCardFront || model.Tipus == DocumentTypes.IdCardBack)
             {
+                Log.Warning($"Foglalas/ScanCreditCardBack rossz típus: {model.Tipus}");
                 throw new WarningException("Wrong document type");
             }
         }
