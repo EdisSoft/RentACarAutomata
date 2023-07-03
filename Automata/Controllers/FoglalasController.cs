@@ -109,13 +109,10 @@ public class FoglalasController : BaseController
             }
         }
 
-        var booking = BookingFunctions.FindFoglalasById(id);
-        Log.Info($"ScanLicenceFront IdScannerFunctions.NevEgyezikReszbenFl: {IdScannerFunctions.NevEgyezikReszbenFl(id, model.Nev, 3)}, foglalás: {booking.Nev}, ocr: {model.Nev}");
-
-        //if (!IdScannerFunctions.NevEgyezikReszbenFl(id, model.Nev, 3))
-        //{
-        //    throw new WarningException("Wrong name on the document");
-        //}
+        if (!IdScannerFunctions.NevEgyezikReszbenFl("ScanLicenceFront", id, model.Nev, 3))
+        {
+            throw new WarningException("Wrong name on the document");
+        }
 
         BookingFunctionsInst.UjCsomag(new DeliveryModel()
         {
@@ -151,6 +148,9 @@ public class FoglalasController : BaseController
             }
         }
 
+        var booking = BookingFunctions.FindFoglalasById(id);
+        Log.Info($"IdScannerFunctions.NevEgyezikReszbenFl: {IdScannerFunctions.NevEgyezikReszbenFl("ScanLicenceBack", id, model.Nev, 3)}, foglalás: {booking.Nev}, ocr: {model.Nev}");
+
         BookingFunctionsInst.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
@@ -176,12 +176,10 @@ public class FoglalasController : BaseController
 
         if (model.Tipus == DocumentTypes.IdCardFront || model.Tipus == DocumentTypes.Passport)
         {
-            var booking = BookingFunctions.FindFoglalasById(id);
-            Log.Info($"ScanIdCardFrontOrPassport IdScannerFunctions.NevEgyezikReszbenFl: {IdScannerFunctions.NevEgyezikReszbenFl(id, model.Nev, 3)}, foglalás: {booking.Nev}, ocr: {model.Nev}");
-            //if (!IdScannerFunctions.NevEgyezikReszbenFl(id, model.Nev, 3))
-            //{
-            //    throw new WarningException("Wrong name on the document");
-            //}
+            if (!IdScannerFunctions.NevEgyezikReszbenFl("ScanIdCardFrontOrPassport", id, model.Nev, 3))
+            {
+                throw new WarningException("Wrong name on the document");
+            }
 
             BookingFunctionsInst.UjCsomag(new DeliveryModel()
             {
@@ -222,6 +220,9 @@ public class FoglalasController : BaseController
             }
         }
 
+        var booking = BookingFunctions.FindFoglalasById(id);
+        Log.Info($"IdScannerFunctions.NevEgyezikReszbenFl: {IdScannerFunctions.NevEgyezikReszbenFl("ScanIdCardBack", id, model.Nev, 3)}, foglalás: {booking.Nev}, ocr: {model.Nev}");
+
         BookingFunctionsInst.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
@@ -242,7 +243,7 @@ public class FoglalasController : BaseController
             if (model.Tipus == DocumentTypes.Passport || model.Tipus == DocumentTypes.DrivingLicenceFront || model.Tipus == DocumentTypes.DrivingLicenceBack ||
                 model.Tipus == DocumentTypes.IdCardFront || model.Tipus == DocumentTypes.IdCardBack)
             {
-                Log.Warning($"Foglalas/ScanCreditCardFront rossz típus: {model.Tipus}");
+                Log.Info($"Foglalas/ScanCreditCardFront rossz típus: {model.Tipus}");
 
                 if (model.Tipus != DocumentTypes.DrivingLicenceBack) // Ha ennek ismertük fel, akkor elnézőek vagyunk az ocr tévesztés miatt
                     throw new WarningException("Wrong document type");
@@ -268,8 +269,8 @@ public class FoglalasController : BaseController
 
         if (AppSettingsBase.GetAppSetting<int>("ScannedDocumentTypeValidation") != 0)
         {
-            if (model.Tipus == DocumentTypes.Passport || model.Tipus == DocumentTypes.DrivingLicenceFront || model.Tipus == DocumentTypes.DrivingLicenceBack ||
-                model.Tipus == DocumentTypes.IdCardFront || model.Tipus == DocumentTypes.IdCardBack)
+            if (model.Tipus == DocumentTypes.Passport || model.Tipus == DocumentTypes.DrivingLicenceFront ||
+                model.Tipus == DocumentTypes.IdCardFront) // || model.Tipus == DocumentTypes.DrivingLicenceBack || model.Tipus == DocumentTypes.IdCardBack
             {
                 Log.Warning($"Foglalas/ScanCreditCardBack rossz típus: {model.Tipus}");
                 throw new WarningException("Wrong document type");

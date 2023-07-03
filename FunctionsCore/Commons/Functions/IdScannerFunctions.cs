@@ -567,7 +567,7 @@ namespace FunctionsCore.Commons.Functions
 
         }
 
-        public static bool NevEgyezikReszbenFl(int id, string scannedName, byte hossz)
+        public static bool NevEgyezikReszbenFl(string tipus, int id, string scannedName, byte hossz)
         {
             var booking = BookingFunctions.FindFoglalasById(id);
             string bookingName = booking.Nev.ToUpper();
@@ -586,10 +586,15 @@ namespace FunctionsCore.Commons.Functions
                             bookingNamePart += bookingName[bnIdx + i].ToString();
                             scannedNamePart += scannedName[snIdx + i].ToString();
                         }
-                        if (bookingNamePart == scannedNamePart) return true;
+                        if (bookingNamePart == scannedNamePart)
+                        {
+                            Log.Info($"{tipus} NevEgyezikReszbenFl: true, foglalás: {booking.Nev}, ocr: {scannedName}");
+                            return true;
+                        }
                     }
                 }
             }
+            Log.Warning($"{tipus} NevEgyezikReszbenFl: false, foglalás: {booking.Nev}, ocr: {scannedName}");
             return false;
         }
 

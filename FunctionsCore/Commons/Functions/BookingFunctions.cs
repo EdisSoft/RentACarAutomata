@@ -437,6 +437,8 @@ public class BookingFunctions : IBookingFunctions
             return false;
         }
 
+        Log.Info($"BookingFunctions.DoesFtpDirectoryExist: Rendben");
+
         FtpWebRequest req = null;
         WebResponse response = null;
         try
@@ -457,6 +459,7 @@ public class BookingFunctions : IBookingFunctions
             }
 
             response = req.GetResponse();
+            Log.Info($"BookingFunctions.UploadImage: Rendben");
         }
         catch (WebException ex)
         {
@@ -594,11 +597,16 @@ public class BookingFunctions : IBookingFunctions
         catch (WebException ex)
         {
             Log.Error($"BookingFunctions.DoesFtpDirectoryExist exc: {ex.Message}");
-
             FtpWebResponse exResponse = (FtpWebResponse)ex.Response;
+
+            Log.Error($"BookingFunctions.DoesFtpDirectoryExist: BannerMessage {exResponse.BannerMessage}, ExitMessage {exResponse.ExitMessage}, StatusCode {exResponse.StatusCode}, WelcomeMessage {exResponse.WelcomeMessage}, StatusDescription {exResponse.StatusDescription}");
 
             result = exResponse.StatusCode == FtpStatusCode.ActionNotTakenFileUnavailable;
             exResponse.Close();
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"BookingFunctions.DoesFtpDirectoryExist exc: {ex.Message}");
         }
         finally
         {
