@@ -97,7 +97,9 @@ public class FoglalasController : BaseController
             if (model.Tipus != DocumentTypes.DrivingLicenceFront && model.Tipus != DocumentTypes.DrivingLicenceBack)
             {
                 Log.Warning($"Foglalas/ScanLicenceFront rossz típus: {model.Tipus}");
-                throw new WarningException("Wrong document type");
+
+                if (model.Tipus != DocumentTypes.IdCardBack) // Nemzetközi jogsinál ennek ismerte fel, így engedjük
+                    throw new WarningException("Wrong document type");
             }
         }
 

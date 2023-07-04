@@ -7,6 +7,7 @@ using FunctionsCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace Automata.Controllers
 {
@@ -15,13 +16,13 @@ namespace Automata.Controllers
         private MoneraTerminalFunctions MoneraTerminal { get; set; }
         private IPrinterFunctions PrinterFunctions { get; set; }
         private IBookingFunctions BookingFunctionsInst { get; set; }
-        private IKerongLockFunctions KerongLockFunctions { get; set; }
 
-        public PosController(IPrinterFunctions printerFunctions, IBookingFunctions bookingFunctions, IKerongLockFunctions kerongLockFunctions)
+        Thread posThread;
+
+        public PosController(IPrinterFunctions printerFunctions, IBookingFunctions bookingFunctions)
         {
             PrinterFunctions = printerFunctions;
             BookingFunctionsInst = bookingFunctions;
-            KerongLockFunctions = kerongLockFunctions;
         }
 
         //private static int _tranzakcioId = 0;
@@ -284,7 +285,15 @@ namespace Automata.Controllers
             if (model.FizetesMegszakadtFl)
             {
                 Log.Info($"FizetesRendben action: FizetesMegszakadtFl miatt pos újraindítás ({model.Id}).");
-                FizetesFolyamat(model);
+
+                posThread = null;
+
+                MoneraTerminalFunctions.SendBreak(); 
+
+                posThread = new Thread(
+                       () => FizetesFolyamat(model));
+                posThread.Start();
+                
                 return Json(new ResultModel() { Id = -1, Text = "Pos újraindítása" });
             }
 
@@ -309,10 +318,17 @@ namespace Automata.Controllers
             if (model.ZarolasMegszakadtFl)
             {
                 Log.Info($"LetetZarolasRendben action: ZarolasMegszakadtFl miatt pos újraindítás ({model.Id}).");
-                LetetZarolasFolyamat(model);
+
+                posThread = null;
+
+                MoneraTerminalFunctions.SendBreak();
+
+                posThread = new Thread(
+                       () => LetetZarolasFolyamat(model));
+                posThread.Start();
+
                 return Json(new ResultModel() { Id = -1, Text = "Pos újraindítása" });
             }
-
             return Json(new ResultModel() { Id = (!model.ZarolvaFl).GetHashCode(), Text = "" });
         }
 
@@ -332,7 +348,7 @@ namespace Automata.Controllers
         public JsonResult StopPayment()
         {
             Log.Info("StopPayment started");
-            int res = MoneraTerminalFunctions.BreakPayment();
+            int res = MoneraTerminalFunctions.SendBreak();
 
             return Json(new ResultModel() { Id = res, Text = MoneraTerminalFunctions.GetErrorName(res) });
         }

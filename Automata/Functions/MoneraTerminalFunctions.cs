@@ -114,11 +114,6 @@ namespace Automata.Functions
 			return rc;
 		}
 
-		public static int BreakPayment()
-        {
-			return SendBreak();
-        }
-
 		public int DailyClose()
 		{
 			int rc;

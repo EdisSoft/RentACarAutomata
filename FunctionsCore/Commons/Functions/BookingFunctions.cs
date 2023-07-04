@@ -432,10 +432,7 @@ public class BookingFunctions : IBookingFunctions
         var path = $"{FTPConnectionOptions.Address}/{id}/";
 
         if (DoesFtpDirectoryExist(path) == false)
-        {
-            Log.Error("Hiba történt FTP mappa létrehozása közben! FoglalasId: " + id);
             return false;
-        }
 
         Log.Info($"BookingFunctions.DoesFtpDirectoryExist: Rendben");
 
@@ -443,7 +440,7 @@ public class BookingFunctions : IBookingFunctions
         WebResponse response = null;
         try
         {
-            req = (FtpWebRequest)WebRequest.Create(path + "\\" + pictureName); //$"{path}/{pictureName}"
+            req = (FtpWebRequest)WebRequest.Create($"{path}\\{pictureName}"); //$"{path}/{pictureName}"
 
             req.Credentials = new NetworkCredential(FTPConnectionOptions.UserName, FTPConnectionOptions.Password);
             req.Method = WebRequestMethods.Ftp.UploadFile;
@@ -578,7 +575,7 @@ public class BookingFunctions : IBookingFunctions
 
     private bool DoesFtpDirectoryExist(string path)
     {
-        var result = true;
+        var resultOk = true;
         FtpWebResponse response = null;
         Stream ftpStream = null;
         try
@@ -596,12 +593,14 @@ public class BookingFunctions : IBookingFunctions
         }
         catch (WebException ex)
         {
-            Log.Error($"BookingFunctions.DoesFtpDirectoryExist exc: {ex.Message}");
             FtpWebResponse exResponse = (FtpWebResponse)ex.Response;
+            resultOk = exResponse.StatusCode == FtpStatusCode.ActionNotTakenFileUnavailable;
 
-            Log.Error($"BookingFunctions.DoesFtpDirectoryExist: BannerMessage {exResponse.BannerMessage}, ExitMessage {exResponse.ExitMessage}, StatusCode {exResponse.StatusCode}, WelcomeMessage {exResponse.WelcomeMessage}, StatusDescription {exResponse.StatusDescription}");
+            if (!resultOk)
+            {
+                Log.Error($"BookingFunctions.DoesFtpDirectoryExist: Message: {ex.Message}, ExitMessage {exResponse.ExitMessage}, StatusCode {exResponse.StatusCode}, WelcomeMessage {exResponse.WelcomeMessage}, StatusDescription {exResponse.StatusDescription}");
+            }
 
-            result = exResponse.StatusCode == FtpStatusCode.ActionNotTakenFileUnavailable;
             exResponse.Close();
         }
         catch (Exception ex)
@@ -620,7 +619,7 @@ public class BookingFunctions : IBookingFunctions
             }
         }
 
-        return result;
+        return resultOk;
     }
 
     public byte? SetTempValues(int foglalasId, List<byte> rekeszIds)
