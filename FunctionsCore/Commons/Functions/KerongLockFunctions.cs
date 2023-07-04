@@ -478,6 +478,9 @@ namespace FunctionsCore.Commons.Functions
 
         public bool OpenCompartment(byte compNo)
         {
+#if DEBUG
+            return true;
+#endif
             var lockerAddresses = AppSettingsBase.GetLockerAddresses();
 
             Log.Debug($"Opening Compartment: {compNo}");
@@ -497,6 +500,7 @@ namespace FunctionsCore.Commons.Functions
 
         public List<RekeszStatusModel> GetCompartmentStatuses()
         {
+            string stateLog = "";
             uint locksStatuses;
             int lockNo;
             bool isOpen;
@@ -514,9 +518,10 @@ namespace FunctionsCore.Commons.Functions
                 //((locksStatus & (1 << (lockno - 1))) != 0);
                 isOpen = ((locksStatuses & (1 << (lockNo - 1))) == 0);
                 // r.push({ RekeszId: i + 1, IsOpen: i % 2 == 0 });
-                Log.Debug("{ " + $"RekeszId: {i}, IsOpen: {isOpen}" + " }");
+                stateLog += $"{i}: {isOpen},";
                 compStatuses.Add(new RekeszStatusModel() { RekeszId = i, IsOpen = isOpen });
             }
+            Log.Info($"GetCompartmentStatuses: {stateLog}");
             return compStatuses;
         }
 

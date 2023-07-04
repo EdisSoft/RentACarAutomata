@@ -163,7 +163,7 @@ public class HttpRequestService : IHttpRequestService
             Log.Info($"HttpRequestService.KocsiLeadas({rendszam})");
             var responseString = await httpClient.GetStringAsync(options.RequestBase + $"?action=dropoff&rendszam={rendszam}");
 
-            var entity = JsonConvert.DeserializeObject<CrmAutoLeadasModel>(responseString);
+            var entity = JsonConvert.DeserializeObject<CrmAutoLeadasModel>(responseString); //{\"Id\": 1, \"Rendszam\": \"HZA-654\", \"Keyid\": null, \"LockNumbers\": [8]}
             if (entity == null)
                 return null;
 
