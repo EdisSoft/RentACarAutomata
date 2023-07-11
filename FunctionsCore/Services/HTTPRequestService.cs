@@ -40,36 +40,37 @@ public class HttpRequestService : IHttpRequestService
         var CRMFoglalasok = JsonConvert.DeserializeObject<List<CrmFoglalasModel>>(responseString);
 
         //mock
-        //var res = new List<FoglalasModel>();
+        var res = new List<FoglalasModel>();
 
-        //res.Add(new FoglalasModel()
-        //{
-        //    Id = 1,
-        //    Nev = "Teszt",
-        //    KezdDatum = DateTime.Now,
-        //    VegeDatum = DateTime.Now.AddDays(7),
-        //    RekeszId = 3,
-        //    Rendszam = "APA565",
-        //    Email = "gabor@mail.hu",
-        //    Fizetendo = 500,
-        //    Zarolando = 200000,
-        //    Tipus = "user",
-        //    IdeiglenesFl = false
-        //});
-        //return res;
-
-        return CRMFoglalasok.Select(s => new FoglalasModel()
+        res.Add(new FoglalasModel()
         {
-            Id = s.orderID,
-            Nev = s.kontaktNev,
-            KezdDatum = s.pickupdate,
-            VegeDatum = s.dropoffdate,
-            RekeszId = Int32.Parse(s.locknumber),
-            Rendszam = s.rendszam,
-            Email = s.kontaktEmail,
-            Fizetendo = Int32.Parse(s.total_price),
-            Zarolando = Int32.Parse(s.deposit),
-            Tipus = s.type,
+            Id = 1,
+            Nev = "Teszt",
+            KezdDatum = DateTime.Now,
+            VegeDatum = DateTime.Now.AddDays(7),
+            RekeszId = 3,
+            Rendszam = "APA565",
+            Email = "gabor@mail.hu",
+            Fizetendo = 500,
+            Zarolando = 200000,
+            Tipus = "user",
+            IdeiglenesFl = false
+        });
+        return res;
+
+        return CRMFoglalasok.Select(foglalas => new FoglalasModel()
+        {
+            Id = foglalas.orderID,
+            Nev = foglalas.kontaktNev,
+            KezdDatum = foglalas.pickupdate,
+            VegeDatum = foglalas.dropoffdate,
+            RekeszId = Int32.Parse(foglalas.locknumber),
+            Rendszam = foglalas.rendszam,
+            Email = foglalas.kontaktEmail,
+            Fizetendo = Int32.Parse(foglalas.total_price),
+            Zarolando = Int32.Parse(foglalas.deposit),
+            SkipDocReadingFl = foglalas.skipDocReadingFl ?? false,
+            Tipus = foglalas.type,
             IdeiglenesFl = true
         }).ToList();
     }
@@ -92,6 +93,7 @@ public class HttpRequestService : IHttpRequestService
             Email = foglalas.kontaktEmail,
             Fizetendo = Int32.Parse(foglalas.total_price),
             Zarolando = Int32.Parse(foglalas.deposit),
+            SkipDocReadingFl = foglalas.skipDocReadingFl ?? false,
             Tipus = foglalas.type
         };
     }
