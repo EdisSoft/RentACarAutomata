@@ -130,7 +130,7 @@ public class BookingFunctions : IBookingFunctions
                     break;
 
                 case DeliveryTypes.ScanLicenceFront:
-                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.LicenseFront))
+                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.LicenseFront, csomag.ValidFl))
                     {
                         if (++csomag.NumberOfSending > 5)
                         {
@@ -145,7 +145,7 @@ public class BookingFunctions : IBookingFunctions
                     break;
 
                 case DeliveryTypes.ScanLicenceBack:
-                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.LicenseBack))
+                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.LicenseBack, csomag.ValidFl))
                     {
                         if (++csomag.NumberOfSending > 5)
                         {
@@ -161,7 +161,7 @@ public class BookingFunctions : IBookingFunctions
                     break;
 
                 case DeliveryTypes.ScanIdCardFrontOrPassport:
-                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.IdCardFrontOrPassport))
+                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.IdCardFrontOrPassport, csomag.ValidFl))
                     {
                         csomag.NumberOfSending++;
 
@@ -179,7 +179,7 @@ public class BookingFunctions : IBookingFunctions
                     break;
 
                 case DeliveryTypes.ScanIdCardBack:
-                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.IdCardBack))
+                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.IdCardBack, csomag.ValidFl))
                     {
                         if (++csomag.NumberOfSending > 5)
                         {
@@ -195,7 +195,7 @@ public class BookingFunctions : IBookingFunctions
                     break;
 
                 case DeliveryTypes.ScanCreditCardFront:
-                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.CreditCardFront))
+                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.CreditCardFront, csomag.ValidFl))
                     {
                         if (++csomag.NumberOfSending > 5)
                         {
@@ -211,7 +211,7 @@ public class BookingFunctions : IBookingFunctions
                     break;
 
                 case DeliveryTypes.ScanCreditCardBack:
-                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.CreditCardBack))
+                    if (!UploadImage(csomag.OrderId, csomag.ValueBytes, fileNameOptions.CreditCardBack, csomag.ValidFl))
                     {
                         if (++csomag.NumberOfSending > 5)
                         {
@@ -322,8 +322,6 @@ public class BookingFunctions : IBookingFunctions
                 {
                     FoglalasTorles(itemKey);
                 }
-
-                Log.Debug("Foglalas frissítése sikeres volt! FoglalasId: " + foglalasId);
             }
             else
             {
@@ -389,6 +387,8 @@ public class BookingFunctions : IBookingFunctions
                     if (foglalas.Nyelv == 0) // Ha nincs megadva nyelv, és megszakított folyamat folytatásában vagyunk, akkor az előzőt használjuk
                         result.Nyelv = nyelv;
                 }
+                if (result.SkipDocReadingFl && result.UtolsoVarazsloLepes < 7)
+                    result.UtolsoVarazsloLepes = 7;
                 return foglalas;
             }
             else
@@ -425,8 +425,11 @@ public class BookingFunctions : IBookingFunctions
         }
     }
 
-    private bool UploadImage(int id, byte[] picture, string pictureName)
+    private bool UploadImage(int id, byte[] picture, string pictureName, bool validFl)
     {
+        if (!validFl)
+            pictureName = pictureName.Replace(".",$"{DateTime.Now:HHmmss}.");
+        
         Log.Info($"BookingFunctions.UploadImage({id},{pictureName})");
 
         var path = $"{FTPConnectionOptions.Address}/{id}/";

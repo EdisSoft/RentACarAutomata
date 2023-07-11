@@ -27,6 +27,7 @@ namespace FunctionsCore.Models
         public string success_carried { get; set; }
         public bool? is_admin { get; set; }
         public string total_price { get; set; }
+        public bool? skipDocReadingFl { get; set; }
         public string type { get; set; }
     }
 }

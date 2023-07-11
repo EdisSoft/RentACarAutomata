@@ -99,7 +99,16 @@ public class FoglalasController : BaseController
                 Log.Warning($"Foglalas/ScanLicenceFront rossz típus: {model.Tipus}");
 
                 if (model.Tipus != DocumentTypes.IdCardBack) // Nemzetközi jogsinál ennek ismerte fel, így engedjük
+                {
+                    //BookingFunctionsInst.UjCsomag(new DeliveryModel()
+                    //{
+                    //    OrderId = id,
+                    //    ValueBytes = model.Kep,
+                    //    Type = DeliveryTypes.ScanLicenceFront,
+                    //    ValidFl = false
+                    //});
                     throw new WarningException("Wrong document type");
+                }
             }
         }
 
@@ -111,17 +120,19 @@ public class FoglalasController : BaseController
             }
         }
 
-        if (!IdScannerFunctions.NevEgyezikReszbenFl("ScanLicenceFront", id, model.Nev, 3))
-        {
-            throw new WarningException("Wrong name on the document");
-        }
-
+        bool nevEgyezes = IdScannerFunctions.NevEgyezikReszbenFl("ScanLicenceFront", id, model.Nev, 3);
         BookingFunctionsInst.UjCsomag(new DeliveryModel()
         {
             OrderId = id,
             ValueBytes = model.Kep,
-            Type = DeliveryTypes.ScanLicenceFront
+            Type = DeliveryTypes.ScanLicenceFront,
+            ValidFl = nevEgyezes
         });
+
+        if (!nevEgyezes)
+        {
+            throw new WarningException("Wrong name on the document");
+        }
 
         BookingFunctions.UpdateUtolsoVarazsloLepes(id, 6); // 5+1
 
@@ -178,23 +189,33 @@ public class FoglalasController : BaseController
 
         if (model.Tipus == DocumentTypes.IdCardFront || model.Tipus == DocumentTypes.Passport)
         {
-            if (!IdScannerFunctions.NevEgyezikReszbenFl("ScanIdCardFrontOrPassport", id, model.Nev, 3))
-            {
-                throw new WarningException("Wrong name on the document");
-            }
-
+            bool nevEgyezes = IdScannerFunctions.NevEgyezikReszbenFl("ScanIdCardFrontOrPassport", id, model.Nev, 3);
             BookingFunctionsInst.UjCsomag(new DeliveryModel()
             {
                 OrderId = id,
                 ValueBytes = model.Kep,
-                Type = DeliveryTypes.ScanIdCardFrontOrPassport
+                Type = DeliveryTypes.ScanIdCardFrontOrPassport,
+                ValidFl = nevEgyezes
             });
+
+            if (!nevEgyezes)
+            {
+                throw new WarningException("Wrong name on the document");
+            }
 
             BookingFunctions.UpdateUtolsoVarazsloLepes(id, 7); //6+1
 
             bool passportFl = model.Tipus == DocumentTypes.Passport;
             return Json(new ResultModel() { Id = passportFl.GetHashCode(), Text = model.Tipus.ToString() }); //Az útlevél egy oldalas, így a UI továbblép
         }
+
+        //BookingFunctionsInst.UjCsomag(new DeliveryModel()
+        //{
+        //    OrderId = id,
+        //    ValueBytes = model.Kep,
+        //    Type = DeliveryTypes.ScanIdCardFrontOrPassport,
+        //    ValidFl = false
+        //});
 
         Log.Warning($"Foglalas/ScanIdCardFrontOrPassport rossz típus: {model.Tipus}");
         throw new WarningException("Please scan your passport or the front page of identity card.<br/>Your document may be expired or not valid.");
@@ -209,6 +230,14 @@ public class FoglalasController : BaseController
         {
             if (model.Tipus != DocumentTypes.IdCardFront && model.Tipus != DocumentTypes.IdCardBack)
             {
+                //BookingFunctionsInst.UjCsomag(new DeliveryModel()
+                //{
+                //    OrderId = id,
+                //    ValueBytes = model.Kep,
+                //    Type = DeliveryTypes.ScanIdCardBack,
+                //    ValidFl = false
+                //});
+
                 Log.Warning($"Foglalas/ScanIdCardBack rossz típus: {model.Tipus}");
                 throw new WarningException("Wrong document type");
             }
@@ -248,7 +277,16 @@ public class FoglalasController : BaseController
                 Log.Info($"Foglalas/ScanCreditCardFront rossz típus: {model.Tipus}");
 
                 if (model.Tipus != DocumentTypes.DrivingLicenceBack) // Ha ennek ismertük fel, akkor elnézőek vagyunk az ocr tévesztés miatt
+                {
+                    //BookingFunctionsInst.UjCsomag(new DeliveryModel()
+                    //{
+                    //    OrderId = id,
+                    //    ValueBytes = model.Kep,
+                    //    Type = DeliveryTypes.ScanCreditCardFront,
+                    //    ValidFl = false
+                    //});
                     throw new WarningException("Wrong document type");
+                }
             }
         }
 
@@ -275,6 +313,15 @@ public class FoglalasController : BaseController
                 model.Tipus == DocumentTypes.IdCardFront) // || model.Tipus == DocumentTypes.DrivingLicenceBack || model.Tipus == DocumentTypes.IdCardBack
             {
                 Log.Warning($"Foglalas/ScanCreditCardBack rossz típus: {model.Tipus}");
+
+                //BookingFunctionsInst.UjCsomag(new DeliveryModel()
+                //{
+                //    OrderId = id,
+                //    ValueBytes = model.Kep,
+                //    Type = DeliveryTypes.ScanCreditCardBack,
+                //    ValidFl = false
+                //});
+
                 throw new WarningException("Wrong document type");
             }
         }

@@ -31,6 +31,7 @@ namespace FunctionsCore.Models
         public bool FizetveFl { get; set; }
         public bool ZarolasMegszakadtFl { get; set; }
         public bool FizetesMegszakadtFl { get; set; }
+        public bool SkipDocReadingFl { get; set; }
         public bool TorolhetoFl { get; set; }
         public DateTime UtolsoModositas { get; set; }
         public bool AktivUgyfelFl
@@ -43,7 +44,7 @@ namespace FunctionsCore.Models
 
         public override string ToString()
         {
-            return $"{{{Id}, {Nev}, Nye: {Nyelv}, Rek: {RekeszId}, Zár: {Zarolando}, Fiz: {Fizetendo}, Tör: {TorolhetoFl}}}";
+            return $"{{{Id}, {Nev}, Step: {UtolsoVarazsloLepes}, Nye: {Nyelv}, Rek: {RekeszId}, Zár: {Zarolando}/{ZarolvaFl}, Fiz: {Fizetendo}/{FizetveFl}, Tör: {TorolhetoFl}}}";
         }
     }
 }
